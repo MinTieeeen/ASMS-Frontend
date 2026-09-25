@@ -1,0 +1,42 @@
+{
+  "app": {
+    "name": "ASMS",
+    "tagline": "Quản lý nhóm bài tập lớn"
+  },
+  "nav": {
+    "main": "Điều hướng chính",
+    "openMenu": "Mở menu",
+    "dashboard": "Tổng quan",
+    "groups": "Nhóm của tôi",
+    "profile": "Hồ sơ",
+    "admin": "Quản trị",
+    "logout": "Đăng xuất"
+  },
+  "theme": {
+    "toggle": "Đổi giao diện",
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Theo hệ thống"
+  },
+  "action": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "delete": "Xóa",
+    "edit": "Sửa",
+    "create": "Tạo mới",
+    "back": "Quay lại",
+    "retry": "Thử lại"
+  },
+  "state": {
+    "loading": "Đang tải...",
+    "empty": "Chưa có dữ liệu",
+    "error": "Đã có lỗi xảy ra"
+  },
+  "error": {
+    "notFound": "Không tìm thấy trang",
+    "notFoundDescription": "Trang bạn tìm không tồn tại hoặc đã bị xóa.",
+    "network": "Không kết nối được máy chủ",
+    "forbidden": "Bạn không đủ quyền thực hiện thao tác này"
+  }
+}
