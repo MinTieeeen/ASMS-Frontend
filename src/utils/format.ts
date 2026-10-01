@@ -18,7 +18,6 @@ export function formatFileSize(bytes: number): string {
   return `${value.toFixed(unitIndex === 0 ? 0 : 1)} ${FILE_SIZE_UNITS[unitIndex]}`
 }
 
-/** "Nguyễn Văn An" -> "NA" (avatar fallback) */
 export function getInitials(fullName: string): string {
   const parts = fullName.trim().split(/\s+/).filter(Boolean)
   const first = parts[0]?.[0] ?? ''
@@ -28,4 +27,12 @@ export function getInitials(fullName: string): string {
 
 export function formatPercent(ratio: number, fractionDigits = 0): string {
   return `${(ratio * 100).toFixed(fractionDigits)}%`
+}
+
+/** "Nguyễn Văn An" → "NA", "An" → "A": first letters of the first and last words. */
+export function initialsOf(fullName: string): string {
+  const words = fullName.trim().split(/\s+/).filter(Boolean)
+  const first = words[0]?.charAt(0) ?? '?'
+  const last = words.length > 1 ? (words[words.length - 1]?.charAt(0) ?? '') : ''
+  return (first + last).toUpperCase()
 }

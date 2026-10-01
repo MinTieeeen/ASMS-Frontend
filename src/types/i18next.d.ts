@@ -10,7 +10,6 @@ import 'i18next'
 
 import type { resources } from '@/lib/i18n'
 
-// A wrong key in t('...') becomes a build error
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common'

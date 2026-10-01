@@ -1,15 +1,14 @@
 /**
  * @file Single CSS entry point, imported once in main.tsx. Color tokens live in theme.css.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-09-26
- * @modified 2026-09-26
+ * @modified 2026-09-27
  */
 
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
-@import '@fontsource-variable/geist';
 @import './theme.css';
 
 @custom-variant dark (&:is(.dark *));
@@ -27,8 +26,27 @@
     @apply bg-background text-foreground antialiased;
   }
 
+  /* Lexend for headings (ASMS Design System, "Chữ") */
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+    text-wrap: balance;
+  }
+
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
+  }
+
+  /* Design system: spinners stop and transitions are skipped when the OS asks for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

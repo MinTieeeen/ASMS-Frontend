@@ -1,12 +1,12 @@
 /**
  * @file Layout for authenticated pages.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-09-26
- * @modified 2026-09-26
+ * @modified 2026-09-29
  */
 
-import { Suspense } from 'react'
+import { type ReactNode, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
@@ -20,15 +20,20 @@ import { AppSidebar } from './AppSidebar'
 /**
  * Header + sidebar on desktop, slide-over sheet on mobile (NFR13). Page content renders through <Outlet />.
  */
-export function AppLayout() {
+interface AppLayoutProps {
+  /** Passed to the header; supplied by the router so that layout components never import features */
+  accountMenu?: ReactNode
+}
+
+export function AppLayout({ accountMenu }: AppLayoutProps) {
   const { t } = useTranslation()
   const mobileNav = useDisclosure()
 
   return (
     <div className="min-h-svh bg-background">
-      <AppHeader onOpenMobileNav={mobileNav.open} />
+      <AppHeader onOpenMobileNav={mobileNav.open} accountMenu={accountMenu} />
       <div className="flex">
-        <aside className="sticky top-14 hidden h-[calc(100svh-3.5rem)] w-60 shrink-0 border-r bg-sidebar md:block">
+        <aside className="sticky top-16 hidden h-[calc(100svh-4rem)] w-60 shrink-0 border-r bg-sidebar md:block">
           <AppSidebar />
         </aside>
 
