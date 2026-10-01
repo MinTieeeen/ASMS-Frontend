@@ -1,0 +1,31 @@
+{
+  "users": {
+    "title": "User management",
+    "nav": "Users",
+    "navLabel": "Admin",
+    "empty": "No users yet.",
+    "loadFailed": "Could not load the users.",
+    "column": {
+      "fullName": "Full name",
+      "email": "Email",
+      "userCode": "User ID",
+      "role": "Role",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "role": {
+      "USER": "User",
+      "ADMIN": "Administrator"
+    },
+    "status": {
+      "PENDING_ACTIVATION": "Pending activation",
+      "ACTIVE": "Active",
+      "LOCKED": "Locked"
+    },
+    "actionsFor": "Actions for {{name}}",
+    "resendActivation": "Resend activation email",
+    "page": "Page {{page}} of {{total}}",
+    "previous": "Previous page",
+    "next": "Next page"
+  }
+}

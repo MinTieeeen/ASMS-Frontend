@@ -22,9 +22,9 @@ export default defineConfig({
           path: 'src/api/http-client.ts',
           name: 'httpClient',
         },
+        // Orval defaults: GET operations become useQuery hooks, the others useMutation hooks.
+        // Never set useQuery or useMutation to true here: either one forces its kind on every operation.
         query: {
-          useQuery: true,
-          useMutation: true,
           signal: true,
         },
       },

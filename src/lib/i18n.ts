@@ -1,7 +1,7 @@
 /**
  * @file i18next setup (NFR14): Vietnamese by default.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-09-26
  * @modified 2026-09-26
  */
@@ -11,8 +11,10 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/config/constants'
+import enAdmin from '@/locales/en/admin.json'
 import enAuth from '@/locales/en/auth.json'
 import enCommon from '@/locales/en/common.json'
+import viAdmin from '@/locales/vi/admin.json'
 import viAuth from '@/locales/vi/auth.json'
 import viCommon from '@/locales/vi/common.json'
 
@@ -21,8 +23,8 @@ import viCommon from '@/locales/vi/common.json'
  * register it here.
  */
 export const resources = {
-  vi: { common: viCommon, auth: viAuth },
-  en: { common: enCommon, auth: enAuth },
+  vi: { common: viCommon, auth: viAuth, admin: viAdmin },
+  en: { common: enCommon, auth: enAuth, admin: enAdmin },
 } as const
 
 void i18n
@@ -33,7 +35,7 @@ void i18n
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: SUPPORTED_LANGUAGES,
     defaultNS: 'common',
-    ns: ['common', 'auth'],
+    ns: ['common', 'auth', 'admin'],
     interpolation: { escapeValue: false },
     // Only remember the user's explicit choice; ignore the browser language so Vietnamese stays the default
     detection: {
@@ -41,6 +43,11 @@ void i18n
       caches: ['localStorage'],
     },
   })
+
+// Screen readers and the browser read the page language from <html lang>
+const syncHtmlLang = (language: string) => document.documentElement.setAttribute('lang', language)
+syncHtmlLang(i18n.resolvedLanguage ?? DEFAULT_LANGUAGE)
+i18n.on('languageChanged', syncHtmlLang)
 
 /**
  * Translates a dynamic key (e.g. a zod error message such as "auth:validation.x").

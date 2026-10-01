@@ -1,28 +1,30 @@
 /**
- * @file Top bar of the authenticated layout.
+ * @file Top bar of the authenticated layout: 64 px, logo that reveals the full name on hover (design system "expand").
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-09-26
- * @modified 2026-09-26
+ * @modified 2026-09-29
  */
 
 import { Menu } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
 
-import { ThemeToggle } from '@/components/common'
+import { LanguageToggle, Logo, ThemeToggle } from '@/components/common'
 import { Button } from '@/components/ui/button'
 import { ROUTES } from '@/config/routes'
 
 interface AppHeaderProps {
   onOpenMobileNav: () => void
+  /** Right-most slot, e.g. the account menu (SCR-AUTH-07); layout components never import features */
+  accountMenu?: ReactNode
 }
 
-export function AppHeader({ onOpenMobileNav }: AppHeaderProps) {
+export function AppHeader({ onOpenMobileNav, accountMenu }: AppHeaderProps) {
   const { t } = useTranslation()
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur">
       <Button
         variant="ghost"
         size="icon"
@@ -32,11 +34,11 @@ export function AppHeader({ onOpenMobileNav }: AppHeaderProps) {
       >
         <Menu />
       </Button>
-      <Link to={ROUTES.dashboard} className="font-heading font-semibold">
-        {t('app.name')}
-      </Link>
+      <Logo variant="expand" size={28} href={ROUTES.home} />
       <div className="ml-auto flex items-center gap-1">
+        <LanguageToggle />
         <ThemeToggle />
+        {accountMenu}
       </div>
     </header>
   )

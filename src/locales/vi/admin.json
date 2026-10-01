@@ -1,0 +1,31 @@
+{
+  "users": {
+    "title": "Quản lý người dùng",
+    "nav": "Người dùng",
+    "navLabel": "Quản trị",
+    "empty": "Chưa có người dùng nào.",
+    "loadFailed": "Không tải được danh sách người dùng.",
+    "column": {
+      "fullName": "Họ tên",
+      "email": "Email",
+      "userCode": "ID người dùng",
+      "role": "Vai trò",
+      "status": "Trạng thái",
+      "actions": "Thao tác"
+    },
+    "role": {
+      "USER": "Người dùng",
+      "ADMIN": "Quản trị viên"
+    },
+    "status": {
+      "PENDING_ACTIVATION": "Chờ kích hoạt",
+      "ACTIVE": "Hoạt động",
+      "LOCKED": "Đã khóa"
+    },
+    "actionsFor": "Thao tác với {{name}}",
+    "resendActivation": "Gửi lại email kích hoạt",
+    "page": "Trang {{page}} / {{total}}",
+    "previous": "Trang trước",
+    "next": "Trang sau"
+  }
+}
