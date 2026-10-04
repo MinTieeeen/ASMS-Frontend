@@ -4,8 +4,7 @@
     "title": "Ảnh đại diện",
     "hint": "JPEG, PNG hoặc WebP, tối đa 5 MB.",
     "change": "Đổi ảnh",
-    "remove": "Xóa ảnh",
-    "comingSoon": "Tải ảnh lên sẽ có trong bản cập nhật tới."
+    "remove": "Xóa ảnh"
   },
   "info": {
     "title": "Thông tin cá nhân",
@@ -55,5 +54,28 @@
     "githubStats": "{{repos}} repo công khai · {{followers}} người theo dõi",
     "backHome": "Về trang chủ",
     "openGithub": "Mở hồ sơ GitHub của {{login}}"
+  },
+  "avatarDialog": {
+    "title": "Cập nhật ảnh đại diện",
+    "drop": "Kéo thả ảnh vào đây hoặc",
+    "choose": "Chọn ảnh",
+    "requirements": "JPEG, PNG hoặc WebP · tối đa 5 MB · tối thiểu 128 × 128 px",
+    "zoomIn": "Phóng to",
+    "zoomOut": "Thu nhỏ",
+    "zoom": "Mức phóng to",
+    "preview": "Xem trước",
+    "previewHint": "Ảnh ở hồ sơ và ở danh sách thành viên.",
+    "chooseAnother": "Chọn ảnh khác",
+    "save": "Lưu ảnh",
+    "uploading": "Đang tải lên… {{percent}}%",
+    "cropArea": "Vùng cắt ảnh, kéo để di chuyển",
+    "errorUnsupported": "Chỉ nhận ảnh JPEG, PNG hoặc WebP.",
+    "errorTooLarge": "Ảnh tối đa 5 MB.",
+    "errorTooLargeHint": "Hãy chọn ảnh nhỏ hơn hoặc nén ảnh rồi thử lại.",
+    "errorInvalid": "Ảnh không đọc được hoặc quá nhỏ. Ảnh cần tối thiểu 128 × 128 px.",
+    "updated": "Đã cập nhật ảnh đại diện.",
+    "removed": "Đã xóa ảnh đại diện.",
+    "removeTitle": "Xóa ảnh đại diện?",
+    "removeDescription": "Ảnh sẽ được thay bằng chữ cái đầu của họ tên bạn."
   }
 }

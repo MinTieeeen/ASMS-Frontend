@@ -21,7 +21,13 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-import type { PublicProfileResponse, UpdateProfileRequest, UserProfileResponse } from '../../models'
+import type {
+  AvatarResponse,
+  AvatarUploadRequest,
+  PublicProfileResponse,
+  UpdateProfileRequest,
+  UserProfileResponse,
+} from '../../models'
 
 import { httpClient } from '../../../http-client'
 import type { ErrorType, BodyType } from '../../../http-client'
@@ -43,6 +49,160 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result
 }
 
+/**
+ * JPEG, PNG or WebP up to 5 MB, 128 to 6000 px per side; crop square in pixels of the upright original. Stored as 256 and 64 px WebP.
+ * @summary Upload my avatar (API-USER-03)
+ */
+export const uploadMyAvatar = (
+  avatarUploadRequest?: BodyType<AvatarUploadRequest>,
+  options?: SecondParameter<typeof httpClient>,
+  signal?: AbortSignal,
+) => {
+  const formData = new FormData()
+  if (avatarUploadRequest?.file !== undefined) {
+    formData.append(`file`, avatarUploadRequest.file)
+  }
+  if (avatarUploadRequest?.cropX !== undefined) {
+    formData.append(`cropX`, avatarUploadRequest.cropX.toString())
+  }
+  if (avatarUploadRequest?.cropY !== undefined) {
+    formData.append(`cropY`, avatarUploadRequest.cropY.toString())
+  }
+  if (avatarUploadRequest?.cropSize !== undefined) {
+    formData.append(`cropSize`, avatarUploadRequest.cropSize.toString())
+  }
+
+  return httpClient<AvatarResponse>(
+    {
+      url: `/api/v1/users/me/avatar`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+      signal,
+    },
+    options,
+  )
+}
+
+export const getUploadMyAvatarMutationKey = () => ['uploadMyAvatar'] as const
+
+export const getUploadMyAvatarMutationOptions = <
+  TError = ErrorType<AvatarResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof uploadMyAvatar>>,
+    TError,
+    UploadMyAvatarMutationVariables,
+    TContext
+  >
+  request?: SecondParameter<typeof httpClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof uploadMyAvatar>>,
+  TError,
+  UploadMyAvatarMutationVariables,
+  TContext
+> => {
+  const mutationKey = getUploadMyAvatarMutationKey()
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof uploadMyAvatar>>,
+    UploadMyAvatarMutationVariables
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return uploadMyAvatar(data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UploadMyAvatarMutationResult = NonNullable<Awaited<ReturnType<typeof uploadMyAvatar>>>
+export type UploadMyAvatarMutationBody = BodyType<AvatarUploadRequest> | undefined
+export type UploadMyAvatarMutationError = ErrorType<AvatarResponse>
+export type UploadMyAvatarMutationVariables = { data?: BodyType<AvatarUploadRequest> }
+
+/**
+ * @summary Upload my avatar (API-USER-03)
+ */
+export const useUploadMyAvatar = <TError = ErrorType<AvatarResponse>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof uploadMyAvatar>>,
+      TError,
+      UploadMyAvatarMutationVariables,
+      TContext
+    >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof uploadMyAvatar>>,
+  TError,
+  UploadMyAvatarMutationVariables,
+  TContext
+> => {
+  return useMutation(getUploadMyAvatarMutationOptions(options), queryClient)
+}
+/**
+ * @summary Remove my avatar (API-USER-04)
+ */
+export const removeMyAvatar = (
+  options?: SecondParameter<typeof httpClient>,
+  signal?: AbortSignal,
+) => {
+  return httpClient<void>({ url: `/api/v1/users/me/avatar`, method: 'DELETE', signal }, options)
+}
+
+export const getRemoveMyAvatarMutationKey = () => ['removeMyAvatar'] as const
+
+export const getRemoveMyAvatarMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<Awaited<ReturnType<typeof removeMyAvatar>>, TError, void, TContext>
+  request?: SecondParameter<typeof httpClient>
+}): UseMutationOptions<Awaited<ReturnType<typeof removeMyAvatar>>, TError, void, TContext> => {
+  const mutationKey = getRemoveMyAvatarMutationKey()
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof removeMyAvatar>>, void> = () => {
+    return removeMyAvatar(requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type RemoveMyAvatarMutationResult = NonNullable<Awaited<ReturnType<typeof removeMyAvatar>>>
+
+export type RemoveMyAvatarMutationError = ErrorType<unknown>
+
+/**
+ * @summary Remove my avatar (API-USER-04)
+ */
+export const useRemoveMyAvatar = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof removeMyAvatar>>,
+      TError,
+      void,
+      TContext
+    >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<Awaited<ReturnType<typeof removeMyAvatar>>, TError, void, TContext> => {
+  return useMutation(getRemoveMyAvatarMutationOptions(options), queryClient)
+}
 /**
  * @summary My profile (API-USER-01)
  */

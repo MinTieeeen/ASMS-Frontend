@@ -4,8 +4,7 @@
     "title": "Profile photo",
     "hint": "JPEG, PNG or WebP, up to 5 MB.",
     "change": "Change photo",
-    "remove": "Remove photo",
-    "comingSoon": "Photo upload comes in the next update."
+    "remove": "Remove photo"
   },
   "info": {
     "title": "Personal information",
@@ -55,5 +54,28 @@
     "githubStats": "{{repos}} public repos · {{followers}} followers",
     "backHome": "Back to home",
     "openGithub": "Open the GitHub profile of {{login}}"
+  },
+  "avatarDialog": {
+    "title": "Update profile photo",
+    "drop": "Drag a photo here or",
+    "choose": "Choose a photo",
+    "requirements": "JPEG, PNG or WebP · up to 5 MB · at least 128 × 128 px",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "zoom": "Zoom",
+    "preview": "Preview",
+    "previewHint": "Your photo on your profile and in member lists.",
+    "chooseAnother": "Choose another photo",
+    "save": "Save photo",
+    "uploading": "Uploading… {{percent}}%",
+    "cropArea": "Crop area, drag to move",
+    "errorUnsupported": "Only JPEG, PNG or WebP photos are accepted.",
+    "errorTooLarge": "The photo can be at most 5 MB.",
+    "errorTooLargeHint": "Choose a smaller photo or compress it and try again.",
+    "errorInvalid": "The photo cannot be read or is too small. It needs at least 128 × 128 px.",
+    "updated": "Profile photo updated.",
+    "removed": "Profile photo removed.",
+    "removeTitle": "Remove profile photo?",
+    "removeDescription": "It will be replaced with the initials of your name."
   }
 }

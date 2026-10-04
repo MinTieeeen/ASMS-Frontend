@@ -199,4 +199,45 @@ describe('ProfileSettingsPage (SCR-USER-01)', () => {
 
     expect(await screen.findByLabelText('Họ tên')).toHaveValue('Nguyễn Văn A')
   })
+
+  it('API-USER-04: removes the photo after confirmation and falls back to initials', async () => {
+    let removed = false
+    useProfile({ ...profile, avatarUrl: 'https://cdn.test/avatars/u/k-256.webp' })
+    server.use(
+      http.delete(apiUrl('/users/me/avatar'), () => {
+        removed = true
+        return new HttpResponse(null, { status: 204 })
+      }),
+    )
+    useAuthStore.getState().setSession('access-token', {
+      ...testUser,
+      avatarUrl: 'https://cdn.test/avatars/u/k-256.webp',
+    })
+    renderPage(<ProfileSettingsPage />, { path: '/settings/profile', route: '/settings/profile' })
+
+    await userEvent.click(await screen.findByRole('button', { name: 'Xóa ảnh' }))
+    const dialog = await screen.findByRole('alertdialog', { name: 'Xóa ảnh đại diện?' })
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Xóa ảnh' }))
+
+    expect(await screen.findByText('Đã xóa ảnh đại diện.')).toBeInTheDocument()
+    expect(removed).toBe(true)
+    expect(useAuthStore.getState().user?.avatarUrl).toBeUndefined()
+    await waitFor(() =>
+      expect(screen.queryByRole('button', { name: 'Xóa ảnh' })).not.toBeInTheDocument(),
+    )
+  })
+
+  it('SCR-USER-02: rejects a file that is not a photo with MSG-42', async () => {
+    renderProfile()
+
+    await userEvent.click(await screen.findByRole('button', { name: 'Đổi ảnh' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Cập nhật ảnh đại diện' })
+    const input = dialog.querySelector('input[type="file"]') as HTMLInputElement
+    await userEvent.upload(input, new File(['x'], 'notes.txt', { type: 'text/plain' }), {
+      applyAccept: false,
+    })
+
+    expect(await within(dialog).findByText('Chỉ nhận ảnh JPEG, PNG hoặc WebP.')).toBeInTheDocument()
+    expect(within(dialog).getByRole('button', { name: 'Lưu ảnh' })).toBeDisabled()
+  })
 })

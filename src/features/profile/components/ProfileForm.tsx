@@ -8,7 +8,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient } from '@tanstack/react-query'
-import { Camera, Loader2, TriangleAlert } from 'lucide-react'
+import { Loader2, TriangleAlert } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -20,9 +20,13 @@ import {
   getMyProfile,
   useUpdateMyProfile,
 } from '@/api/generated/endpoints/profiles/profiles'
-import type { UpdateProfileRequest, UserProfileResponse } from '@/api/generated/models'
+import type {
+  AvatarResponse,
+  UpdateProfileRequest,
+  UserProfileResponse,
+} from '@/api/generated/models'
 import { toApiError } from '@/api/http-client'
-import { UnsavedChangesDialog, UserAvatar } from '@/components/common'
+import { UnsavedChangesDialog } from '@/components/common'
 import { FormTextField } from '@/components/form'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -48,6 +52,7 @@ import {
   profileSchema,
   textLength,
 } from '../schemas/profile.schema'
+import { AvatarSection } from './AvatarSection'
 import { SchoolCombobox } from './SchoolCombobox'
 
 /** Server field → form field and message key; codes are not distinguished (the form shows one message per field) */
@@ -97,6 +102,17 @@ export function ProfileForm({ initialProfile }: { initialProfile: UserProfileRes
     setVersion(profile.version)
     form.reset(toValues(profile))
     queryClient.setQueryData(getGetMyProfileQueryKey(), profile)
+  }
+
+  // The photo is saved by its own API: only the photo changes, the fields being edited stay as they are
+  const applyAvatar = (avatar: AvatarResponse | null) => {
+    const urls = { avatarUrl: avatar?.avatarUrl, avatarThumbUrl: avatar?.avatarThumbUrl }
+    setSaved((current) => ({ ...current, ...urls }))
+    queryClient.setQueryData<UserProfileResponse>(getGetMyProfileQueryKey(), (current) =>
+      current ? { ...current, ...urls } : current,
+    )
+    const { user, setUser } = useAuthStore.getState()
+    if (user) setUser({ ...user, avatarUrl: avatar?.avatarUrl })
   }
 
   const onError = (error: unknown) => {
@@ -204,32 +220,13 @@ export function ProfileForm({ initialProfile }: { initialProfile: UserProfileRes
         </Alert>
       )}
 
-      <Card>
-        <CardContent className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
-          <UserAvatar
-            userId={saved.id}
-            fullName={saved.fullName}
-            avatarUrl={saved.avatarUrl}
-            size={96}
-          />
-          <div className="flex flex-col gap-2.5">
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[15px] font-semibold">{t('avatar.title')}</span>
-              <span className="text-[13px] leading-[18px] text-muted-foreground">
-                {t('avatar.hint')}
-              </span>
-            </div>
-            {/* TODO(M2 step 3): photo upload dialog SCR-USER-02 and photo removal */}
-            <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" size="sm" variant="outline" disabled>
-                <Camera aria-hidden />
-                {t('avatar.change')}
-              </Button>
-              <span className="text-xs text-muted-foreground">{t('avatar.comingSoon')}</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <AvatarSection
+        userId={saved.id}
+        fullName={saved.fullName}
+        avatarUrl={saved.avatarUrl}
+        disabled={isBusy}
+        onChange={applyAvatar}
+      />
 
       <Card>
         <CardHeader>
