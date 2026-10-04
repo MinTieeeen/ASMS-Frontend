@@ -81,6 +81,10 @@ export const router = createBrowserRouter([
                     lazy: page(() => import('@/features/profile/pages/ProfileSettingsPage')),
                   },
                   {
+                    path: ROUTES.githubCallback,
+                    lazy: page(() => import('@/features/profile/pages/GithubCallbackPage')),
+                  },
+                  {
                     path: ROUTES.securitySettings,
                     lazy: page(() => import('@/features/auth/pages/SecuritySettingsPage')),
                   },

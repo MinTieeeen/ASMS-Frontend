@@ -1,5 +1,6 @@
 export * from './admin-users/admin-users'
 export * from './auth/auth'
 export * from './catalogs/catalogs'
+export * from './git-hub/git-hub'
 export * from './profiles/profiles'
 export * from './users/users'

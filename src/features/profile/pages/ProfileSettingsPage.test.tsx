@@ -240,4 +240,37 @@ describe('ProfileSettingsPage (SCR-USER-01)', () => {
     expect(await within(dialog).findByText('Chỉ nhận ảnh JPEG, PNG hoặc WebP.')).toBeInTheDocument()
     expect(within(dialog).getByRole('button', { name: 'Lưu ảnh' })).toBeDisabled()
   })
+
+  it('SCR-USER-01 (10): shows the connected GitHub account and disconnects it after confirmation', async () => {
+    useProfile({
+      ...profile,
+      github: {
+        login: 'nguyenvanan',
+        name: 'Nguyen Van An',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/1',
+        htmlUrl: 'https://github.com/nguyenvanan',
+        publicRepos: 24,
+        followers: 18,
+        following: 12,
+        githubCreatedAt: '2021-03-08T09:12:00Z',
+        connectedAt: '2026-10-04T08:00:00Z',
+        syncedAt: '2026-10-04T08:00:00Z',
+      },
+    })
+    server.use(
+      http.delete(apiUrl('/users/me/github'), () => new HttpResponse(null, { status: 204 })),
+    )
+    renderProfile()
+
+    expect(
+      await screen.findByRole('link', { name: 'Mở hồ sơ GitHub @nguyenvanan' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('24')).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Ngắt kết nối' }))
+    const dialog = await screen.findByRole('alertdialog', { name: 'Ngắt kết nối GitHub?' })
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Ngắt kết nối' }))
+
+    expect(await screen.findByText('Đã ngắt kết nối GitHub.')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Kết nối GitHub' })).toBeInTheDocument()
+  })
 })

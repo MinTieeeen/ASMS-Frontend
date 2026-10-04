@@ -12,6 +12,7 @@ import { Loader2, TriangleAlert } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useLocation, useNavigate } from 'react-router'
 import { toast } from 'sonner'
 
 import { getListActiveSchoolsQueryKey } from '@/api/generated/endpoints/catalogs/catalogs'
@@ -22,6 +23,7 @@ import {
 } from '@/api/generated/endpoints/profiles/profiles'
 import type {
   AvatarResponse,
+  GithubAccountResponse,
   UpdateProfileRequest,
   UserProfileResponse,
 } from '@/api/generated/models'
@@ -46,6 +48,7 @@ import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth.store'
 import { collapseWhitespace } from '@/utils/search'
 
+import type { GithubCallbackState } from '../pages/GithubCallbackPage'
 import {
   BIO_MAX_LENGTH,
   type ProfileFormValues,
@@ -53,6 +56,7 @@ import {
   textLength,
 } from '../schemas/profile.schema'
 import { AvatarSection } from './AvatarSection'
+import { GithubCard } from './GithubCard'
 import { SchoolCombobox } from './SchoolCombobox'
 
 /** Server field → form field and message key; codes are not distinguished (the form shows one message per field) */
@@ -83,6 +87,15 @@ export function ProfileForm({ initialProfile }: { initialProfile: UserProfileRes
   const { t: tCommon } = useTranslation()
   const { t: tAuth } = useTranslation('auth')
   const queryClient = useQueryClient()
+  const location = useLocation()
+  const navigate = useNavigate()
+  // Read the GitHub error of the callback once, then drop it so that a reload does not show it again
+  const [githubError] = useState(
+    () => (location.state as GithubCallbackState | null)?.githubError ?? null,
+  )
+  useEffect(() => {
+    if (location.state) void navigate(location.pathname, { replace: true, state: null })
+  }, [location.pathname, location.state, navigate])
   const [saved, setSaved] = useState(initialProfile)
   // Version sent with the next save; "keep my edits" moves it forward without touching the form (A6)
   const [version, setVersion] = useState(initialProfile.version)
@@ -113,6 +126,22 @@ export function ProfileForm({ initialProfile }: { initialProfile: UserProfileRes
     )
     const { user, setUser } = useAuthStore.getState()
     if (user) setUser({ ...user, avatarUrl: avatar?.avatarUrl })
+  }
+
+  // GitHub is saved by its own APIs: only that block changes, the fields being edited stay as they are
+  const applyGithub = (github: GithubAccountResponse | null) => {
+    setSaved((current) => ({ ...current, github: github ?? undefined }))
+    queryClient.setQueryData<UserProfileResponse>(getGetMyProfileQueryKey(), (current) =>
+      current ? { ...current, github: github ?? undefined } : current,
+    )
+  }
+
+  const reloadGithub = async () => {
+    try {
+      applyGithub((await getMyProfile()).github ?? null)
+    } catch {
+      toast.error(tCommon('error.generic'))
+    }
   }
 
   const onError = (error: unknown) => {
@@ -339,6 +368,13 @@ export function ProfileForm({ initialProfile }: { initialProfile: UserProfileRes
           </Button>
         </CardFooter>
       </Card>
+
+      <GithubCard
+        github={saved.github}
+        initialError={githubError}
+        onChange={applyGithub}
+        onStale={() => void reloadGithub()}
+      />
     </form>
   )
 }

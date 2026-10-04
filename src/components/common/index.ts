@@ -1,6 +1,7 @@
 export { ConfirmDialog } from './ConfirmDialog'
 export { EmptyState } from './EmptyState'
 export { Flag } from './Flag'
+export { GithubMark } from './GithubMark'
 export { LanguageToggle } from './LanguageToggle'
 export { LoadingScreen } from './LoadingScreen'
 export type { LogoVariant } from './Logo'

@@ -77,5 +77,33 @@
     "removed": "Profile photo removed.",
     "removeTitle": "Remove profile photo?",
     "removeDescription": "It will be replaced with the initials of your name."
+  },
+  "github": {
+    "title": "GitHub account",
+    "description": "Connect it so that your group members see your GitHub profile.",
+    "connected": "Connected",
+    "notConnected": "GitHub not connected",
+    "notConnectedHint": "You will be sent to GitHub to sign in and let ASMS read your public information. ASMS never reads source code or private repositories.",
+    "connect": "Connect GitHub",
+    "redirecting": "Going to GitHub…",
+    "refresh": "Refresh",
+    "disconnect": "Disconnect",
+    "joined": "On GitHub since {{date}}",
+    "publicRepos": "Public repos",
+    "followers": "Followers",
+    "following": "Following",
+    "syncedAt": "Synced at {{time}}",
+    "openProfile": "Open the GitHub profile @{{login}}",
+    "disconnectTitle": "Disconnect GitHub?",
+    "disconnectDescription": "Your GitHub information will be removed from your profile. You can connect again at any time. To revoke ASMS completely, go to GitHub › Settings › Applications.",
+    "connectedToast": "GitHub @{{login}} connected.",
+    "inUse": "This GitHub account is already linked to another ASMS user.",
+    "cancelled": "You cancelled the connection on GitHub.",
+    "stateInvalid": "The GitHub connection expired. Please try again.",
+    "disconnected": "GitHub disconnected.",
+    "refreshed": "GitHub information updated.",
+    "unavailable": "Could not get data from GitHub. Please try again later.",
+    "failedTitle": "Could not connect GitHub.",
+    "connecting": "Connecting your GitHub account…"
   }
 }

@@ -19,6 +19,8 @@ export const ROUTES = {
   calendar: '/calendar',
   settings: '/settings',
   profileSettings: '/settings/profile',
+  /** GitHub sends the browser back here; must match the OAuth App callback URL */
+  githubCallback: '/settings/profile/github/callback',
   userProfile: (userId: string) => `/users/${userId}`,
   securitySettings: '/settings/security',
   notificationSettings: '/settings/notifications',

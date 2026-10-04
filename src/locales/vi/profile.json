@@ -77,5 +77,33 @@
     "removed": "Đã xóa ảnh đại diện.",
     "removeTitle": "Xóa ảnh đại diện?",
     "removeDescription": "Ảnh sẽ được thay bằng chữ cái đầu của họ tên bạn."
+  },
+  "github": {
+    "title": "Tài khoản GitHub",
+    "description": "Kết nối để thành viên trong nhóm thấy hồ sơ GitHub của bạn.",
+    "connected": "Đã kết nối",
+    "notConnected": "Chưa kết nối GitHub",
+    "notConnectedHint": "Bạn sẽ được chuyển tới GitHub để đăng nhập và cho phép ASMS đọc thông tin công khai. ASMS không đọc mã nguồn hay repo riêng tư.",
+    "connect": "Kết nối GitHub",
+    "redirecting": "Đang chuyển tới GitHub…",
+    "refresh": "Làm mới",
+    "disconnect": "Ngắt kết nối",
+    "joined": "Tham gia GitHub từ {{date}}",
+    "publicRepos": "Repo công khai",
+    "followers": "Người theo dõi",
+    "following": "Đang theo dõi",
+    "syncedAt": "Đồng bộ lúc {{time}}",
+    "openProfile": "Mở hồ sơ GitHub @{{login}}",
+    "disconnectTitle": "Ngắt kết nối GitHub?",
+    "disconnectDescription": "Thông tin GitHub sẽ bị gỡ khỏi hồ sơ của bạn. Bạn có thể kết nối lại bất cứ lúc nào. Để thu hồi hẳn quyền của ASMS, vào GitHub › Settings › Applications.",
+    "connectedToast": "Đã kết nối GitHub @{{login}}.",
+    "inUse": "Tài khoản GitHub này đã được liên kết với một người dùng ASMS khác.",
+    "cancelled": "Bạn đã hủy kết nối trên GitHub.",
+    "stateInvalid": "Phiên kết nối GitHub đã hết hạn. Vui lòng thử lại.",
+    "disconnected": "Đã ngắt kết nối GitHub.",
+    "refreshed": "Đã cập nhật thông tin GitHub.",
+    "unavailable": "Không lấy được dữ liệu từ GitHub. Vui lòng thử lại sau.",
+    "failedTitle": "Không kết nối được GitHub.",
+    "connecting": "Đang kết nối tài khoản GitHub…"
   }
 }
