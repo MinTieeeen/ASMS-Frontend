@@ -5,10 +5,10 @@
  * Assignment Management System - REST API
  * OpenAPI spec version: v1
  */
-import type { AdminUserResponse } from './adminUserResponse'
+import type { AdminUserSummaryResponse } from './adminUserSummaryResponse'
 
-export interface PageResponseAdminUserResponse {
-  items: AdminUserResponse[]
+export interface PageResponseAdminUserSummaryResponse {
+  items: AdminUserSummaryResponse[]
   page: number
   size: number
   totalItems: number

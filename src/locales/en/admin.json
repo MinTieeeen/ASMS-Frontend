@@ -2,13 +2,20 @@
   "users": {
     "title": "Users",
     "empty": "No users yet.",
-    "loadFailed": "Could not load the users.",
+    "loadFailed": "Could not load the data.",
+    "loadFailedDescription": "Check your connection and try again.",
+    "count_one": "{{count}} user",
+    "count_other": "{{count}} users",
+    "caption": "Users",
     "column": {
+      "user": "User",
       "fullName": "Full name",
       "email": "Email",
       "userCode": "User ID",
       "role": "Role",
       "status": "Status",
+      "lastLogin": "Last sign-in",
+      "createdAt": "Created",
       "actions": "Actions"
     },
     "role": {
@@ -20,12 +27,92 @@
       "ACTIVE": "Active",
       "LOCKED": "Locked"
     },
+    "you": "You",
+    "neverLoggedIn": "Never signed in",
+    "search": {
+      "placeholder": "Search by name, email, User ID",
+      "label": "Search users",
+      "clear": "Clear search",
+      "tooShort": "Type at least 2 characters to search."
+    },
+    "filter": {
+      "status": "Status",
+      "statusCount": "Status ({{count}})",
+      "allRoles": "All roles",
+      "role": "Role",
+      "clear": "Clear filters",
+      "noMatch": "No user matches the filters.",
+      "noMatchHint": "Try another keyword or remove some filters."
+    },
+    "sortBy": "Sort by {{column}}",
     "actionsFor": "Actions for {{name}}",
-    "resendActivation": "Resend activation email",
-    "page": "Page {{page}} of {{total}}",
-    "previous": "Previous page",
-    "next": "Next page",
-    "count_one": "{{count}} user",
-    "count_other": "{{count}} users"
+    "viewDetail": "View details",
+    "resendActivation": "Resend activation email"
+  },
+  "detail": {
+    "breadcrumb": "Breadcrumb",
+    "notFound": "User not found.",
+    "backToList": "Back to users",
+    "lockedBanner": "Locked on {{time}} by {{admin}}.",
+    "lockedBannerNoAdmin": "Locked on {{time}}.",
+    "lockedReason": "Reason: {{reason}}",
+    "tab": {
+      "info": "Information",
+      "authEvents": "Sign-in activity",
+      "audit": "Admin history"
+    },
+    "tabsLabel": "User details",
+    "profile": "Profile",
+    "account": "Account",
+    "school": "School",
+    "github": "GitHub",
+    "githubConnectedAt": "connected {{date}}",
+    "githubNone": "Not connected",
+    "githubHint": "Users connect GitHub from their own profile; administrators cannot change it.",
+    "bio": "About",
+    "empty": "(empty)",
+    "createdAt": "Created",
+    "createdBy": "by {{name}}",
+    "activatedAt": "Activated",
+    "lastLogin": "Last sign-in",
+    "sessions": "Active sessions",
+    "failedLogins": "Consecutive wrong passwords",
+    "lockedUntil": "Locked until {{time}}",
+    "events": {
+      "empty": "No sign-in activity yet.",
+      "loadMore": "Load more",
+      "time": "Time",
+      "event": "Event",
+      "device": "Device · details",
+      "ip": "IP",
+      "by": "by {{name}}",
+      "type": {
+        "LOGIN_SUCCESS": "Signed in",
+        "LOGIN_FAILED": "Sign-in failed",
+        "ACCOUNT_TEMP_LOCKED": "Temporarily locked",
+        "LOGOUT": "Signed out",
+        "LOGOUT_ALL": "Signed out everywhere",
+        "PASSWORD_CHANGED": "Password changed",
+        "PASSWORD_RESET": "Password reset",
+        "ACCOUNT_ACTIVATED": "Account activated",
+        "SESSION_REVOKED": "Session revoked",
+        "SESSION_EVICTED": "Old session replaced",
+        "REFRESH_TOKEN_REUSED": "Token reuse detected",
+        "PASSWORD_RESET_REQUESTED": "Password reset requested",
+        "USER_CREATED": "Account created",
+        "ACTIVATION_RESENT": "Activation email resent"
+      },
+      "reason": {
+        "INVALID_PASSWORD": "wrong password",
+        "NO_PASSWORD": "not activated",
+        "USER_NOT_FOUND": "no such account",
+        "TEMP_LOCKED": "temporarily locked",
+        "ACCOUNT_LOCKED": "account locked",
+        "RATE_LIMITED": "too many attempts"
+      }
+    },
+    "auditComingSoon": "Admin history comes in the next update.",
+    "loadFailed": "Couldn't load this user.",
+    "eventsLoadFailed": "Couldn't load sign-in activity."
   }
 }

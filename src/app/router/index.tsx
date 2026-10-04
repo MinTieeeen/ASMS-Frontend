@@ -99,6 +99,10 @@ export const router = createBrowserRouter([
                     path: ROUTES.adminUsers,
                     lazy: page(() => import('@/features/admin/pages/AdminUsersPage')),
                   },
+                  {
+                    path: ROUTES.adminUserDetail(':userId'),
+                    lazy: page(() => import('@/features/admin/pages/AdminUserDetailPage')),
+                  },
                 ],
               },
             ],

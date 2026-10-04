@@ -97,5 +97,13 @@
     "description": "You have unsaved changes. Leave and discard them?",
     "leave": "Leave",
     "stay": "Stay"
+  },
+  "pagination": {
+    "range": "Showing {{from}}–{{to}} of {{total}}",
+    "pageSize": "Rows",
+    "previous": "Previous page",
+    "next": "Next page",
+    "page": "Page {{page}}",
+    "label": "Pagination"
   }
 }

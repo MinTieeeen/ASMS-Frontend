@@ -6,9 +6,9 @@
  * OpenAPI spec version: v1
  */
 
-export type ListUsersStatus = (typeof ListUsersStatus)[keyof typeof ListUsersStatus]
+export type ListUsersStatusItem = (typeof ListUsersStatusItem)[keyof typeof ListUsersStatusItem]
 
-export const ListUsersStatus = {
+export const ListUsersStatusItem = {
   PENDING_ACTIVATION: 'PENDING_ACTIVATION',
   ACTIVE: 'ACTIVE',
   LOCKED: 'LOCKED',

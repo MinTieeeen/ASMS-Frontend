@@ -44,9 +44,11 @@ const ROLES = ['USER', 'ADMIN'] as const
 interface CreateUserDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  /** After a successful creation, e.g. to show the new row at the top of the list (FR-USER-22) */
+  onCreated?: () => void
 }
 
-export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) {
+export function CreateUserDialog({ open, onOpenChange, onCreated }: CreateUserDialogProps) {
   const { t } = useTranslation('auth')
   const { t: tCommon } = useTranslation()
   const queryClient = useQueryClient()
@@ -105,6 +107,7 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
           close()
           toast.success(t('message.userCreated', { email: user.email }))
           void queryClient.invalidateQueries({ queryKey: getListUsersQueryKey() })
+          onCreated?.()
         },
         onError,
       },

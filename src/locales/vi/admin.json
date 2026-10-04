@@ -2,13 +2,19 @@
   "users": {
     "title": "Người dùng",
     "empty": "Chưa có người dùng nào.",
-    "loadFailed": "Không tải được danh sách người dùng.",
+    "loadFailed": "Không tải được dữ liệu.",
+    "loadFailedDescription": "Kiểm tra kết nối rồi thử lại.",
+    "count": "{{count}} người dùng",
+    "caption": "Danh sách người dùng",
     "column": {
+      "user": "Người dùng",
       "fullName": "Họ tên",
       "email": "Email",
       "userCode": "ID người dùng",
       "role": "Vai trò",
       "status": "Trạng thái",
+      "lastLogin": "Đăng nhập gần nhất",
+      "createdAt": "Ngày tạo",
       "actions": "Thao tác"
     },
     "role": {
@@ -20,11 +26,92 @@
       "ACTIVE": "Hoạt động",
       "LOCKED": "Đã khóa"
     },
+    "you": "Bạn",
+    "neverLoggedIn": "Chưa đăng nhập",
+    "search": {
+      "placeholder": "Tìm theo họ tên, email, ID người dùng",
+      "label": "Tìm người dùng",
+      "clear": "Xóa từ khóa",
+      "tooShort": "Nhập ít nhất 2 ký tự để tìm kiếm."
+    },
+    "filter": {
+      "status": "Trạng thái",
+      "statusCount": "Trạng thái ({{count}})",
+      "allRoles": "Tất cả vai trò",
+      "role": "Vai trò",
+      "clear": "Xóa bộ lọc",
+      "noMatch": "Không có người dùng phù hợp với bộ lọc.",
+      "noMatchHint": "Thử từ khóa khác hoặc bỏ bớt bộ lọc."
+    },
+    "sortBy": "Sắp xếp theo {{column}}",
     "actionsFor": "Thao tác với {{name}}",
-    "resendActivation": "Gửi lại email kích hoạt",
-    "page": "Trang {{page}} / {{total}}",
-    "previous": "Trang trước",
-    "next": "Trang sau",
-    "count": "{{count}} người dùng"
+    "viewDetail": "Xem chi tiết",
+    "resendActivation": "Gửi lại email kích hoạt"
+  },
+  "detail": {
+    "breadcrumb": "Đường dẫn",
+    "notFound": "Không tìm thấy người dùng.",
+    "backToList": "Về danh sách người dùng",
+    "lockedBanner": "Đã khóa lúc {{time}} bởi {{admin}}.",
+    "lockedBannerNoAdmin": "Đã khóa lúc {{time}}.",
+    "lockedReason": "Lý do: {{reason}}",
+    "tab": {
+      "info": "Thông tin",
+      "authEvents": "Hoạt động đăng nhập",
+      "audit": "Lịch sử quản trị"
+    },
+    "tabsLabel": "Chi tiết người dùng",
+    "profile": "Hồ sơ",
+    "account": "Tài khoản",
+    "school": "Trường",
+    "github": "GitHub",
+    "githubConnectedAt": "kết nối {{date}}",
+    "githubNone": "Chưa kết nối",
+    "githubHint": "Người dùng tự kết nối GitHub trong hồ sơ; quản trị viên không sửa được.",
+    "bio": "Giới thiệu",
+    "empty": "(trống)",
+    "createdAt": "Ngày tạo",
+    "createdBy": "bởi {{name}}",
+    "activatedAt": "Ngày kích hoạt",
+    "lastLogin": "Đăng nhập gần nhất",
+    "sessions": "Phiên đang hoạt động",
+    "failedLogins": "Sai mật khẩu liên tiếp",
+    "lockedUntil": "Khóa tạm đến {{time}}",
+    "events": {
+      "empty": "Chưa có hoạt động đăng nhập.",
+      "loadMore": "Tải thêm",
+      "time": "Thời điểm",
+      "event": "Sự kiện",
+      "device": "Thiết bị · chi tiết",
+      "ip": "IP",
+      "by": "bởi {{name}}",
+      "type": {
+        "LOGIN_SUCCESS": "Đăng nhập",
+        "LOGIN_FAILED": "Đăng nhập thất bại",
+        "ACCOUNT_TEMP_LOCKED": "Bị khóa tạm",
+        "LOGOUT": "Đăng xuất",
+        "LOGOUT_ALL": "Đăng xuất mọi thiết bị",
+        "PASSWORD_CHANGED": "Đổi mật khẩu",
+        "PASSWORD_RESET": "Đặt lại mật khẩu",
+        "ACCOUNT_ACTIVATED": "Kích hoạt tài khoản",
+        "SESSION_REVOKED": "Thu hồi phiên",
+        "SESSION_EVICTED": "Phiên cũ bị thay thế",
+        "REFRESH_TOKEN_REUSED": "Phát hiện dùng lại token",
+        "PASSWORD_RESET_REQUESTED": "Yêu cầu đặt lại mật khẩu",
+        "USER_CREATED": "Tạo tài khoản",
+        "ACTIVATION_RESENT": "Gửi lại email kích hoạt"
+      },
+      "reason": {
+        "INVALID_PASSWORD": "sai mật khẩu",
+        "NO_PASSWORD": "chưa kích hoạt",
+        "USER_NOT_FOUND": "không có tài khoản",
+        "TEMP_LOCKED": "đang khóa tạm",
+        "ACCOUNT_LOCKED": "tài khoản bị khóa",
+        "RATE_LIMITED": "thao tác quá nhanh"
+      }
+    },
+    "auditComingSoon": "Lịch sử quản trị sẽ có trong bản cập nhật tới.",
+    "loadFailed": "Không tải được thông tin người dùng.",
+    "eventsLoadFailed": "Không tải được hoạt động đăng nhập."
   }
 }

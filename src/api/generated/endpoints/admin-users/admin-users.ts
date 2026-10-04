@@ -23,10 +23,13 @@ import type {
 
 import type {
   ActivationEmailResponse,
+  AdminUserDetailResponse,
   AdminUserResponse,
   CreateUserRequest,
+  CursorResponseAuthEventItemResponse,
+  ListUserAuthEventsParams,
   ListUsersParams,
-  PageResponseAdminUserResponse,
+  PageResponseAdminUserSummaryResponse,
 } from '../../models'
 
 import { httpClient } from '../../../http-client'
@@ -50,14 +53,15 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
 }
 
 /**
- * @summary Users, filtered by status and keyword
+ * q: full name contains (accents ignored), email or user ID starts with; page starts at 1
+ * @summary Users with search, filters, sort and paging (API-USER-07)
  */
 export const listUsers = (
   params?: ListUsersParams,
   options?: SecondParameter<typeof httpClient>,
   signal?: AbortSignal,
 ) => {
-  return httpClient<PageResponseAdminUserResponse>(
+  return httpClient<PageResponseAdminUserSummaryResponse>(
     { url: `/api/v1/admin/users`, method: 'GET', params, signal },
     options,
   )
@@ -69,7 +73,7 @@ export const getListUsersQueryKey = (params?: ListUsersParams) => {
 
 export const getListUsersQueryOptions = <
   TData = Awaited<ReturnType<typeof listUsers>>,
-  TError = ErrorType<unknown>,
+  TError = ErrorType<PageResponseAdminUserSummaryResponse>,
 >(
   params?: ListUsersParams,
   options?: {
@@ -92,11 +96,11 @@ export const getListUsersQueryOptions = <
 }
 
 export type ListUsersQueryResult = NonNullable<Awaited<ReturnType<typeof listUsers>>>
-export type ListUsersQueryError = ErrorType<unknown>
+export type ListUsersQueryError = ErrorType<PageResponseAdminUserSummaryResponse>
 
 export function useListUsers<
   TData = Awaited<ReturnType<typeof listUsers>>,
-  TError = ErrorType<unknown>,
+  TError = ErrorType<PageResponseAdminUserSummaryResponse>,
 >(
   params: undefined | ListUsersParams,
   options: {
@@ -115,7 +119,7 @@ export function useListUsers<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListUsers<
   TData = Awaited<ReturnType<typeof listUsers>>,
-  TError = ErrorType<unknown>,
+  TError = ErrorType<PageResponseAdminUserSummaryResponse>,
 >(
   params?: ListUsersParams,
   options?: {
@@ -134,7 +138,7 @@ export function useListUsers<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListUsers<
   TData = Awaited<ReturnType<typeof listUsers>>,
-  TError = ErrorType<unknown>,
+  TError = ErrorType<PageResponseAdminUserSummaryResponse>,
 >(
   params?: ListUsersParams,
   options?: {
@@ -144,12 +148,12 @@ export function useListUsers<
   queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary Users, filtered by status and keyword
+ * @summary Users with search, filters, sort and paging (API-USER-07)
  */
 
 export function useListUsers<
   TData = Awaited<ReturnType<typeof listUsers>>,
-  TError = ErrorType<unknown>,
+  TError = ErrorType<PageResponseAdminUserSummaryResponse>,
 >(
   params?: ListUsersParams,
   options?: {
@@ -335,4 +339,258 @@ export const useResendActivationEmail = <
   TContext
 > => {
   return useMutation(getResendActivationEmailMutationOptions(options), queryClient)
+}
+/**
+ * @summary User detail for Admins (API-USER-08)
+ */
+export const getAdminUser = (
+  userId: string,
+  options?: SecondParameter<typeof httpClient>,
+  signal?: AbortSignal,
+) => {
+  return httpClient<AdminUserDetailResponse>(
+    { url: `/api/v1/admin/users/${userId}`, method: 'GET', signal },
+    options,
+  )
+}
+
+export const getGetAdminUserQueryKey = (userId: string) => {
+  return [`/api/v1/admin/users/${userId}`] as const
+}
+
+export const getGetAdminUserQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAdminUser>>,
+  TError = ErrorType<AdminUserDetailResponse>,
+>(
+  userId: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdminUser>>, TError, TData>>
+    request?: SecondParameter<typeof httpClient>
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getGetAdminUserQueryKey(userId)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAdminUser>>> = ({ signal }) =>
+    getAdminUser(userId, requestOptions, signal)
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: userId !== null && userId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getAdminUser>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+}
+
+export type GetAdminUserQueryResult = NonNullable<Awaited<ReturnType<typeof getAdminUser>>>
+export type GetAdminUserQueryError = ErrorType<AdminUserDetailResponse>
+
+export function useGetAdminUser<
+  TData = Awaited<ReturnType<typeof getAdminUser>>,
+  TError = ErrorType<AdminUserDetailResponse>,
+>(
+  userId: string,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdminUser>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAdminUser>>,
+          TError,
+          Awaited<ReturnType<typeof getAdminUser>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAdminUser<
+  TData = Awaited<ReturnType<typeof getAdminUser>>,
+  TError = ErrorType<AdminUserDetailResponse>,
+>(
+  userId: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdminUser>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAdminUser>>,
+          TError,
+          Awaited<ReturnType<typeof getAdminUser>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAdminUser<
+  TData = Awaited<ReturnType<typeof getAdminUser>>,
+  TError = ErrorType<AdminUserDetailResponse>,
+>(
+  userId: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdminUser>>, TError, TData>>
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary User detail for Admins (API-USER-08)
+ */
+
+export function useGetAdminUser<
+  TData = Awaited<ReturnType<typeof getAdminUser>>,
+  TError = ErrorType<AdminUserDetailResponse>,
+>(
+  userId: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdminUser>>, TError, TData>>
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetAdminUserQueryOptions(userId, options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Sign-in events of a user, newest first (API-USER-14)
+ */
+export const listUserAuthEvents = (
+  userId: string,
+  params?: ListUserAuthEventsParams,
+  options?: SecondParameter<typeof httpClient>,
+  signal?: AbortSignal,
+) => {
+  return httpClient<CursorResponseAuthEventItemResponse>(
+    { url: `/api/v1/admin/users/${userId}/auth-events`, method: 'GET', params, signal },
+    options,
+  )
+}
+
+export const getListUserAuthEventsQueryKey = (
+  userId: string,
+  params?: ListUserAuthEventsParams,
+) => {
+  return [`/api/v1/admin/users/${userId}/auth-events`, ...(params ? [params] : [])] as const
+}
+
+export const getListUserAuthEventsQueryOptions = <
+  TData = Awaited<ReturnType<typeof listUserAuthEvents>>,
+  TError = ErrorType<CursorResponseAuthEventItemResponse>,
+>(
+  userId: string,
+  params?: ListUserAuthEventsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserAuthEvents>>, TError, TData>>
+    request?: SecondParameter<typeof httpClient>
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getListUserAuthEventsQueryKey(userId, params)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof listUserAuthEvents>>> = ({ signal }) =>
+    listUserAuthEvents(userId, params, requestOptions, signal)
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: userId !== null && userId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof listUserAuthEvents>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+}
+
+export type ListUserAuthEventsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listUserAuthEvents>>
+>
+export type ListUserAuthEventsQueryError = ErrorType<CursorResponseAuthEventItemResponse>
+
+export function useListUserAuthEvents<
+  TData = Awaited<ReturnType<typeof listUserAuthEvents>>,
+  TError = ErrorType<CursorResponseAuthEventItemResponse>,
+>(
+  userId: string,
+  params: undefined | ListUserAuthEventsParams,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserAuthEvents>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listUserAuthEvents>>,
+          TError,
+          Awaited<ReturnType<typeof listUserAuthEvents>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListUserAuthEvents<
+  TData = Awaited<ReturnType<typeof listUserAuthEvents>>,
+  TError = ErrorType<CursorResponseAuthEventItemResponse>,
+>(
+  userId: string,
+  params?: ListUserAuthEventsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof listUserAuthEvents>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listUserAuthEvents>>,
+          TError,
+          Awaited<ReturnType<typeof listUserAuthEvents>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListUserAuthEvents<
+  TData = Awaited<ReturnType<typeof listUserAuthEvents>>,
+  TError = ErrorType<CursorResponseAuthEventItemResponse>,
+>(
+  userId: string,
+  params?: ListUserAuthEventsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserAuthEvents>>, TError, TData>>
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Sign-in events of a user, newest first (API-USER-14)
+ */
+
+export function useListUserAuthEvents<
+  TData = Awaited<ReturnType<typeof listUserAuthEvents>>,
+  TError = ErrorType<CursorResponseAuthEventItemResponse>,
+>(
+  userId: string,
+  params?: ListUserAuthEventsParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserAuthEvents>>, TError, TData>>
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getListUserAuthEventsQueryOptions(userId, params, options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+  }
+
+  return withQueryKey(query, queryOptions.queryKey)
 }

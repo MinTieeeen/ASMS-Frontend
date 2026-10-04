@@ -94,5 +94,13 @@
     "description": "Bạn có thay đổi chưa lưu. Rời trang và bỏ các thay đổi?",
     "leave": "Rời trang",
     "stay": "Ở lại"
+  },
+  "pagination": {
+    "range": "Hiển thị {{from}}–{{to}} trên {{total}}",
+    "pageSize": "Số dòng",
+    "previous": "Trang trước",
+    "next": "Trang sau",
+    "page": "Trang {{page}}",
+    "label": "Phân trang"
   }
 }

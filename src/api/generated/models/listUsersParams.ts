@@ -5,27 +5,29 @@
  * Assignment Management System - REST API
  * OpenAPI spec version: v1
  */
-import type { ListUsersStatus } from './listUsersStatus'
+import type { ListUsersRole } from './listUsersRole'
+import type { ListUsersStatusItem } from './listUsersStatusItem'
 
 export type ListUsersParams = {
-  status?: ListUsersStatus
   /**
-   * @minLength 0
+   * @minLength 2
    * @maxLength 100
    */
-  keyword?: string
+  q?: string
+  status?: ListUsersStatusItem[]
+  role?: ListUsersRole
+  schoolId?: string
   /**
-   * One-based page index (1..N)
-   * @minimum 0
+   * @pattern ^(createdAt|fullName|lastLoginAt)(,(asc|desc))?$
+   */
+  sort?: string
+  /**
+   * @minimum 1
    */
   page?: number
   /**
-   * The size of the page to be returned
    * @minimum 1
+   * @maximum 100
    */
   size?: number
-  /**
-   * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-   */
-  sort?: string[]
 }

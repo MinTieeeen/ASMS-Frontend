@@ -26,6 +26,7 @@ export const ROUTES = {
   notificationSettings: '/settings/notifications',
   admin: '/admin',
   adminUsers: '/admin/users',
+  adminUserDetail: (userId: string) => `/admin/users/${userId}`,
   adminAuditLogs: '/admin/audit-logs',
   adminSchools: '/admin/settings/schools',
   adminHolidays: '/admin/settings/holidays',

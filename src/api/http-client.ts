@@ -38,6 +38,8 @@ export const http = axios.create({
   baseURL: env.apiBaseUrl,
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
+  // Arrays as repeated keys (status=A&status=B), the form Spring binds to a list; axios would send status[]=A
+  paramsSerializer: { indexes: null },
 })
 
 let sessionEndHandler: (reason: SessionEndReason) => void = () => {}
