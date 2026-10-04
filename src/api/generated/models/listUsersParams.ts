@@ -15,7 +15,7 @@ export type ListUsersParams = {
    */
   keyword?: string
   /**
-   * Zero-based page index (0..N)
+   * One-based page index (1..N)
    * @minimum 0
    */
   page?: number

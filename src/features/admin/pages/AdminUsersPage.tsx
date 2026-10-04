@@ -9,7 +9,6 @@
 import { CircleAlert, Ellipsis, Mail, Plus, UsersRound } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 import { toast } from 'sonner'
 
 import {
@@ -36,7 +35,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ROUTES } from '@/config/routes'
 import { CreateUserDialog } from '@/features/auth'
 import { cn } from '@/lib/utils'
 
@@ -53,7 +51,8 @@ export default function AdminUsersPage() {
   const { t } = useTranslation('admin')
   const { t: tAuth } = useTranslation('auth')
   const { t: tCommon } = useTranslation()
-  const [page, setPage] = useState(0)
+  // Pages start at 1 (Module 2 API conventions)
+  const [page, setPage] = useState(1)
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const users = useListUsers({ page, size: PAGE_SIZE, sort: ['createdAt,desc'] })
   const resend = useResendActivationEmail()
@@ -86,151 +85,132 @@ export default function AdminUsersPage() {
 
   const data = users.data
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 md:flex-row md:gap-8">
-      <nav aria-label={t('users.navLabel')} className="md:w-48 md:shrink-0">
-        <p className="mb-2 hidden px-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase md:block">
-          {t('users.navLabel')}
-        </p>
-        <NavLink
-          to={ROUTES.adminUsers}
-          className={({ isActive }) =>
-            cn(
-              'flex h-9 items-center gap-2 rounded-md px-3 text-sm font-medium',
-              isActive ? 'bg-accent text-accent-foreground' : 'hover:bg-muted',
-            )
-          }
-        >
-          <UsersRound className="size-4" aria-hidden />
-          {t('users.nav')}
-        </NavLink>
-      </nav>
+    <div className="flex flex-col gap-4">
+      <PageHeader
+        title={t('users.title')}
+        meta={data ? t('users.count', { count: data.totalItems }) : undefined}
+        actions={
+          <Button onClick={() => setIsCreateOpen(true)}>
+            <Plus aria-hidden />
+            {tAuth('createUser.open')}
+          </Button>
+        }
+      />
 
-      <div className="flex min-w-0 flex-1 flex-col gap-4">
-        <PageHeader
-          title={t('users.title')}
-          actions={
-            <Button onClick={() => setIsCreateOpen(true)}>
-              <Plus aria-hidden />
-              {tAuth('createUser.open')}
+      {users.isError && (
+        <Alert variant="destructive">
+          <CircleAlert aria-hidden />
+          <AlertTitle>{t('users.loadFailed')}</AlertTitle>
+          <AlertDescription>
+            <Button size="sm" variant="outline" onClick={() => void users.refetch()}>
+              {tCommon('action.retry')}
             </Button>
-          }
-        />
+          </AlertDescription>
+        </Alert>
+      )}
 
-        {users.isError && (
-          <Alert variant="destructive">
-            <CircleAlert aria-hidden />
-            <AlertTitle>{t('users.loadFailed')}</AlertTitle>
-            <AlertDescription>
-              <Button size="sm" variant="outline" onClick={() => void users.refetch()}>
-                {tCommon('action.retry')}
-              </Button>
-            </AlertDescription>
-          </Alert>
-        )}
-
-        {data && data.totalElements === 0 ? (
-          <EmptyState icon={UsersRound} title={t('users.empty')} />
-        ) : (
-          !users.isError && (
-            <div className="overflow-x-auto rounded-xl border bg-card">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>{t('users.column.fullName')}</TableHead>
-                    <TableHead>{t('users.column.email')}</TableHead>
-                    <TableHead>{t('users.column.userCode')}</TableHead>
-                    <TableHead>{t('users.column.role')}</TableHead>
-                    <TableHead>{t('users.column.status')}</TableHead>
-                    <TableHead className="w-12">
-                      <span className="sr-only">{t('users.column.actions')}</span>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {users.isPending
-                    ? Array.from({ length: SKELETON_ROWS }, (_, index) => (
-                        <TableRow key={index} aria-hidden>
-                          <TableCell colSpan={6}>
-                            <Skeleton className="h-5 w-full" />
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    : data?.items.map((user) => (
-                        <TableRow key={user.id}>
-                          <TableCell>
-                            <div className="flex items-center gap-2.5">
-                              <UserAvatar userId={user.id} fullName={user.fullName} size={28} />
-                              <span className="font-medium">{user.fullName}</span>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-muted-foreground">{user.email}</TableCell>
-                          <TableCell className="font-mono text-[13px]">{user.userCode}</TableCell>
-                          <TableCell>{t(`users.role.${user.systemRole}`)}</TableCell>
-                          <TableCell>
-                            <span className="inline-flex items-center gap-1.5 text-[13px]">
-                              <span
-                                className={cn('size-2 rounded-full', STATUS_DOT[user.status])}
-                                aria-hidden
-                              />
-                              {t(`users.status.${user.status}`)}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            {user.status === 'PENDING_ACTIVATION' && (
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button
-                                    variant="ghost"
-                                    size="icon-sm"
-                                    aria-label={t('users.actionsFor', { name: user.fullName })}
-                                  >
-                                    <Ellipsis aria-hidden />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuItem
-                                    disabled={resend.isPending}
-                                    onSelect={() => resendActivation(user)}
-                                  >
-                                    <Mail aria-hidden />
-                                    {t('users.resendActivation')}
-                                  </DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                </TableBody>
-              </Table>
-            </div>
-          )
-        )}
-
-        {data && data.totalPages > 1 && (
-          <div className="flex items-center justify-end gap-3 text-sm">
-            <span className="text-muted-foreground">
-              {t('users.page', { page: data.page + 1, total: data.totalPages })}
-            </span>
-            <Button
-              size="sm"
-              variant="outline"
-              disabled={page === 0}
-              onClick={() => setPage((current) => current - 1)}
-            >
-              {t('users.previous')}
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              disabled={page + 1 >= data.totalPages}
-              onClick={() => setPage((current) => current + 1)}
-            >
-              {t('users.next')}
-            </Button>
+      {data && data.totalItems === 0 ? (
+        <EmptyState icon={UsersRound} title={t('users.empty')} />
+      ) : (
+        !users.isError && (
+          <div className="overflow-x-auto rounded-xl border bg-card">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t('users.column.fullName')}</TableHead>
+                  <TableHead>{t('users.column.email')}</TableHead>
+                  <TableHead>{t('users.column.userCode')}</TableHead>
+                  <TableHead>{t('users.column.role')}</TableHead>
+                  <TableHead>{t('users.column.status')}</TableHead>
+                  <TableHead className="w-12">
+                    <span className="sr-only">{t('users.column.actions')}</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {users.isPending
+                  ? Array.from({ length: SKELETON_ROWS }, (_, index) => (
+                      <TableRow key={index} aria-hidden>
+                        <TableCell colSpan={6}>
+                          <Skeleton className="h-5 w-full" />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  : data?.items.map((user) => (
+                      <TableRow key={user.id}>
+                        <TableCell>
+                          <div className="flex items-center gap-2.5">
+                            <UserAvatar userId={user.id} fullName={user.fullName} size={28} />
+                            <span className="font-medium">{user.fullName}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">{user.email}</TableCell>
+                        <TableCell className="font-mono text-[13px]">{user.userCode}</TableCell>
+                        <TableCell>{t(`users.role.${user.systemRole}`)}</TableCell>
+                        <TableCell>
+                          <span className="inline-flex items-center gap-1.5 text-[13px]">
+                            <span
+                              className={cn('size-2 rounded-full', STATUS_DOT[user.status])}
+                              aria-hidden
+                            />
+                            {t(`users.status.${user.status}`)}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          {user.status === 'PENDING_ACTIVATION' && (
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="icon-sm"
+                                  aria-label={t('users.actionsFor', { name: user.fullName })}
+                                >
+                                  <Ellipsis aria-hidden />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem
+                                  disabled={resend.isPending}
+                                  onSelect={() => resendActivation(user)}
+                                >
+                                  <Mail aria-hidden />
+                                  {t('users.resendActivation')}
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+              </TableBody>
+            </Table>
           </div>
-        )}
-      </div>
+        )
+      )}
+
+      {data && data.totalPages > 1 && (
+        <div className="flex items-center justify-end gap-3 text-sm">
+          <span className="text-muted-foreground">
+            {t('users.page', { page: data.page, total: data.totalPages })}
+          </span>
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={page <= 1}
+            onClick={() => setPage((current) => current - 1)}
+          >
+            {t('users.previous')}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={page >= data.totalPages}
+            onClick={() => setPage((current) => current + 1)}
+          >
+            {t('users.next')}
+          </Button>
+        </div>
+      )}
 
       <CreateUserDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />
     </div>

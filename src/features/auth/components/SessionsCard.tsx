@@ -1,5 +1,6 @@
 /**
- * @file "Signed-in devices" card of SCR-AUTH-05 (UC-AUTH-09, FR-AUTH-21, FR-AUTH-22, actions A4, A5).
+ * @file "Signed-in devices" card of SCR-AUTH-05 (UC-AUTH-09, FR-AUTH-21, FR-AUTH-22, actions A4, A5). Every device,
+ * this one included, has its own logout button; "log out of every device" (FR-AUTH-11) sits in the card header.
  * @author MinhTien
  * @version 1.0.0
  * @since 2026-09-29
@@ -7,7 +8,7 @@
  */
 
 import { useQueryClient } from '@tanstack/react-query'
-import { CircleAlert, Monitor, Smartphone } from 'lucide-react'
+import { CircleAlert, Monitor, MonitorSmartphone, Smartphone } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -23,9 +24,19 @@ import { ConfirmDialog } from '@/components/common'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatDateTime, toRelativeTime } from '@/utils/date'
+
+import { useLogout } from '../hooks/useLogout'
+import { LogoutAllDialog } from './LogoutAllDialog'
 
 const MOBILE_DEVICE = /\b(iOS|iPhone|iPad|Android)\b/i
 const SKELETON_ROWS = 3
@@ -36,13 +47,22 @@ export function SessionsCard() {
   const queryClient = useQueryClient()
   const sessions = useListSessions()
   const revoke = useRevokeSession()
+  const { logoutThisDevice } = useLogout()
   const [target, setTarget] = useState<SessionResponse | null>(null)
+  const [isLoggingOutHere, setIsLoggingOutHere] = useState(false)
+  const [isLogoutAllOpen, setIsLogoutAllOpen] = useState(false)
 
   const deviceName = (session: SessionResponse) =>
     session.deviceLabel ?? t('sessions.unknownDevice')
 
-  const confirmRevoke = () => {
+  const confirmRevoke = async () => {
     if (!target) return
+    // This device: same as "Log out" in the account menu (UC-AUTH-03), the app returns to /login
+    if (target.current) {
+      setIsLoggingOutHere(true)
+      await logoutThisDevice()
+      return
+    }
     revoke.mutate(
       { sessionId: target.id },
       {
@@ -74,6 +94,17 @@ export function SessionsCard() {
           <h2 className="font-heading text-base leading-6 font-semibold">{t('sessions.title')}</h2>
         </CardTitle>
         <CardDescription>{t('sessions.description')}</CardDescription>
+        <CardAction>
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-destructive-text hover:text-destructive-text"
+            onClick={() => setIsLogoutAllOpen(true)}
+          >
+            <MonitorSmartphone aria-hidden />
+            {t('menu.logoutAll')}
+          </Button>
+        </CardAction>
       </CardHeader>
       <CardContent>
         {sessions.isPending && <SessionsSkeleton />}
@@ -111,13 +142,20 @@ export function SessionsCard() {
       <ConfirmDialog
         open={target !== null}
         onOpenChange={(open) => !open && setTarget(null)}
-        title={t('sessions.confirmTitle')}
-        description={target ? t('sessions.confirmDescription', { device: deviceName(target) }) : ''}
+        title={target?.current ? t('sessions.confirmThisTitle') : t('sessions.confirmTitle')}
+        description={
+          target?.current
+            ? t('sessions.confirmThisDescription')
+            : target
+              ? t('sessions.confirmDescription', { device: deviceName(target) })
+              : ''
+        }
         confirmLabel={t('sessions.logout')}
         cancelLabel={tCommon('action.cancel')}
         onConfirm={confirmRevoke}
-        isPending={revoke.isPending}
+        isPending={revoke.isPending || isLoggingOutHere}
       />
+      <LogoutAllDialog open={isLogoutAllOpen} onOpenChange={setIsLogoutAllOpen} />
     </Card>
   )
 }
@@ -175,17 +213,19 @@ function SessionRow({ session, name, onLogout }: SessionRowProps) {
           </p>
         </div>
       </div>
-      {!session.current && (
-        <Button
-          size="sm"
-          variant="outline"
-          className="self-end sm:self-center"
-          aria-label={t('sessions.logoutDevice', { device: name })}
-          onClick={onLogout}
-        >
-          {t('sessions.logout')}
-        </Button>
-      )}
+      <Button
+        size="sm"
+        variant="outline"
+        className="self-end sm:self-center"
+        aria-label={
+          session.current
+            ? t('sessions.logoutThisDevice')
+            : t('sessions.logoutDevice', { device: name })
+        }
+        onClick={onLogout}
+      >
+        {t('sessions.logout')}
+      </Button>
     </li>
   )
 }

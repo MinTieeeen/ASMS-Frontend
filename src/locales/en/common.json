@@ -9,11 +9,34 @@
   "nav": {
     "main": "Main navigation",
     "openMenu": "Open menu",
-    "dashboard": "Dashboard",
+    "group": {
+      "workspace": "Workspace",
+      "admin": "Administration",
+      "config": "Configuration"
+    },
+    "home": "Home",
     "groups": "My groups",
-    "profile": "Profile",
-    "admin": "Admin",
+    "tasks": "My tasks",
+    "calendar": "Calendar",
+    "adminOverview": "System overview",
+    "users": "Users",
+    "auditLogs": "Audit log",
+    "schools": "Schools",
+    "holidays": "Holidays",
+    "settings": "Settings",
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "comingSoon": "Soon",
     "logout": "Log out"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage your profile, security and notifications.",
+    "tab": {
+      "profile": "Profile",
+      "security": "Security",
+      "notifications": "Notifications"
+    }
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -58,5 +81,21 @@
     "hoursAgo_other": "{{count}} hours ago",
     "daysAgo_one": "{{count}} day ago",
     "daysAgo_other": "{{count}} days ago"
+  },
+  "search": {
+    "label": "Search",
+    "placeholder": "Search groups, tasks, members…"
+  },
+  "notifications": {
+    "label": "Notifications",
+    "labelUnread": "Notifications, {{count}} unread",
+    "title": "Notifications",
+    "empty": "You have no notifications yet."
+  },
+  "unsaved": {
+    "title": "Leave this page?",
+    "description": "You have unsaved changes. Leave and discard them?",
+    "leave": "Leave",
+    "stay": "Stay"
   }
 }

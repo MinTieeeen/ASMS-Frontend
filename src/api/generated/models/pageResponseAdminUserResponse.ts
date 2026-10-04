@@ -11,6 +11,6 @@ export interface PageResponseAdminUserResponse {
   items: AdminUserResponse[]
   page: number
   size: number
-  totalElements: number
+  totalItems: number
   totalPages: number
 }

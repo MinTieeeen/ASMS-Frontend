@@ -25,6 +25,9 @@ globalThis.ResizeObserver ??= class {
   disconnect() {}
 }
 
+// jsdom has no scrollIntoView; cmdk scrolls the active option into view
+Element.prototype.scrollIntoView ??= () => {}
+
 // jsdom has no matchMedia; the toaster and theme code query it
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

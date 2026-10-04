@@ -10,7 +10,7 @@ import type { ComponentType } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router'
 
 import { LoadingScreen } from '@/components/common'
-import { AppLayout, AuthLayout } from '@/components/layout'
+import { AppLayout, AuthLayout, SettingsLayout } from '@/components/layout'
 import { ROUTES } from '@/config/routes'
 import { AccountMenu, AuthBootstrap } from '@/features/auth'
 
@@ -68,8 +68,23 @@ export const router = createBrowserRouter([
                 lazy: page(() => import('@/features/dashboard/pages/DashboardPage')),
               },
               {
-                path: ROUTES.securitySettings,
-                lazy: page(() => import('@/features/auth/pages/SecuritySettingsPage')),
+                path: ROUTES.userProfile(':userId'),
+                lazy: page(() => import('@/features/profile/pages/UserProfilePage')),
+              },
+              {
+                path: ROUTES.settings,
+                element: <SettingsLayout />,
+                children: [
+                  { index: true, element: <Navigate to={ROUTES.profileSettings} replace /> },
+                  {
+                    path: ROUTES.profileSettings,
+                    lazy: page(() => import('@/features/profile/pages/ProfileSettingsPage')),
+                  },
+                  {
+                    path: ROUTES.securitySettings,
+                    lazy: page(() => import('@/features/auth/pages/SecuritySettingsPage')),
+                  },
+                ],
               },
               {
                 element: <RequireAdmin />,

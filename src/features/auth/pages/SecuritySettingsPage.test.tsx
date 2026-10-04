@@ -125,7 +125,7 @@ describe('SecuritySettingsPage (SCR-AUTH-05)', () => {
   })
 
   describe('devices', () => {
-    it('lists this device first with its badge and the others with a logout button', async () => {
+    it('lists this device first with its badge, every device with its own logout button', async () => {
       renderSecurity()
 
       const list = await screen.findByRole('list', { name: 'Thiết bị đang đăng nhập' })
@@ -133,7 +133,9 @@ describe('SecuritySettingsPage (SCR-AUTH-05)', () => {
       expect(rows).toHaveLength(2)
       expect(within(rows[0]!).getByText('Thiết bị này')).toBeInTheDocument()
       expect(within(rows[0]!).getByText('Đang hoạt động')).toBeInTheDocument()
-      expect(within(rows[0]!).queryByRole('button')).not.toBeInTheDocument()
+      expect(
+        within(rows[0]!).getByRole('button', { name: 'Đăng xuất thiết bị này' }),
+      ).toBeInTheDocument()
       expect(within(rows[1]!).getByText('2 giờ trước')).toBeInTheDocument()
       expect(
         within(rows[1]!).getByRole('button', { name: 'Đăng xuất Safari 17 · iOS 17' }),
@@ -189,6 +191,55 @@ describe('SecuritySettingsPage (SCR-AUTH-05)', () => {
         await screen.findByText('Thiết bị này đã được đăng xuất trước đó.'),
       ).toBeInTheDocument()
       await waitFor(() => expect(screen.queryByText('Safari 17 · iOS 17')).not.toBeInTheDocument())
+    })
+
+    it('logs out this device after confirmation', async () => {
+      let called = false
+      server.use(
+        http.post(apiUrl('/auth/logout'), () => {
+          called = true
+          return new HttpResponse(null, { status: 204 })
+        }),
+      )
+      renderSecurity()
+
+      await userEvent.click(await screen.findByRole('button', { name: 'Đăng xuất thiết bị này' }))
+      const dialog = await screen.findByRole('alertdialog', { name: 'Đăng xuất thiết bị này?' })
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Đăng xuất' }))
+
+      await waitFor(() => expect(useAuthStore.getState().status).toBe('anonymous'))
+      expect(called).toBe(true)
+      expect(useAuthStore.getState().exitPath).toBe('/login')
+    })
+
+    it('A4 (FR-AUTH-11): logs out every device after confirmation and shows MSG-29 on login', async () => {
+      let called = false
+      server.use(
+        http.post(apiUrl('/auth/logout-all'), () => {
+          called = true
+          return new HttpResponse(null, { status: 204 })
+        }),
+      )
+      renderSecurity()
+
+      await userEvent.click(screen.getByRole('button', { name: 'Đăng xuất khỏi mọi thiết bị' }))
+      await userEvent.click(await screen.findByRole('button', { name: 'Đăng xuất tất cả' }))
+
+      await waitFor(() => expect(useAuthStore.getState().status).toBe('anonymous'))
+      expect(called).toBe(true)
+      expect(useAuthStore.getState().exitPath).toBe('/login?msg=logged_out_all')
+    })
+
+    it('keeps the confirmation open with MSG-21 when logging out every device fails', async () => {
+      server.use(http.post(apiUrl('/auth/logout-all'), () => problem(500, 'INTERNAL_ERROR')))
+      renderSecurity()
+
+      await userEvent.click(screen.getByRole('button', { name: 'Đăng xuất khỏi mọi thiết bị' }))
+      await userEvent.click(await screen.findByRole('button', { name: 'Đăng xuất tất cả' }))
+
+      expect(await screen.findByText('Có lỗi xảy ra. Vui lòng thử lại.')).toBeInTheDocument()
+      expect(screen.getByRole('alertdialog')).toBeInTheDocument()
+      expect(useAuthStore.getState().status).toBe('authenticated')
     })
 
     it('offers a retry when the list cannot be loaded', async () => {

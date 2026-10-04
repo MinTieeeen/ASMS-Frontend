@@ -15,9 +15,9 @@ export default function DashboardPage() {
   const { t } = useTranslation()
 
   return (
-    <>
-      <PageHeader title={t('nav.dashboard')} />
+    <div className="flex flex-col gap-4">
+      <PageHeader title={t('nav.home')} />
       <EmptyState icon={LayoutDashboard} title={t('state.empty')} />
-    </>
+    </div>
   )
 }

@@ -1,0 +1,59 @@
+{
+  "description": "Thông tin này hiển thị với các thành viên khác trong nhóm.",
+  "avatar": {
+    "title": "Ảnh đại diện",
+    "hint": "JPEG, PNG hoặc WebP, tối đa 5 MB.",
+    "change": "Đổi ảnh",
+    "remove": "Xóa ảnh",
+    "comingSoon": "Tải ảnh lên sẽ có trong bản cập nhật tới."
+  },
+  "info": {
+    "title": "Thông tin cá nhân",
+    "description": "Email và ID người dùng do quản trị viên quản lý."
+  },
+  "field": {
+    "fullName": "Họ tên",
+    "email": "Email",
+    "emailHint": "Liên hệ quản trị viên nếu cần đổi email.",
+    "userCode": "ID người dùng",
+    "userCodeHint": "Chỉ quản trị viên cập nhật được ID người dùng.",
+    "school": "Trường",
+    "bio": "Giới thiệu",
+    "optional": "(không bắt buộc)",
+    "bioPlaceholder": "Vài dòng về bạn: thế mạnh, vai trò thường đảm nhận trong nhóm…"
+  },
+  "school": {
+    "placeholder": "Chọn trường",
+    "search": "Tìm theo tên hoặc mã trường",
+    "empty": "Không có trường phù hợp.",
+    "footer": "Không thấy trường của bạn? Liên hệ quản trị viên để thêm vào danh sách.",
+    "loadFailed": "Không tải được danh sách trường.",
+    "inactive": "(ngừng sử dụng)",
+    "clear": "Bỏ chọn trường",
+    "label": "Danh sách trường"
+  },
+  "action": {
+    "discard": "Hủy thay đổi",
+    "save": "Lưu",
+    "saving": "Đang lưu…",
+    "reload": "Tải lại",
+    "keepEditing": "Giữ bản đang sửa"
+  },
+  "message": {
+    "saved": "Đã lưu hồ sơ.",
+    "conflictTitle": "Thông tin vừa được cập nhật ở nơi khác.",
+    "conflictDescription": "Tải lại để xem bản mới nhất, hoặc giữ bản bạn đang sửa rồi lưu lại.",
+    "bioTooLong": "Giới thiệu tối đa 300 ký tự và 5 dòng.",
+    "schoolNotAvailable": "Trường bạn chọn không còn trong danh sách. Hãy chọn trường khác.",
+    "loadFailed": "Không tải được dữ liệu.",
+    "loadFailedDescription": "Kiểm tra kết nối rồi thử lại.",
+    "notFound": "Không tìm thấy người dùng."
+  },
+  "card": {
+    "label": "Hồ sơ {{name}}",
+    "noBio": "Chưa có thông tin giới thiệu.",
+    "githubStats": "{{repos}} repo công khai · {{followers}} người theo dõi",
+    "backHome": "Về trang chủ",
+    "openGithub": "Mở hồ sơ GitHub của {{login}}"
+  }
+}

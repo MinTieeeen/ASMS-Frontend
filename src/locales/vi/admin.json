@@ -1,8 +1,6 @@
 {
   "users": {
-    "title": "Quản lý người dùng",
-    "nav": "Người dùng",
-    "navLabel": "Quản trị",
+    "title": "Người dùng",
     "empty": "Chưa có người dùng nào.",
     "loadFailed": "Không tải được danh sách người dùng.",
     "column": {
@@ -26,6 +24,7 @@
     "resendActivation": "Gửi lại email kích hoạt",
     "page": "Trang {{page}} / {{total}}",
     "previous": "Trang trước",
-    "next": "Trang sau"
+    "next": "Trang sau",
+    "count": "{{count}} người dùng"
   }
 }

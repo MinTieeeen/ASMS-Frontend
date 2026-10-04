@@ -29,7 +29,7 @@ const activeUser: AdminUserResponse = {
 }
 
 function page(items: AdminUserResponse[]): PageResponseAdminUserResponse {
-  return { items, page: 0, size: 20, totalElements: items.length, totalPages: 1 }
+  return { items, page: 1, size: 20, totalItems: items.length, totalPages: 1 }
 }
 
 function useUsers(items: AdminUserResponse[]) {

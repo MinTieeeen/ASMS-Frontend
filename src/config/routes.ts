@@ -13,12 +13,20 @@ export const ROUTES = {
   resetPassword: '/reset-password',
   activate: '/activate',
   dashboard: '/dashboard',
-  securitySettings: '/settings/security',
   groups: '/groups',
   groupDetail: (groupId: string) => `/groups/${groupId}`,
-  profile: '/profile',
+  tasks: '/tasks',
+  calendar: '/calendar',
+  settings: '/settings',
+  profileSettings: '/settings/profile',
+  userProfile: (userId: string) => `/users/${userId}`,
+  securitySettings: '/settings/security',
+  notificationSettings: '/settings/notifications',
   admin: '/admin',
   adminUsers: '/admin/users',
+  adminAuditLogs: '/admin/audit-logs',
+  adminSchools: '/admin/settings/schools',
+  adminHolidays: '/admin/settings/holidays',
 } as const
 
 /** Query parameters understood by the login page (Auth screen spec, "Tham số msg trên /login") */

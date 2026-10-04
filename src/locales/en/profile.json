@@ -1,0 +1,59 @@
+{
+  "description": "Other members of your groups see this information.",
+  "avatar": {
+    "title": "Profile photo",
+    "hint": "JPEG, PNG or WebP, up to 5 MB.",
+    "change": "Change photo",
+    "remove": "Remove photo",
+    "comingSoon": "Photo upload comes in the next update."
+  },
+  "info": {
+    "title": "Personal information",
+    "description": "Your email and User ID are managed by administrators."
+  },
+  "field": {
+    "fullName": "Full name",
+    "email": "Email",
+    "emailHint": "Ask an administrator to change your email.",
+    "userCode": "User ID",
+    "userCodeHint": "Only administrators can change your User ID.",
+    "school": "School",
+    "bio": "About",
+    "optional": "(optional)",
+    "bioPlaceholder": "A few lines about you: strengths, the role you usually take in a group…"
+  },
+  "school": {
+    "placeholder": "Choose a school",
+    "search": "Search by name or code",
+    "empty": "No matching school.",
+    "footer": "Can't find your school? Ask an administrator to add it.",
+    "loadFailed": "Could not load the schools.",
+    "inactive": "(no longer in use)",
+    "clear": "Clear school",
+    "label": "Schools"
+  },
+  "action": {
+    "discard": "Discard changes",
+    "save": "Save",
+    "saving": "Saving…",
+    "reload": "Reload",
+    "keepEditing": "Keep my edits"
+  },
+  "message": {
+    "saved": "Profile saved.",
+    "conflictTitle": "This information was just updated somewhere else.",
+    "conflictDescription": "Reload to see the latest version, or keep your edits and save again.",
+    "bioTooLong": "About can be at most 300 characters and 5 lines.",
+    "schoolNotAvailable": "The school you chose is no longer available. Please choose another one.",
+    "loadFailed": "Could not load the data.",
+    "loadFailedDescription": "Check your connection and try again.",
+    "notFound": "User not found."
+  },
+  "card": {
+    "label": "Profile of {{name}}",
+    "noBio": "No introduction yet.",
+    "githubStats": "{{repos}} public repos · {{followers}} followers",
+    "backHome": "Back to home",
+    "openGithub": "Open the GitHub profile of {{login}}"
+  }
+}

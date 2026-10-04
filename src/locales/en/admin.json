@@ -1,8 +1,6 @@
 {
   "users": {
-    "title": "User management",
-    "nav": "Users",
-    "navLabel": "Admin",
+    "title": "Users",
     "empty": "No users yet.",
     "loadFailed": "Could not load the users.",
     "column": {
@@ -26,6 +24,8 @@
     "resendActivation": "Resend activation email",
     "page": "Page {{page}} of {{total}}",
     "previous": "Previous page",
-    "next": "Next page"
+    "next": "Next page",
+    "count_one": "{{count}} user",
+    "count_other": "{{count}} users"
   }
 }

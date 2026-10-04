@@ -9,11 +9,34 @@
   "nav": {
     "main": "Điều hướng chính",
     "openMenu": "Mở menu",
-    "dashboard": "Tổng quan",
+    "group": {
+      "workspace": "Không gian làm việc",
+      "admin": "Quản trị",
+      "config": "Cấu hình"
+    },
+    "home": "Trang chủ",
     "groups": "Nhóm của tôi",
-    "profile": "Hồ sơ",
-    "admin": "Quản trị",
+    "tasks": "Công việc của tôi",
+    "calendar": "Lịch",
+    "adminOverview": "Tổng quan hệ thống",
+    "users": "Người dùng",
+    "auditLogs": "Nhật ký quản trị",
+    "schools": "Trường",
+    "holidays": "Ngày nghỉ lễ",
+    "settings": "Cài đặt",
+    "collapse": "Thu gọn",
+    "expand": "Mở rộng",
+    "comingSoon": "Sắp có",
     "logout": "Đăng xuất"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "description": "Quản lý hồ sơ, bảo mật và thông báo của bạn.",
+    "tab": {
+      "profile": "Hồ sơ",
+      "security": "Bảo mật",
+      "notifications": "Thông báo"
+    }
   },
   "theme": {
     "toggle": "Đổi giao diện",
@@ -55,5 +78,21 @@
     "minutesAgo": "{{count}} phút trước",
     "hoursAgo": "{{count}} giờ trước",
     "daysAgo": "{{count}} ngày trước"
+  },
+  "search": {
+    "label": "Tìm kiếm",
+    "placeholder": "Tìm nhóm, công việc, thành viên…"
+  },
+  "notifications": {
+    "label": "Thông báo",
+    "labelUnread": "Thông báo, {{count}} chưa đọc",
+    "title": "Thông báo",
+    "empty": "Bạn chưa có thông báo nào."
+  },
+  "unsaved": {
+    "title": "Rời trang?",
+    "description": "Bạn có thay đổi chưa lưu. Rời trang và bỏ các thay đổi?",
+    "leave": "Rời trang",
+    "stay": "Ở lại"
   }
 }

@@ -1,4 +1,5 @@
 export { AppLayout } from './AppLayout'
 export { AuthLayout } from './AuthLayout'
-export type { NavItem } from './nav-items'
-export { NAV_ITEMS } from './nav-items'
+export type { NavGroup, NavItem } from './nav-items'
+export { NAV_GROUPS, SETTINGS_NAV_ITEM } from './nav-items'
+export { SettingsLayout } from './SettingsLayout'
