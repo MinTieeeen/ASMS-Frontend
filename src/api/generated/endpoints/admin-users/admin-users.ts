@@ -23,12 +23,16 @@ import type {
 
 import type {
   ActivationEmailResponse,
+  AdminUpdateUserRequest,
   AdminUserDetailResponse,
   AdminUserResponse,
+  AdminUserSummaryResponse,
   CreateUserRequest,
   CursorResponseAuthEventItemResponse,
   ListUserAuthEventsParams,
   ListUsersParams,
+  LockUserRequest,
+  LogoutAllResponse,
   PageResponseAdminUserSummaryResponse,
 } from '../../models'
 
@@ -257,6 +261,252 @@ export const useCreateUser = <TError = ErrorType<AdminUserResponse>, TContext = 
   return useMutation(getCreateUserMutationOptions(options), queryClient)
 }
 /**
+ * @summary Unlock an account (API-USER-12)
+ */
+export const unlockUser = (
+  userId: string,
+  options?: SecondParameter<typeof httpClient>,
+  signal?: AbortSignal,
+) => {
+  return httpClient<AdminUserSummaryResponse>(
+    { url: `/api/v1/admin/users/${userId}/unlock`, method: 'POST', signal },
+    options,
+  )
+}
+
+export const getUnlockUserMutationKey = () => ['unlockUser'] as const
+
+export const getUnlockUserMutationOptions = <
+  TError = ErrorType<AdminUserSummaryResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof unlockUser>>,
+    TError,
+    UnlockUserMutationVariables,
+    TContext
+  >
+  request?: SecondParameter<typeof httpClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof unlockUser>>,
+  TError,
+  UnlockUserMutationVariables,
+  TContext
+> => {
+  const mutationKey = getUnlockUserMutationKey()
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof unlockUser>>,
+    UnlockUserMutationVariables
+  > = (props) => {
+    const { userId } = props ?? {}
+
+    return unlockUser(userId, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UnlockUserMutationResult = NonNullable<Awaited<ReturnType<typeof unlockUser>>>
+
+export type UnlockUserMutationError = ErrorType<AdminUserSummaryResponse>
+export type UnlockUserMutationVariables = { userId: string }
+
+/**
+ * @summary Unlock an account (API-USER-12)
+ */
+export const useUnlockUser = <TError = ErrorType<AdminUserSummaryResponse>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof unlockUser>>,
+      TError,
+      UnlockUserMutationVariables,
+      TContext
+    >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof unlockUser>>,
+  TError,
+  UnlockUserMutationVariables,
+  TContext
+> => {
+  return useMutation(getUnlockUserMutationOptions(options), queryClient)
+}
+/**
+ * @summary Sign a user out of every device (API-USER-13)
+ */
+export const logoutUserEverywhere = (
+  userId: string,
+  options?: SecondParameter<typeof httpClient>,
+  signal?: AbortSignal,
+) => {
+  return httpClient<LogoutAllResponse>(
+    { url: `/api/v1/admin/users/${userId}/logout-all`, method: 'POST', signal },
+    options,
+  )
+}
+
+export const getLogoutUserEverywhereMutationKey = () => ['logoutUserEverywhere'] as const
+
+export const getLogoutUserEverywhereMutationOptions = <
+  TError = ErrorType<LogoutAllResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof logoutUserEverywhere>>,
+    TError,
+    LogoutUserEverywhereMutationVariables,
+    TContext
+  >
+  request?: SecondParameter<typeof httpClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof logoutUserEverywhere>>,
+  TError,
+  LogoutUserEverywhereMutationVariables,
+  TContext
+> => {
+  const mutationKey = getLogoutUserEverywhereMutationKey()
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof logoutUserEverywhere>>,
+    LogoutUserEverywhereMutationVariables
+  > = (props) => {
+    const { userId } = props ?? {}
+
+    return logoutUserEverywhere(userId, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type LogoutUserEverywhereMutationResult = NonNullable<
+  Awaited<ReturnType<typeof logoutUserEverywhere>>
+>
+
+export type LogoutUserEverywhereMutationError = ErrorType<LogoutAllResponse>
+export type LogoutUserEverywhereMutationVariables = { userId: string }
+
+/**
+ * @summary Sign a user out of every device (API-USER-13)
+ */
+export const useLogoutUserEverywhere = <TError = ErrorType<LogoutAllResponse>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof logoutUserEverywhere>>,
+      TError,
+      LogoutUserEverywhereMutationVariables,
+      TContext
+    >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof logoutUserEverywhere>>,
+  TError,
+  LogoutUserEverywhereMutationVariables,
+  TContext
+> => {
+  return useMutation(getLogoutUserEverywhereMutationOptions(options), queryClient)
+}
+/**
+ * @summary Lock an account with a reason emailed to the user (API-USER-11)
+ */
+export const lockUser = (
+  userId: string,
+  lockUserRequest: BodyType<LockUserRequest>,
+  options?: SecondParameter<typeof httpClient>,
+  signal?: AbortSignal,
+) => {
+  return httpClient<AdminUserSummaryResponse>(
+    {
+      url: `/api/v1/admin/users/${userId}/lock`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: lockUserRequest,
+      signal,
+    },
+    options,
+  )
+}
+
+export const getLockUserMutationKey = () => ['lockUser'] as const
+
+export const getLockUserMutationOptions = <
+  TError = ErrorType<AdminUserSummaryResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof lockUser>>,
+    TError,
+    LockUserMutationVariables,
+    TContext
+  >
+  request?: SecondParameter<typeof httpClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof lockUser>>,
+  TError,
+  LockUserMutationVariables,
+  TContext
+> => {
+  const mutationKey = getLockUserMutationKey()
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof lockUser>>,
+    LockUserMutationVariables
+  > = (props) => {
+    const { userId, data } = props ?? {}
+
+    return lockUser(userId, data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type LockUserMutationResult = NonNullable<Awaited<ReturnType<typeof lockUser>>>
+export type LockUserMutationBody = BodyType<LockUserRequest>
+export type LockUserMutationError = ErrorType<AdminUserSummaryResponse>
+export type LockUserMutationVariables = { userId: string; data: BodyType<LockUserRequest> }
+
+/**
+ * @summary Lock an account with a reason emailed to the user (API-USER-11)
+ */
+export const useLockUser = <TError = ErrorType<AdminUserSummaryResponse>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof lockUser>>,
+      TError,
+      LockUserMutationVariables,
+      TContext
+    >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof lockUser>>,
+  TError,
+  LockUserMutationVariables,
+  TContext
+> => {
+  return useMutation(getLockUserMutationOptions(options), queryClient)
+}
+/**
  * @summary Send the activation email again
  */
 export const resendActivationEmail = (
@@ -461,6 +711,96 @@ export function useGetAdminUser<
   return withQueryKey(query, queryOptions.queryKey)
 }
 
+/**
+ * Send only the changed fields and the version read; a new email gets a new activation link
+ * @summary Edit full name, user ID, school, and email while pending (API-USER-09)
+ */
+export const updateAdminUser = (
+  userId: string,
+  adminUpdateUserRequest: BodyType<AdminUpdateUserRequest>,
+  options?: SecondParameter<typeof httpClient>,
+  signal?: AbortSignal,
+) => {
+  return httpClient<AdminUserDetailResponse>(
+    {
+      url: `/api/v1/admin/users/${userId}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: adminUpdateUserRequest,
+      signal,
+    },
+    options,
+  )
+}
+
+export const getUpdateAdminUserMutationKey = () => ['updateAdminUser'] as const
+
+export const getUpdateAdminUserMutationOptions = <
+  TError = ErrorType<AdminUserDetailResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateAdminUser>>,
+    TError,
+    UpdateAdminUserMutationVariables,
+    TContext
+  >
+  request?: SecondParameter<typeof httpClient>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateAdminUser>>,
+  TError,
+  UpdateAdminUserMutationVariables,
+  TContext
+> => {
+  const mutationKey = getUpdateAdminUserMutationKey()
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateAdminUser>>,
+    UpdateAdminUserMutationVariables
+  > = (props) => {
+    const { userId, data } = props ?? {}
+
+    return updateAdminUser(userId, data, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UpdateAdminUserMutationResult = NonNullable<Awaited<ReturnType<typeof updateAdminUser>>>
+export type UpdateAdminUserMutationBody = BodyType<AdminUpdateUserRequest>
+export type UpdateAdminUserMutationError = ErrorType<AdminUserDetailResponse>
+export type UpdateAdminUserMutationVariables = {
+  userId: string
+  data: BodyType<AdminUpdateUserRequest>
+}
+
+/**
+ * @summary Edit full name, user ID, school, and email while pending (API-USER-09)
+ */
+export const useUpdateAdminUser = <TError = ErrorType<AdminUserDetailResponse>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateAdminUser>>,
+      TError,
+      UpdateAdminUserMutationVariables,
+      TContext
+    >
+    request?: SecondParameter<typeof httpClient>
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateAdminUser>>,
+  TError,
+  UpdateAdminUserMutationVariables,
+  TContext
+> => {
+  return useMutation(getUpdateAdminUserMutationOptions(options), queryClient)
+}
 /**
  * @summary Sign-in events of a user, newest first (API-USER-14)
  */

@@ -1,10 +1,10 @@
 /**
  * @file User management, SCR-USER-04 (UC-USER-04; API-USER-07, API-AUTH-12, 13): search, filters, sort and paging in
- *   the URL; table on desktop, cards below 768 px. Lock and unlock come with SCR-USER-06.
+ *   the URL; table on desktop, cards below 768 px. Lock and unlock open the SCR-USER-06 dialogs.
  * @author MinhTien
- * @version 2.0.0
+ * @version 2.1.0
  * @since 2026-09-29
- * @modified 2026-10-04
+ * @modified 2026-10-05
  */
 
 import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
@@ -15,6 +15,8 @@ import {
   CircleAlert,
   Ellipsis,
   Eye,
+  Lock,
+  LockOpen,
   Mail,
   Plus,
   RotateCw,
@@ -56,6 +58,7 @@ import { cn } from '@/lib/utils'
 import { selectUser, useAuthStore } from '@/stores/auth.store'
 import { formatDate } from '@/utils/date'
 
+import { UserActionDialog, type UserActionTarget } from '../components/UserActionDialog'
 import { RoleBadge, StatusBadge, YouBadge } from '../components/UserBadges'
 import { UserFilters } from '../components/UserFilters'
 import { useResendActivation } from '../hooks/useResendActivation'
@@ -77,6 +80,7 @@ export default function AdminUsersPage() {
   const isMobile = useIsMobile()
   const currentUserId = useAuthStore(selectUser)?.id
   const [isCreateOpen, setIsCreateOpen] = useState(false)
+  const [actionTarget, setActionTarget] = useState<UserActionTarget | null>(null)
   const { state, request, hasFilters, update, search } = useUserListParams()
   // The previous page stays on screen, dimmed, while the next one loads
   const users = useListUsers(request, { query: { placeholderData: keepPreviousData } })
@@ -97,8 +101,12 @@ export default function AdminUsersPage() {
   const rowActions = (user: AdminUserSummaryResponse) => (
     <RowActions
       user={user}
+      isSelf={user.id === currentUserId}
       onView={() => openDetail(user.id)}
       onResend={() => resendActivation(user)}
+      onLockToggle={() =>
+        setActionTarget({ action: user.status === 'LOCKED' ? 'unlock' : 'lock', user })
+      }
     />
   )
 
@@ -312,6 +320,7 @@ export default function AdminUsersPage() {
       )}
 
       <CreateUserDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onCreated={onCreated} />
+      <UserActionDialog target={actionTarget} onClose={() => setActionTarget(null)} />
     </div>
   )
 }
@@ -348,13 +357,16 @@ function SortableHead({ field, label, state, onSort }: SortableHeadProps) {
 
 interface RowActionsProps {
   user: AdminUserSummaryResponse
+  /** The Admin's own row: lock is disabled with MSG-55 (BR-USER-09) */
+  isSelf: boolean
   onView: () => void
   onResend: () => void
+  onLockToggle: () => void
 }
 
-// TODO(M2 step 6): lock / unlock (SCR-USER-06), disabled on the Admin's own row with MSG-55
-function RowActions({ user, onView, onResend }: RowActionsProps) {
+function RowActions({ user, isSelf, onView, onResend, onLockToggle }: RowActionsProps) {
   const { t } = useTranslation('admin')
+  const isLocked = user.status === 'LOCKED'
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -375,6 +387,27 @@ function RowActions({ user, onView, onResend }: RowActionsProps) {
           <DropdownMenuItem onSelect={onResend}>
             <Mail aria-hidden />
             {t('users.resendActivation')}
+          </DropdownMenuItem>
+        )}
+        {isLocked ? (
+          <DropdownMenuItem onSelect={onLockToggle}>
+            <LockOpen aria-hidden />
+            {t('action.unlock')}
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem
+            variant="destructive"
+            disabled={isSelf}
+            onSelect={onLockToggle}
+            className="flex-wrap"
+          >
+            <Lock aria-hidden />
+            {t('action.lock')}
+            {isSelf && (
+              <span className="basis-full pl-6 text-xs text-muted-foreground">
+                {t('message.selfAction')}
+              </span>
+            )}
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

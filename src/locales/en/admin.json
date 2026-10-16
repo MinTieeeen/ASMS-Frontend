@@ -114,5 +114,66 @@
     "auditComingSoon": "Admin history comes in the next update.",
     "loadFailed": "Couldn't load this user.",
     "eventsLoadFailed": "Couldn't load sign-in activity."
+  },
+  "action": {
+    "edit": "Edit",
+    "lock": "Lock account",
+    "unlock": "Unlock",
+    "logoutAll": "Sign out everywhere",
+    "more": "Actions",
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "reload": "Reload",
+    "keepEditing": "Keep my edits"
+  },
+  "edit": {
+    "emailPendingHint": "A new activation link will be sent to this email.",
+    "emailLockedHint": "The email can only change while the account is pending activation.",
+    "userCodeHint": "Letters and digits, at most 20; stored uppercase."
+  },
+  "message": {
+    "saved": "User saved.",
+    "savedEmail": "Saved, and a new activation link was sent to {{email}}.",
+    "conflictTitle": "This user changed",
+    "conflictDescription": "The information was just updated elsewhere. Reload to see the latest version, or keep your edits and save again.",
+    "emailChangeNotAllowed": "The email can only change while the account is pending activation.",
+    "schoolNotAvailable": "This school is no longer available. Pick another one.",
+    "selfAction": "You can't do this to your own account.",
+    "lastAdmin": "The system needs at least one active administrator.",
+    "locked": "{{name}} was locked and notified by email.",
+    "unlocked": "{{name}} was unlocked.",
+    "unlockedPending": "Unlocked. The account isn't activated yet; send the activation email to {{name}} again.",
+    "alreadyLocked": "The account was already locked.",
+    "notLocked": "The account isn't locked.",
+    "reasonLength": "The reason must be 10 to 500 characters.",
+    "loggedOut_one": "{{name}} was signed out of {{count}} device.",
+    "loggedOut_other": "{{name}} was signed out of {{count}} devices.",
+    "discardTitle": "Discard changes?",
+    "discardDescription": "You have unsaved changes. Leave and discard them?",
+    "discard": "Discard",
+    "keep": "Keep editing"
+  },
+  "dialog": {
+    "lock": {
+      "title": "Lock account",
+      "description": "This person is signed out right away and can't sign in until unlocked. The reason below is emailed to them.",
+      "reason": "Reason",
+      "reasonPlaceholder": "E.g. Shared the account with someone outside the group.",
+      "confirm": "Lock account"
+    },
+    "unlock": {
+      "title": "Unlock account",
+      "descriptionActive": "{{name}} can sign in again right away.",
+      "descriptionPending": "The account isn't activated. After unlocking, send the activation email again.",
+      "confirm": "Unlock"
+    },
+    "logout": {
+      "title": "Sign out everywhere",
+      "description_one": "{{count}} active session will be revoked. They must sign in again.",
+      "description_other": "{{count}} active sessions will be revoked. They must sign in again.",
+      "confirm": "Sign out"
+    },
+    "cancel": "Cancel"
   }
 }

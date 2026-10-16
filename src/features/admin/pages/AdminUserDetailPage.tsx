@@ -1,15 +1,27 @@
 /**
- * @file User detail, SCR-USER-05 (UC-USER-05; API-USER-08, API-USER-14), read-only for now: header, locked banner,
- *   tabs Info | Sign-in activity | Admin history kept in `?tab=`. Editing and lock / unlock come with SCR-USER-06.
+ * @file User detail, SCR-USER-05 (UC-USER-05, 06, 08, 09; API-USER-08, 09, 14): header, action bar (edit, lock /
+ *   unlock, sign out everywhere, resend activation), locked banner, tabs Info | Sign-in activity | Admin history kept
+ *   in `?tab=`. The actions open the SCR-USER-06 dialogs.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-10-04
- * @modified 2026-10-04
+ * @modified 2026-10-05
  */
 
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
-import { ChevronLeft, CircleAlert, Lock, Mail, RotateCw, UserX } from 'lucide-react'
-import type { ReactNode } from 'react'
+import {
+  ChevronDown,
+  ChevronLeft,
+  CircleAlert,
+  Lock,
+  LockOpen,
+  LogOut,
+  Mail,
+  Pencil,
+  RotateCw,
+  UserX,
+} from 'lucide-react'
+import { type ReactNode, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router'
 
@@ -26,6 +38,12 @@ import { EmptyState, RelativeTime, UserAvatar } from '@/components/common'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
@@ -36,11 +54,18 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { ROUTES } from '@/config/routes'
 import { selectUser, useAuthStore } from '@/stores/auth.store'
 import { formatDate, formatDateTime } from '@/utils/date'
 
+import {
+  type UserAction,
+  UserActionDialog,
+  type UserActionTarget,
+} from '../components/UserActionDialog'
 import { RoleBadge, StatusBadge, YouBadge } from '../components/UserBadges'
+import { UserEditForm } from '../components/UserEditForm'
 import { useResendActivation } from '../hooks/useResendActivation'
 
 const TABS = ['info', 'auth-events', 'audit'] as const
@@ -56,6 +81,8 @@ export default function AdminUserDetailPage() {
   const queryClient = useQueryClient()
   const currentUserId = useAuthStore(selectUser)?.id
   const user = useGetAdminUser(userId)
+  const [isEditing, setIsEditing] = useState(false)
+  const [actionTarget, setActionTarget] = useState<UserActionTarget | null>(null)
 
   // Back to the list with the search, filters and page the Admin left it with
   const listSearch = (location.state as { listSearch?: string } | null)?.listSearch
@@ -159,13 +186,18 @@ export default function AdminUserDetailPage() {
             </div>
           </div>
         </div>
-        {/* TODO(M2 step 6): edit, lock / unlock, sign out everywhere (SCR-USER-06) */}
-        {data.status === 'PENDING_ACTIVATION' && (
-          <Button variant="outline" disabled={isResending} onClick={() => resendActivation(data)}>
-            <Mail aria-hidden />
-            {t('users.resendActivation')}
-          </Button>
-        )}
+        <DetailActions
+          user={data}
+          isSelf={data.id === currentUserId}
+          isEditing={isEditing}
+          isResending={isResending}
+          onEdit={() => {
+            changeTab('info')
+            setIsEditing(true)
+          }}
+          onAction={(action) => setActionTarget({ action, user: data })}
+          onResend={() => resendActivation(data)}
+        />
       </header>
 
       {data.status === 'LOCKED' && <LockedBanner user={data} />}
@@ -177,7 +209,7 @@ export default function AdminUserDetailPage() {
           <TabsTrigger value="audit">{t('detail.tab.audit')}</TabsTrigger>
         </TabsList>
         <TabsContent value="info" className="mt-2">
-          <InfoTab user={data} />
+          <InfoTab user={data} isEditing={isEditing} onEditDone={() => setIsEditing(false)} />
         </TabsContent>
         <TabsContent value="auth-events" className="mt-2">
           <AuthEventsTab userId={data.id} />
@@ -187,7 +219,132 @@ export default function AdminUserDetailPage() {
           <EmptyState title={t('detail.auditComingSoon')} />
         </TabsContent>
       </Tabs>
+
+      <UserActionDialog target={actionTarget} onClose={() => setActionTarget(null)} />
     </div>
+  )
+}
+
+interface DetailActionsProps {
+  user: AdminUserDetailResponse
+  isSelf: boolean
+  isEditing: boolean
+  isResending: boolean
+  onEdit: () => void
+  onAction: (action: UserAction) => void
+  onResend: () => void
+}
+
+/**
+ * SCR-USER-05 (3): a button group from 1024 px, an "Actions" menu below. Lock and sign out are disabled on the Admin's
+ * own account, with MSG-55 as a tooltip (BR-USER-09).
+ */
+function DetailActions({
+  user,
+  isSelf,
+  isEditing,
+  isResending,
+  onEdit,
+  onAction,
+  onResend,
+}: DetailActionsProps) {
+  const { t } = useTranslation('admin')
+  const isLocked = user.status === 'LOCKED'
+  const isPending = user.status === 'PENDING_ACTIVATION'
+  const lockAction: UserAction = isLocked ? 'unlock' : 'lock'
+  const LockIcon = isLocked ? LockOpen : Lock
+  const lockDisabled = isSelf && !isLocked
+
+  /**
+   * A disabled button gets no pointer or focus events, so it could not show its tooltip: on the Admin's own account the
+   * button stays focusable, is marked aria-disabled and does nothing.
+   */
+  const selfDisabled = (label: string, icon: ReactNode, variant: 'outline' | 'destructive') => (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant={variant} aria-disabled className="cursor-not-allowed opacity-50">
+          {icon}
+          {label}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{t('message.selfAction')}</TooltipContent>
+    </Tooltip>
+  )
+
+  return (
+    <>
+      <div className="hidden flex-wrap items-center gap-2 lg:flex">
+        <Button variant="outline" onClick={onEdit} disabled={isEditing}>
+          <Pencil aria-hidden />
+          {t('action.edit')}
+        </Button>
+        {isPending && (
+          <Button variant="outline" disabled={isResending} onClick={onResend}>
+            <Mail aria-hidden />
+            {t('users.resendActivation')}
+          </Button>
+        )}
+        {isSelf ? (
+          selfDisabled(t('action.logoutAll'), <LogOut aria-hidden />, 'outline')
+        ) : (
+          <Button variant="outline" onClick={() => onAction('logout')}>
+            <LogOut aria-hidden />
+            {t('action.logoutAll')}
+          </Button>
+        )}
+        {lockDisabled ? (
+          selfDisabled(t('action.lock'), <Lock aria-hidden />, 'destructive')
+        ) : (
+          <Button
+            variant={isLocked ? 'default' : 'destructive'}
+            onClick={() => onAction(lockAction)}
+          >
+            <LockIcon aria-hidden />
+            {t(`action.${lockAction}`)}
+          </Button>
+        )}
+      </div>
+
+      <div className="lg:hidden">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+              {t('action.more')}
+              <ChevronDown className="opacity-60" aria-hidden />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onSelect={onEdit} disabled={isEditing}>
+              <Pencil aria-hidden />
+              {t('action.edit')}
+            </DropdownMenuItem>
+            {isPending && (
+              <DropdownMenuItem onSelect={onResend} disabled={isResending}>
+                <Mail aria-hidden />
+                {t('users.resendActivation')}
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem onSelect={() => onAction('logout')} disabled={isSelf}>
+              <LogOut aria-hidden />
+              {t('action.logoutAll')}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              variant={isLocked ? 'default' : 'destructive'}
+              onSelect={() => onAction(lockAction)}
+              disabled={lockDisabled}
+            >
+              <LockIcon aria-hidden />
+              {t(`action.${lockAction}`)}
+            </DropdownMenuItem>
+            {isSelf && (
+              <p className="max-w-60 px-2 py-1.5 text-xs text-muted-foreground">
+                {t('message.selfAction')}
+              </p>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </>
   )
 }
 
@@ -220,7 +377,13 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
   )
 }
 
-function InfoTab({ user }: { user: AdminUserDetailResponse }) {
+interface InfoTabProps {
+  user: AdminUserDetailResponse
+  isEditing: boolean
+  onEditDone: () => void
+}
+
+function InfoTab({ user, isEditing, onEditDone }: InfoTabProps) {
   const { t } = useTranslation('admin')
   const empty = <span className="text-muted-foreground">{t('detail.empty')}</span>
   return (
@@ -229,14 +392,19 @@ function InfoTab({ user }: { user: AdminUserDetailResponse }) {
         <CardHeader>
           <CardTitle className="text-base">{t('detail.profile')}</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col gap-2">
+          {isEditing && <UserEditForm user={user} onDone={onEditDone} />}
           <dl className="divide-y">
-            <Field label={t('users.column.fullName')}>{user.fullName}</Field>
-            <Field label={t('users.column.email')}>{user.email}</Field>
-            <Field label={t('users.column.userCode')}>
-              <span className="font-mono">{user.userCode}</span>
-            </Field>
-            <Field label={t('detail.school')}>{user.school?.name ?? empty}</Field>
+            {!isEditing && (
+              <>
+                <Field label={t('users.column.fullName')}>{user.fullName}</Field>
+                <Field label={t('users.column.email')}>{user.email}</Field>
+                <Field label={t('users.column.userCode')}>
+                  <span className="font-mono">{user.userCode}</span>
+                </Field>
+                <Field label={t('detail.school')}>{user.school?.name ?? empty}</Field>
+              </>
+            )}
             <Field label={t('detail.github')}>
               {user.github ? (
                 <span className="flex flex-col">

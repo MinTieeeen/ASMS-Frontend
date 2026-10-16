@@ -3,7 +3,7 @@
  * @author MinhTien
  * @version 1.1.0
  * @since 2026-09-26
- * @modified 2026-09-29
+ * @modified 2026-10-05
  */
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -12,6 +12,7 @@ import type { ReactElement, ReactNode } from 'react'
 import { createMemoryRouter, MemoryRouter, RouterProvider } from 'react-router'
 
 import { Toaster } from '@/components/ui/sonner'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 interface Options extends Omit<RenderOptions, 'wrapper'> {
   route?: string
@@ -30,7 +31,9 @@ export function renderWithProviders(ui: ReactElement, { route = '/', ...options 
   function Wrapper({ children }: { children: ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
+        <TooltipProvider>
+          <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
+        </TooltipProvider>
       </QueryClientProvider>
     )
   }
@@ -56,7 +59,9 @@ export function renderPage(
   )
   const utils = render(
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <TooltipProvider>
+        <RouterProvider router={router} />
+      </TooltipProvider>
       <Toaster />
     </QueryClientProvider>,
   )

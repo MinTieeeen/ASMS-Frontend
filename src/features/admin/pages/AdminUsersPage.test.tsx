@@ -219,4 +219,123 @@ describe('AdminUsersPage', () => {
 
     expect(await screen.findByRole('dialog', { name: 'Tạo tài khoản' })).toBeInTheDocument()
   })
+
+  describe('SCR-USER-06 from the list', () => {
+    const REASON = 'Chia sẻ tài khoản cho người ngoài nhóm.'
+
+    async function openLock(name: string) {
+      await userEvent.click(
+        within(await openRowActions(name)).getByRole('menuitem', { name: 'Khóa tài khoản' }),
+      )
+      return screen.findByRole('dialog', { name: 'Khóa tài khoản' })
+    }
+
+    it("MSG-55: the Admin's own row cannot be locked", async () => {
+      useUsers([{ ...activeUser, id: testUser.id, fullName: 'Tôi' }])
+      renderUsers()
+
+      const menu = await openRowActions('Tôi')
+
+      expect(within(menu).getByRole('menuitem', { name: /Khóa tài khoản/ })).toHaveAttribute(
+        'aria-disabled',
+        'true',
+      )
+      expect(
+        within(menu).getByText('Không thể thực hiện thao tác này với tài khoản của chính bạn.'),
+      ).toBeInTheDocument()
+    })
+
+    it('MSG-63, then MSG-58: locks with a trimmed reason of 10-500 characters', async () => {
+      useUsers([activeUser])
+      let body: unknown
+      server.use(
+        http.post(apiUrl('/admin/users/:userId/lock'), async ({ request }) => {
+          body = await request.json()
+          return HttpResponse.json({ ...activeUser, status: 'LOCKED' })
+        }),
+      )
+      renderUsers()
+      const dialog = await openLock('Lê Văn C')
+      const reason = within(dialog).getByRole('textbox', { name: 'Lý do' })
+      const confirm = within(dialog).getByRole('button', { name: 'Khóa tài khoản' })
+      expect(confirm).toBeDisabled()
+
+      await userEvent.type(reason, 'quá ngắn')
+      await userEvent.click(confirm)
+      expect(within(dialog).getByText('Lý do phải từ 10 đến 500 ký tự.')).toBeInTheDocument()
+
+      await userEvent.clear(reason)
+      await userEvent.type(reason, `  ${REASON}  `)
+      await userEvent.click(confirm)
+
+      expect(
+        await screen.findByText('Đã khóa tài khoản Lê Văn C và gửi email thông báo.'),
+      ).toBeInTheDocument()
+      expect(body).toEqual({ reason: REASON })
+      await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+    })
+
+    it('MSG-56: the last active Admin stays, the dialog shows why', async () => {
+      useUsers([activeUser])
+      server.use(
+        http.post(apiUrl('/admin/users/:userId/lock'), () => problem(409, 'USER_LAST_ADMIN')),
+      )
+      renderUsers()
+      const dialog = await openLock('Lê Văn C')
+
+      await userEvent.type(within(dialog).getByRole('textbox', { name: 'Lý do' }), REASON)
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Khóa tài khoản' }))
+
+      expect(
+        await within(dialog).findByText('Hệ thống cần ít nhất một quản trị viên đang hoạt động.'),
+      ).toBeInTheDocument()
+    })
+
+    it('MSG-61: an account locked meanwhile closes the dialog and reloads', async () => {
+      useUsers([activeUser])
+      server.use(
+        http.post(apiUrl('/admin/users/:userId/lock'), () => problem(409, 'USER_ALREADY_LOCKED')),
+      )
+      renderUsers()
+      const dialog = await openLock('Lê Văn C')
+      useUsers([{ ...activeUser, status: 'LOCKED' }])
+
+      await userEvent.type(within(dialog).getByRole('textbox', { name: 'Lý do' }), REASON)
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Khóa tài khoản' }))
+
+      expect(await screen.findByText('Tài khoản đã bị khóa trước đó.')).toBeInTheDocument()
+      await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+      expect(await screen.findByText('Đã khóa')).toBeInTheDocument()
+    })
+
+    it('MSG-60: unlocking a never-activated account reminds to resend the email', async () => {
+      useUsers([{ ...pendingUser, status: 'LOCKED' }])
+      server.use(
+        http.get(apiUrl('/admin/users/:userId'), () =>
+          HttpResponse.json({ ...pendingUser, status: 'LOCKED', activeSessionCount: 0 }),
+        ),
+        http.post(apiUrl('/admin/users/:userId/unlock'), () =>
+          HttpResponse.json({ ...pendingUser, status: 'PENDING_ACTIVATION' }),
+        ),
+      )
+      renderUsers()
+
+      await userEvent.click(
+        within(await openRowActions('Trần Thị B')).getByRole('menuitem', { name: 'Mở khóa' }),
+      )
+      const dialog = await screen.findByRole('dialog', { name: 'Mở khóa tài khoản' })
+      expect(
+        await within(dialog).findByText(
+          'Tài khoản chưa kích hoạt. Sau khi mở khóa, hãy gửi lại email kích hoạt.',
+        ),
+      ).toBeInTheDocument()
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Mở khóa' }))
+
+      expect(
+        await screen.findByText(
+          'Đã mở khóa. Tài khoản chưa kích hoạt, hãy gửi lại email kích hoạt cho Trần Thị B.',
+        ),
+      ).toBeInTheDocument()
+    })
+  })
 })

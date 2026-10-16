@@ -113,5 +113,66 @@
     "auditComingSoon": "Lịch sử quản trị sẽ có trong bản cập nhật tới.",
     "loadFailed": "Không tải được thông tin người dùng.",
     "eventsLoadFailed": "Không tải được hoạt động đăng nhập."
+  },
+  "action": {
+    "edit": "Sửa thông tin",
+    "lock": "Khóa tài khoản",
+    "unlock": "Mở khóa",
+    "logoutAll": "Đăng xuất mọi thiết bị",
+    "more": "Thao tác",
+    "save": "Lưu",
+    "saving": "Đang lưu…",
+    "cancel": "Hủy",
+    "reload": "Tải lại",
+    "keepEditing": "Giữ bản đang sửa"
+  },
+  "edit": {
+    "emailPendingHint": "Hệ thống sẽ gửi link kích hoạt mới tới email này.",
+    "emailLockedHint": "Chỉ đổi được email khi tài khoản đang chờ kích hoạt.",
+    "userCodeHint": "Chữ và số, tối đa 20 ký tự; lưu chữ hoa."
+  },
+  "message": {
+    "saved": "Đã lưu thông tin người dùng.",
+    "savedEmail": "Đã lưu và gửi link kích hoạt tới email mới {{email}}.",
+    "conflictTitle": "Dữ liệu đã thay đổi",
+    "conflictDescription": "Thông tin vừa được cập nhật ở nơi khác. Tải lại để xem bản mới nhất, hoặc giữ bản bạn đang sửa rồi lưu lại.",
+    "emailChangeNotAllowed": "Chỉ đổi được email khi tài khoản đang chờ kích hoạt.",
+    "schoolNotAvailable": "Trường bạn chọn không còn trong danh sách. Hãy chọn trường khác.",
+    "selfAction": "Không thể thực hiện thao tác này với tài khoản của chính bạn.",
+    "lastAdmin": "Hệ thống cần ít nhất một quản trị viên đang hoạt động.",
+    "locked": "Đã khóa tài khoản {{name}} và gửi email thông báo.",
+    "unlocked": "Đã mở khóa tài khoản {{name}}.",
+    "unlockedPending": "Đã mở khóa. Tài khoản chưa kích hoạt, hãy gửi lại email kích hoạt cho {{name}}.",
+    "alreadyLocked": "Tài khoản đã bị khóa trước đó.",
+    "notLocked": "Tài khoản hiện không bị khóa.",
+    "reasonLength": "Lý do phải từ 10 đến 500 ký tự.",
+    "loggedOut_one": "Đã đăng xuất {{name}} khỏi {{count}} thiết bị.",
+    "loggedOut_other": "Đã đăng xuất {{name}} khỏi {{count}} thiết bị.",
+    "discardTitle": "Bỏ các thay đổi?",
+    "discardDescription": "Bạn có thay đổi chưa lưu. Rời trang và bỏ các thay đổi?",
+    "discard": "Bỏ thay đổi",
+    "keep": "Tiếp tục sửa"
+  },
+  "dialog": {
+    "lock": {
+      "title": "Khóa tài khoản",
+      "description": "Người này sẽ bị đăng xuất ngay và không đăng nhập được cho tới khi được mở khóa. Lý do bên dưới sẽ được gửi cho họ qua email.",
+      "reason": "Lý do",
+      "reasonPlaceholder": "Ví dụ: Chia sẻ tài khoản cho người ngoài nhóm.",
+      "confirm": "Khóa tài khoản"
+    },
+    "unlock": {
+      "title": "Mở khóa tài khoản",
+      "descriptionActive": "{{name}} đăng nhập lại được ngay.",
+      "descriptionPending": "Tài khoản chưa kích hoạt. Sau khi mở khóa, hãy gửi lại email kích hoạt.",
+      "confirm": "Mở khóa"
+    },
+    "logout": {
+      "title": "Đăng xuất mọi thiết bị",
+      "description_one": "{{count}} phiên đang hoạt động sẽ bị thu hồi. Người này phải đăng nhập lại.",
+      "description_other": "{{count}} phiên đang hoạt động sẽ bị thu hồi. Người này phải đăng nhập lại.",
+      "confirm": "Đăng xuất"
+    },
+    "cancel": "Hủy"
   }
 }
