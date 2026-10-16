@@ -10,7 +10,7 @@
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useMatch } from 'react-router'
+import { Link, matchPath, useLocation, useMatch } from 'react-router'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -27,6 +27,8 @@ interface AppSidebarProps {
   onNavigate?: () => void
   /** Collapse / expand button; omitted in the mobile drawer */
   onToggleRail?: () => void
+  /** Feature-owned navigation injected by the router, keeping layout independent of features */
+  sidebarExtra?: (props: { isRail: boolean; onNavigate?: () => void }) => ReactNode
   className?: string
 }
 
@@ -37,6 +39,7 @@ export function AppSidebar({
   isRail = false,
   onNavigate,
   onToggleRail,
+  sidebarExtra,
   className,
 }: AppSidebarProps) {
   const { t } = useTranslation()
@@ -65,6 +68,7 @@ export function AppSidebar({
             {group.items.map((item) => (
               <SidebarItem key={item.to} item={item} isRail={isRail} onNavigate={onNavigate} />
             ))}
+            {index === 0 && sidebarExtra?.({ isRail, onNavigate })}
           </div>
         ))}
       </div>
@@ -107,10 +111,16 @@ interface SidebarItemProps {
 function SidebarItem({ item, isRail, onNavigate }: SidebarItemProps) {
   const { t } = useTranslation()
   const { icon: Icon, comingSoon } = item
+  const location = useLocation()
   const label = t(item.labelKey)
   const soon = t('nav.comingSoon')
   // Not NavLink: the rail tooltip (Radix Slot) merges className as a string, and NavLink's would be a function
-  const isActive = useMatch({ path: item.to, end: false }) !== null && !comingSoon
+  const isPrimaryMatch = useMatch({ path: item.to, end: item.end ?? false }) !== null
+  const isActive =
+    !comingSoon &&
+    (isPrimaryMatch ||
+      (item.activePaths?.some((path) => matchPath({ path, end: false }, location.pathname) !== null) ??
+        false))
 
   if (comingSoon) {
     return (

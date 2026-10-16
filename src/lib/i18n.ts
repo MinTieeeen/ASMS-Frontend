@@ -14,10 +14,12 @@ import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/config/constants'
 import enAdmin from '@/locales/en/admin.json'
 import enAuth from '@/locales/en/auth.json'
 import enCommon from '@/locales/en/common.json'
+import enGroups from '@/locales/en/groups.json'
 import enProfile from '@/locales/en/profile.json'
 import viAdmin from '@/locales/vi/admin.json'
 import viAuth from '@/locales/vi/auth.json'
 import viCommon from '@/locales/vi/common.json'
+import viGroups from '@/locales/vi/groups.json'
 import viProfile from '@/locales/vi/profile.json'
 
 /**
@@ -25,8 +27,8 @@ import viProfile from '@/locales/vi/profile.json'
  * register it here.
  */
 export const resources = {
-  vi: { common: viCommon, auth: viAuth, admin: viAdmin, profile: viProfile },
-  en: { common: enCommon, auth: enAuth, admin: enAdmin, profile: enProfile },
+  vi: { common: viCommon, auth: viAuth, admin: viAdmin, profile: viProfile, groups: viGroups },
+  en: { common: enCommon, auth: enAuth, admin: enAdmin, profile: enProfile, groups: enGroups },
 } as const
 
 void i18n
@@ -37,7 +39,7 @@ void i18n
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: SUPPORTED_LANGUAGES,
     defaultNS: 'common',
-    ns: ['common', 'auth', 'admin', 'profile'],
+    ns: ['common', 'auth', 'admin', 'profile', 'groups'],
     interpolation: { escapeValue: false },
     // Only remember the user's explicit choice; ignore the browser language so Vietnamese stays the default
     detection: {

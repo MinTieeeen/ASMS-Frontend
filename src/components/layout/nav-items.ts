@@ -39,6 +39,10 @@ export interface NavItem {
   icon: LucideIcon
   /** The page is not built yet: shown greyed out with a "Coming soon" badge, not a link */
   comingSoon?: boolean
+  /** Match only the main path, e.g. My groups should not also be selected inside a workspace */
+  end?: boolean
+  /** Additional paths that select this item, such as invite links */
+  activePaths?: string[]
 }
 
 export interface NavGroup {
@@ -53,7 +57,13 @@ export const NAV_GROUPS: NavGroup[] = [
     labelKey: 'nav.group.workspace',
     items: [
       { labelKey: 'nav.home', to: ROUTES.dashboard, icon: House },
-      { labelKey: 'nav.groups', to: ROUTES.groups, icon: UsersRound, comingSoon: true },
+      {
+        labelKey: 'nav.groups',
+        to: ROUTES.groups,
+        icon: UsersRound,
+        end: true,
+        activePaths: ['/join/:code'],
+      },
       { labelKey: 'nav.tasks', to: ROUTES.tasks, icon: ListChecks, comingSoon: true },
       { labelKey: 'nav.calendar', to: ROUTES.calendar, icon: CalendarDays, comingSoon: true },
     ],

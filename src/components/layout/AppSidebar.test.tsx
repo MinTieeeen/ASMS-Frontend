@@ -2,6 +2,7 @@ import { screen, within } from '@testing-library/react'
 
 import { AppSidebar } from '@/components/layout/AppSidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { RecentGroupsNav } from '@/features/groups/components/RecentGroupsNav'
 import { useAuthStore } from '@/stores/auth.store'
 import { testUser } from '@/test/msw/server'
 import { renderWithProviders } from '@/test/render'
@@ -41,6 +42,34 @@ describe('AppSidebar (LAYOUT)', () => {
     const calendar = screen.getByText('Lịch').closest('[aria-disabled="true"]') as HTMLElement
     expect(within(calendar).getByText('Sắp có')).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /Lịch/ })).not.toBeInTheDocument()
+  })
+
+  it('links My groups and selects it for invite pages', () => {
+    renderSidebar('USER', '/join/OOP12A')
+
+    expect(screen.getByRole('link', { name: 'Nhóm của tôi' })).toHaveAttribute('href', '/groups')
+    expect(screen.getByRole('link', { name: 'Nhóm của tôi' })).toHaveAttribute('aria-current', 'page')
+  })
+
+  it('shows recent groups, hides ended semesters, and selects only the open group', () => {
+    useAuthStore.getState().setSession('access-token', { ...testUser, systemRole: 'USER' })
+    renderWithProviders(
+      <AppSidebar
+        sidebarExtra={({ isRail, onNavigate }) => (
+          <RecentGroupsNav isRail={isRail} onNavigate={onNavigate} />
+        )}
+      />,
+      { route: '/groups/g1/tasks' },
+    )
+
+    expect(screen.getByRole('heading', { name: 'Nhóm gần đây' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Nhóm 3 – Phòng trọ thông minh/ })).toHaveAttribute(
+      'aria-current',
+      'page',
+    )
+    expect(screen.getByRole('link', { name: 'Nhóm của tôi' })).not.toHaveAttribute('aria-current')
+    expect(screen.queryByText('Mạng máy tính – Lab nhóm 2')).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Xem tất cả nhóm' })).toHaveAttribute('href', '/groups')
   })
 })
 

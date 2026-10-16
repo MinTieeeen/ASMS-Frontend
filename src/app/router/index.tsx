@@ -13,6 +13,7 @@ import { LoadingScreen } from '@/components/common'
 import { AppLayout, AuthLayout, SettingsLayout } from '@/components/layout'
 import { ROUTES } from '@/config/routes'
 import { AccountMenu, AuthBootstrap } from '@/features/auth'
+import { RecentGroupsNav } from '@/features/groups/components/RecentGroupsNav'
 
 import { GuestOnly, RequireAdmin, RequireAuth } from './guards'
 
@@ -60,12 +61,47 @@ export const router = createBrowserRouter([
         element: <RequireAuth />,
         children: [
           {
-            element: <AppLayout accountMenu={<AccountMenu />} />,
+            element: (
+              <AppLayout
+                accountMenu={<AccountMenu />}
+                sidebarExtra={({ isRail, onNavigate }) => (
+                  <RecentGroupsNav isRail={isRail} onNavigate={onNavigate} />
+                )}
+              />
+            ),
             children: [
               { path: ROUTES.home, element: <Navigate to={ROUTES.dashboard} replace /> },
               {
                 path: ROUTES.dashboard,
                 lazy: page(() => import('@/features/dashboard/pages/DashboardPage')),
+              },
+              { path: ROUTES.groups, lazy: page(() => import('@/features/groups/pages/GroupsPage')) },
+              { path: ROUTES.joinGroup(':code'), lazy: page(() => import('@/features/groups/pages/JoinGroupPage')) },
+              {
+                path: 'groups/:groupId',
+                lazy: page(() => import('@/features/groups/pages/GroupWorkspaceLayout')),
+                children: [
+                  {
+                    index: true,
+                    lazy: page(() => import('@/features/groups/pages/GroupOverviewPage')),
+                  },
+                  { path: 'tasks', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'phases', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  {
+                    path: 'milestones',
+                    lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')),
+                  },
+                  {
+                    path: 'milestones/:milestoneId',
+                    lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')),
+                  },
+                  { path: 'members', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'progress', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'reviews', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'resources', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'activity', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'settings', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                ],
               },
               {
                 path: ROUTES.userProfile(':userId'),

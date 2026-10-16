@@ -25,6 +25,8 @@ const RAIL_STORAGE_KEY = 'asms.sidebar.collapsed'
 interface AppLayoutProps {
   /** Passed to the header; supplied by the router so that layout components never import features */
   accountMenu?: ReactNode
+  /** Feature-owned navigation section supplied by the router */
+  sidebarExtra?: (props: { isRail: boolean; onNavigate?: () => void }) => ReactNode
 }
 
 /**
@@ -33,7 +35,7 @@ interface AppLayoutProps {
  * - 768 – 1279 px: 72 px rail; "Expand" lays the 240 px sidebar over the content;
  * - < 768 px: 56 px header with a menu button opening a 288 px drawer.
  */
-export function AppLayout({ accountMenu }: AppLayoutProps) {
+export function AppLayout({ accountMenu, sidebarExtra }: AppLayoutProps) {
   const { t } = useTranslation()
   const mobileNav = useDisclosure()
   const isWideScreen = useMediaQuery('(min-width: 1280px)')
@@ -73,6 +75,7 @@ export function AppLayout({ accountMenu }: AppLayoutProps) {
             isRail={isRail}
             onToggleRail={toggleRail}
             onNavigate={isOverlay ? closeOverlay : undefined}
+            sidebarExtra={sidebarExtra}
             className={cn(isOverlay && 'absolute inset-y-0 left-0 z-20 w-60 border-r shadow-lg')}
           />
         </aside>
@@ -88,7 +91,7 @@ export function AppLayout({ accountMenu }: AppLayoutProps) {
         <Sheet open={mobileNav.isOpen} onOpenChange={mobileNav.setIsOpen}>
           <SheetContent side="left" className="w-72 gap-0 bg-card p-0">
             <SheetTitle className="sr-only">{t('nav.main')}</SheetTitle>
-            <AppSidebar onNavigate={mobileNav.close} />
+            <AppSidebar onNavigate={mobileNav.close} sidebarExtra={sidebarExtra} />
           </SheetContent>
         </Sheet>
 

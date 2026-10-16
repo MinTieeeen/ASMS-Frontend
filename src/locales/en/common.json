@@ -27,7 +27,11 @@
     "collapse": "Collapse",
     "expand": "Expand",
     "comingSoon": "Soon",
-    "logout": "Log out"
+    "logout": "Log out",
+    "notifications": "Notifications",
+    "recentGroups": "Recent groups",
+    "viewAllGroups": "View all groups",
+    "needsAttention": "Needs attention"
   },
   "settings": {
     "title": "Settings",
@@ -57,7 +61,19 @@
     "create": "Create",
     "back": "Back",
     "retry": "Try again",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "close": "Close",
+    "copy": "Copy",
+    "copied": "Copied",
+    "add": "Add",
+    "more": "More actions",
+    "viewAll": "View all",
+    "send": "Send",
+    "open": "Open",
+    "export": "Export",
+    "filter": "Filter",
+    "clearFilters": "Clear filters",
+    "search": "Search"
   },
   "state": {
     "loading": "Loading…",
@@ -105,5 +121,73 @@
     "next": "Next page",
     "page": "Page {{page}}",
     "label": "Pagination"
+  },
+  "domain": {
+    "taskStatus": {
+      "todo": "To do",
+      "in_progress": "In progress",
+      "in_review": "In review",
+      "done": "Done",
+      "cancelled": "Cancelled"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "groupRole": {
+      "leader": "Leader",
+      "deputy": "Deputy",
+      "member": "Member"
+    },
+    "phaseStatus": {
+      "upcoming": "Upcoming",
+      "active": "In progress",
+      "closed": "Closed"
+    },
+    "milestoneStatus": {
+      "open": "Open",
+      "submitted": "Submitted",
+      "graded": "Graded"
+    },
+    "overdue": "Overdue",
+    "dueSoon": "Due soon",
+    "noDueDate": "No due date",
+    "unassigned": "Unassigned",
+    "formerMember": "Left the group",
+    "you": "You",
+    "unclassified": "Unclassified",
+    "archived": "Archived",
+    "hours": "{{count}} h",
+    "members": "{{count}} members",
+    "tasks": "{{count}} tasks"
+  },
+  "calendar": {
+    "monthTitle": "{{month}}/{{year}}",
+    "today": "Today",
+    "previous": "Previous month",
+    "next": "Next month",
+    "more": "+{{count}} more",
+    "empty": "No deadlines this month.",
+    "milestone": "Milestone",
+    "weekday": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    }
+  },
+  "concept": {
+    "badge": "Concept",
+    "note": "Concept build with sample data in the browser, not connected to the backend.",
+    "viewAs": "View as",
+    "realRole": "real role",
+    "reset": "Reset sample data",
+    "resetDone": "Sample data restored.",
+    "mockAction": "Concept: this action is simulated, there is no backend yet."
   }
 }

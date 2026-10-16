@@ -27,7 +27,11 @@
     "collapse": "Thu gọn",
     "expand": "Mở rộng",
     "comingSoon": "Sắp có",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "notifications": "Thông báo",
+    "recentGroups": "Nhóm gần đây",
+    "viewAllGroups": "Xem tất cả nhóm",
+    "needsAttention": "Cần chú ý"
   },
   "settings": {
     "title": "Cài đặt",
@@ -57,7 +61,19 @@
     "create": "Tạo mới",
     "back": "Quay lại",
     "retry": "Thử lại",
-    "backHome": "Về trang chủ"
+    "backHome": "Về trang chủ",
+    "close": "Đóng",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "add": "Thêm",
+    "more": "Thêm thao tác",
+    "viewAll": "Xem tất cả",
+    "send": "Gửi",
+    "open": "Mở",
+    "export": "Xuất",
+    "filter": "Lọc",
+    "clearFilters": "Xóa bộ lọc",
+    "search": "Tìm kiếm"
   },
   "state": {
     "loading": "Đang tải…",
@@ -102,5 +118,73 @@
     "next": "Trang sau",
     "page": "Trang {{page}}",
     "label": "Phân trang"
+  },
+  "domain": {
+    "taskStatus": {
+      "todo": "Chưa làm",
+      "in_progress": "Đang làm",
+      "in_review": "Chờ duyệt",
+      "done": "Hoàn thành",
+      "cancelled": "Đã hủy"
+    },
+    "priority": {
+      "low": "Thấp",
+      "medium": "Trung bình",
+      "high": "Cao",
+      "urgent": "Khẩn"
+    },
+    "groupRole": {
+      "leader": "Trưởng nhóm",
+      "deputy": "Phó nhóm",
+      "member": "Thành viên"
+    },
+    "phaseStatus": {
+      "upcoming": "Sắp tới",
+      "active": "Đang diễn ra",
+      "closed": "Đã kết thúc"
+    },
+    "milestoneStatus": {
+      "open": "Đang mở",
+      "submitted": "Đã nộp",
+      "graded": "Đã có kết quả"
+    },
+    "overdue": "Quá hạn",
+    "dueSoon": "Sắp đến hạn",
+    "noDueDate": "Không có hạn",
+    "unassigned": "Chưa giao",
+    "formerMember": "Đã rời nhóm",
+    "you": "Bạn",
+    "unclassified": "Chưa phân loại",
+    "archived": "Đã lưu trữ",
+    "hours": "{{count}} giờ",
+    "members": "{{count}} thành viên",
+    "tasks": "{{count}} công việc"
+  },
+  "calendar": {
+    "monthTitle": "Tháng {{month}}/{{year}}",
+    "today": "Hôm nay",
+    "previous": "Tháng trước",
+    "next": "Tháng sau",
+    "more": "+{{count}} mục",
+    "empty": "Không có hạn chót nào trong tháng này.",
+    "milestone": "Mốc nộp",
+    "weekday": {
+      "mon": "T2",
+      "tue": "T3",
+      "wed": "T4",
+      "thu": "T5",
+      "fri": "T6",
+      "sat": "T7",
+      "sun": "CN"
+    }
+  },
+  "concept": {
+    "badge": "Concept",
+    "note": "Bản concept dùng dữ liệu mẫu trong trình duyệt, chưa kết nối backend.",
+    "viewAs": "Xem với vai trò",
+    "realRole": "vai trò thật",
+    "reset": "Khôi phục dữ liệu mẫu",
+    "resetDone": "Đã khôi phục dữ liệu mẫu.",
+    "mockAction": "Concept: thao tác này chỉ mô phỏng, chưa có backend."
   }
 }
