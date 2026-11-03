@@ -1,9 +1,9 @@
 /**
  * @file Mock backend of phases, tasks and retrospectives (M04, M05).
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-10-16
- * @modified 2026-10-16
+ * @modified 2026-11-03
  */
 
 import { ME_ID } from '../seed'
@@ -64,6 +64,11 @@ function patchTask(tasks: Task[], taskId: string, patch: Partial<Task>): Task[] 
   return tasks.map((item) => (item.id === taskId ? { ...item, ...patch } : item))
 }
 
+/** A phase that is not closed is upcoming until its start date, then active */
+function openStatusOf(startDate: string): Phase['status'] {
+  return new Date(startDate) > new Date() ? 'upcoming' : 'active'
+}
+
 export const createWorkSlice: Slice<WorkSlice> = (set, get) => ({
   createPhase: (groupId, input) =>
     set((state) => {
@@ -73,7 +78,7 @@ export const createWorkSlice: Slice<WorkSlice> = (set, get) => ({
         groupId,
         ...input,
         position,
-        status: new Date(input.startDate) > new Date() ? 'upcoming' : 'active',
+        status: openStatusOf(input.startDate),
         closedAt: null,
         snapshot: null,
       }
@@ -88,16 +93,26 @@ export const createWorkSlice: Slice<WorkSlice> = (set, get) => ({
 
   updatePhase: (phaseId, input) =>
     set((state) => ({
-      phases: state.phases.map((item) => (item.id === phaseId ? { ...item, ...input } : item)),
+      phases: state.phases.map((item) =>
+        item.id === phaseId
+          ? {
+              ...item,
+              ...input,
+              status: item.status === 'closed' ? 'closed' : openStatusOf(input.startDate),
+            }
+          : item,
+      ),
     })),
 
+  // Swaps with the neighbour in display order, so gaps left by deleted phases do not matter
   movePhase: (phaseId, offset) =>
     set((state) => {
       const phase = state.phases.find((item) => item.id === phaseId)
       if (!phase) return {}
-      const swap = state.phases.find(
-        (item) => item.groupId === phase.groupId && item.position === phase.position + offset,
-      )
+      const ordered = state.phases
+        .filter((item) => item.groupId === phase.groupId)
+        .sort((a, b) => a.position - b.position)
+      const swap = ordered[ordered.findIndex((item) => item.id === phaseId) + offset]
       if (!swap) return {}
       return {
         phases: state.phases.map((item) => {
@@ -110,12 +125,20 @@ export const createWorkSlice: Slice<WorkSlice> = (set, get) => ({
 
   // UC06: a phase that still has tasks needs a phase to receive them (BR08: soft delete)
   deletePhase: (phaseId, targetPhaseId) =>
-    set((state) => ({
-      phases: state.phases.filter((item) => item.id !== phaseId),
-      tasks: state.tasks.map((item) =>
-        item.phaseId === phaseId ? { ...item, phaseId: targetPhaseId } : item,
-      ),
-    })),
+    set((state) => {
+      const phase = state.phases.find((item) => item.id === phaseId)
+      if (!phase) return {}
+      return {
+        phases: state.phases.filter((item) => item.id !== phaseId),
+        tasks: state.tasks.map((item) =>
+          item.phaseId === phaseId ? { ...item, phaseId: targetPhaseId } : item,
+        ),
+        activities: [
+          activity(phase.groupId, ME_ID, 'phaseDeleted', { phase: phase.name }),
+          ...state.activities,
+        ],
+      }
+    }),
 
   // UC07: snapshot the numbers, move the unfinished tasks
   closePhase: (phaseId, carryOver) => {
@@ -156,11 +179,19 @@ export const createWorkSlice: Slice<WorkSlice> = (set, get) => ({
   },
 
   reopenPhase: (phaseId) =>
-    set((state) => ({
-      phases: state.phases.map((item) =>
-        item.id === phaseId ? { ...item, status: 'active', closedAt: null } : item,
-      ),
-    })),
+    set((state) => {
+      const phase = state.phases.find((item) => item.id === phaseId)
+      if (!phase) return {}
+      return {
+        phases: state.phases.map((item) =>
+          item.id === phaseId ? { ...item, status: 'active', closedAt: null } : item,
+        ),
+        activities: [
+          activity(phase.groupId, ME_ID, 'phaseReopened', { phase: phase.name }),
+          ...state.activities,
+        ],
+      }
+    }),
 
   addRetroItem: (phaseId, kind, text, isAnonymous) =>
     set((state) => ({

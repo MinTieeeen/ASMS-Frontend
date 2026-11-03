@@ -1,4 +1,15 @@
-import { formatDateTime, toRelativeTime } from './date'
+import { formatDateTime, fromDateInputValue, toDateInputValue, toRelativeTime } from './date'
+
+describe('date input helpers (BR13)', () => {
+  it('reads an instant as the day it falls on in the user time zone', () => {
+    expect(toDateInputValue('2026-11-02T18:30:00Z', 'Asia/Ho_Chi_Minh')).toBe('2026-11-03')
+  })
+
+  it('turns a picked day into 00:00 or 23:59 of that day in the user time zone', () => {
+    expect(fromDateInputValue('2026-11-03', 'start', 'Asia/Ho_Chi_Minh')).toBe('2026-11-02T17:00:00.000Z')
+    expect(fromDateInputValue('2026-11-03', 'end', 'Asia/Ho_Chi_Minh')).toBe('2026-11-03T16:59:00.000Z')
+  })
+})
 
 describe('toRelativeTime (screen conventions)', () => {
   const now = new Date('2026-09-29T10:00:00Z')

@@ -2,7 +2,7 @@
  * @file Group dashboard (F07.01): progress, overdue and waiting-for-review counts, next milestone, phase timeline,
  *   status breakdown, tasks needing attention, member workload and recent activity.
  * @author MinhTien
- * @version 1.1.0
+ * @version 1.2.0
  * @since 2026-10-16
  * @modified 2026-11-03
  */
@@ -15,6 +15,7 @@ import { Link } from 'react-router'
 import { DueDate, StatTile, TaskListItem } from '@/components/common'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { isGroupTabReady } from '@/config/group-tabs'
 import { ROUTES } from '@/config/routes'
 import {
   countByStatus,
@@ -65,24 +66,27 @@ function Overview({ workspace }: { workspace: GroupWorkspace }) {
     .slice(0, ATTENTION_LIMIT)
   const recent = activities.filter((item) => item.groupId === group.id).slice(0, 6)
   const formerIds = new Set(workspace.formerMembers.map((item) => item.userId))
+  const hasTaskTab = isGroupTabReady('tasks')
 
   return (
     <div className="flex flex-col gap-5">
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatTile icon={CircleCheckBig} tone="success" value={formatPercent(progress.ratio)} label={t('overview.progress')} hint={<span className="text-muted-foreground">{t('overview.progressDetail', { done: progress.done, total: progress.total })}</span>} />
         <StatTile icon={TriangleAlert} tone={overdue.length ? 'danger' : 'default'} value={overdue.length} label={t('overview.overdue')} />
-        <StatTile icon={Hourglass} tone={inReview.length ? 'attention' : 'default'} value={inReview.length} label={t('overview.inReview')} hint={inReview.length > 0 && workspace.can('approveTask') ? <Link className="font-medium text-primary hover:underline" to={`${ROUTES.groupTasks(group.id)}?status=in_review`}>{t('overview.reviewNow')}</Link> : undefined} />
+        <StatTile icon={Hourglass} tone={inReview.length ? 'attention' : 'default'} value={inReview.length} label={t('overview.inReview')} hint={hasTaskTab && inReview.length > 0 && workspace.can('approveTask') ? <Link className="font-medium text-primary hover:underline" to={`${ROUTES.groupTasks(group.id)}?status=in_review`}>{t('overview.reviewNow')}</Link> : undefined} />
         <StatTile icon={Flag} tone="info" value={nextMilestone ? <span className="text-base">{nextMilestone.name}</span> : '—'} label={t('overview.nextMilestone')} hint={nextMilestone ? <DueDate dueAt={nextMilestone.dueAt} withTime /> : undefined} />
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>{t('overview.phases')}</CardTitle>
-          <CardAction>
-            <Button asChild variant="link" size="sm">
-              <Link to={ROUTES.groupPhases(group.id)}>{t('overview.managePhases')}</Link>
-            </Button>
-          </CardAction>
+          {isGroupTabReady('phases') && (
+            <CardAction>
+              <Button asChild variant="link" size="sm">
+                <Link to={ROUTES.groupPhases(group.id)}>{t('overview.managePhases')}</Link>
+              </Button>
+            </CardAction>
+          )}
         </CardHeader>
         <CardContent>
           <PhaseTimeline phases={phases.filter((item) => item.groupId === group.id)} tasks={tasks} />
@@ -94,11 +98,13 @@ function Overview({ workspace }: { workspace: GroupWorkspace }) {
           <Card>
             <CardHeader>
               <CardTitle>{t('overview.attention')}</CardTitle>
-              <CardAction>
-                <Button asChild variant="link" size="sm">
-                  <Link to={ROUTES.groupTasks(group.id)}>{t('overview.allTasks')}</Link>
-                </Button>
-              </CardAction>
+              {hasTaskTab && (
+                <CardAction>
+                  <Button asChild variant="link" size="sm">
+                    <Link to={ROUTES.groupTasks(group.id)}>{t('overview.allTasks')}</Link>
+                  </Button>
+                </CardAction>
+              )}
             </CardHeader>
             <CardContent>
               {attention.length === 0 ? (

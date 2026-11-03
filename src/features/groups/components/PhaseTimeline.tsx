@@ -2,15 +2,16 @@
  * @file Phases of a group on a time axis with a "today" marker and each phase's progress (F07.01); a list on
  *   narrow screens.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-10-16
- * @modified 2026-10-16
+ * @modified 2026-11-03
  */
 
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
 import { PhaseStatusBadge } from '@/components/common'
+import { isGroupTabReady } from '@/config/group-tabs'
 import { ROUTES } from '@/config/routes'
 import { cn } from '@/lib/utils'
 import { byPosition, type Phase, progressOf, type Task } from '@/mocks'
@@ -50,21 +51,31 @@ export function PhaseTimeline({ phases, tasks }: { phases: Phase[]; tasks: Task[
           {sorted.map((phase) => {
             const width = (new Date(phase.endDate).getTime() - new Date(phase.startDate).getTime()) / span
             const progress = progressOf(tasks.filter((task) => task.phaseId === phase.id))
+            const segmentClass = cn(
+              'flex h-full flex-col gap-1 rounded-md border px-2.5 py-2 text-xs',
+              SEGMENT_TONE[phase.status],
+            )
+            const segment = (
+              <>
+                <span className="truncate font-semibold">{phase.name}</span>
+                <span className="truncate opacity-80">
+                  {formatDate(phase.startDate)} – {formatDate(phase.endDate)}
+                </span>
+                <span className="tabular-nums">{formatPercent(progress.ratio)}</span>
+              </>
+            )
             return (
               <li key={phase.id} className="min-w-0" style={{ flexGrow: Math.max(width, 0.06), flexBasis: 0 }}>
-                <Link
-                  to={ROUTES.groupPhases(phase.groupId)}
-                  className={cn(
-                    'flex h-full flex-col gap-1 rounded-md border px-2.5 py-2 text-xs outline-none focus-visible:shadow-focus',
-                    SEGMENT_TONE[phase.status],
-                  )}
-                >
-                  <span className="truncate font-semibold">{phase.name}</span>
-                  <span className="truncate opacity-80">
-                    {formatDate(phase.startDate)} – {formatDate(phase.endDate)}
-                  </span>
-                  <span className="tabular-nums">{formatPercent(progress.ratio)}</span>
-                </Link>
+                {isGroupTabReady('phases') ? (
+                  <Link
+                    to={ROUTES.groupPhases(phase.groupId)}
+                    className={cn(segmentClass, 'outline-none focus-visible:shadow-focus')}
+                  >
+                    {segment}
+                  </Link>
+                ) : (
+                  <div className={segmentClass}>{segment}</div>
+                )}
               </li>
             )
           })}

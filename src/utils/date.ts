@@ -1,9 +1,9 @@
 /**
  * @file Date helpers for BR13: API uses ISO 8601 UTC, UI shows the user time zone.
  * @author MinhTien
- * @version 1.1.0
+ * @version 1.2.0
  * @since 2026-09-26
- * @modified 2026-09-29
+ * @modified 2026-11-03
  */
 
 import { endOfDay } from 'date-fns'
@@ -27,6 +27,25 @@ export function toDeadlineIso(date: Date, timeZone = env.defaultTimezone): strin
   const local = endOfDay(date)
   local.setSeconds(0, 0)
   return fromZonedTime(local, timeZone).toISOString()
+}
+
+const DATE_INPUT_FORMAT = 'yyyy-MM-dd'
+
+/** Value of an `<input type="date">` for an ISO instant, as the day it falls on in the user time zone */
+export function toDateInputValue(iso: string, timeZone = env.defaultTimezone): string {
+  return formatInTimeZone(iso, timeZone, DATE_INPUT_FORMAT)
+}
+
+/**
+ * ISO instant of a day picked in an `<input type="date">`: 00:00 for the start of a range, 23:59 for its end
+ * (BR13), both in the user time zone.
+ */
+export function fromDateInputValue(
+  value: string,
+  edge: 'start' | 'end',
+  timeZone = env.defaultTimezone,
+): string {
+  return fromZonedTime(`${value}T${edge === 'start' ? '00:00:00' : '23:59:00'}`, timeZone).toISOString()
 }
 
 /** Relative time of a past moment; the caller translates it (common `time.*` keys). */

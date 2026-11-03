@@ -316,6 +316,8 @@ export type ActivityKind =
   | 'taskReturned'
   | 'phaseCreated'
   | 'phaseClosed'
+  | 'phaseReopened'
+  | 'phaseDeleted'
   | 'deliverableUploaded'
   | 'milestoneGraded'
   | 'reviewOpened'

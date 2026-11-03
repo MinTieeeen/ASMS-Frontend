@@ -1,7 +1,7 @@
 /**
  * @file Application route tree (React Router data router).
  * @author MinhTien
- * @version 2.1.0
+ * @version 2.3.0
  * @since 2026-09-26
  * @modified 2026-11-03
  */
@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
                     lazy: page(() => import('@/features/groups/pages/GroupOverviewPage')),
                   },
                   { path: 'tasks', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
-                  { path: 'phases', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'phases', lazy: page(() => import('@/features/groups/pages/GroupPhasesPage')) },
                   {
                     path: 'milestones',
                     lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')),
@@ -95,7 +95,7 @@ export const router = createBrowserRouter([
                     path: 'milestones/:milestoneId',
                     lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')),
                   },
-                  { path: 'members', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'members', lazy: page(() => import('@/features/groups/pages/GroupMembersPage')) },
                   { path: 'settings', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
                 ],
               },
