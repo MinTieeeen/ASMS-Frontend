@@ -158,7 +158,6 @@
     "leftToast": "You left {{group}}."
   },
   "header": {
-    "topic": "Topic: {{topic}}",
     "copyCode": "Copy group code {{code}}"
   },
   "workspace": {
@@ -168,9 +167,7 @@
     "archivedTitle": "Group archived",
     "archivedDescription": "This group is read-only; editing is disabled.",
     "needsAttention": "Needs attention",
-    "comingSoonTitle": "This section is in progress",
-    "comingSoonHint": "In the meantime, view the overview or browse your group list.",
-    "backToOverview": "Back to overview"
+    "breadcrumb": "Group breadcrumb"
   },
   "tab": {
     "overview": "Overview",
@@ -206,7 +203,19 @@
     "allActivity": "View all",
     "charterTitle": "Group charter (version {{version}}) needs your confirmation",
     "charterDescription": "Read and confirm the charter so everyone agrees on how to work together.",
-    "charterOpen": "View charter"
+    "charterOpen": "View charter",
+    "info": {
+      "title": "Group information",
+      "subject": "Subject",
+      "semester": "Semester",
+      "lecturer": "Supervising lecturer",
+      "topic": "Topic",
+      "description": "Description",
+      "members": "Members",
+      "membersValue": "{{count}}/{{max}} people",
+      "createdAt": "Created",
+      "notSet": "Not set"
+    }
   },
   "activity": {
     "kind": {
@@ -225,7 +234,9 @@
       "milestoneGraded": "{{actor}} recorded a score of {{score}} for {{milestone}}",
       "reviewOpened": "{{actor}} opened review round {{round}}",
       "charterConfirmed": "{{actor}} confirmed the group charter",
-      "groupUpdated": "{{actor}} updated the group"
+      "groupUpdated": "{{actor}} updated the group",
+      "milestoneCreated": "{{actor}} added milestone {{milestone}}",
+      "milestoneDeleted": "{{actor}} deleted milestone {{milestone}}"
     }
   },
   "phases": {
@@ -287,7 +298,9 @@
       "closed": "Phase {{name}} closed.",
       "reopened": "Phase {{name}} reopened.",
       "deleted": "Phase {{name}} deleted."
-    }
+    },
+    "dragHandle": "Drag to reorder phase {{name}}",
+    "moved": "Phase order updated."
   },
   "validation": {
     "phaseNameRequired": "Enter a phase name.",
@@ -298,5 +311,53 @@
     "tooLong": "The content is too long.",
     "emailInvalid": "Enter a valid email address.",
     "codeInvalid": "Group codes must be 6 letters or digits."
+  },
+  "settings": {
+    "readOnlyTitle": "Only the group leader can change the settings",
+    "readOnlyDescription": "You can view the current settings of the group.",
+    "info": {
+      "title": "Group information",
+      "description": "Name, topic and member limit; subject, semester and lecturer are only used to classify the group.",
+      "save": "Save changes",
+      "saved": "Group information saved.",
+      "minMembers": "The group has {{count}} members, so the limit cannot be lower."
+    },
+    "join": {
+      "title": "Joining the group",
+      "requireApproval": "Require approval to join",
+      "requireApprovalHint": "People with the code or link wait for the leader or a deputy to approve them.",
+      "expiry": "Invite link expiry",
+      "expiryHint": "After this moment, the current code and link stop working.",
+      "expiresAt": "Expires {{date}}",
+      "noExpiry": "Never expires",
+      "expired": "Expired {{date}}",
+      "option": {
+        "1": "1 more day from now",
+        "7": "7 more days from now",
+        "30": "30 more days from now",
+        "none": "Never expires"
+      },
+      "saved": "Joining settings saved.",
+      "change": "Change expiry…"
+    },
+    "workflow": {
+      "title": "Task workflow",
+      "reviewEnabled": "Enable the review step",
+      "reviewEnabledHint": "Tasks go through \"Awaiting review\"; only the leader or a deputy moves them to \"Done\".",
+      "reviewLocked": "Approve or return the {{count}} tasks awaiting review before turning the review step off.",
+      "requireResult": "Require a result when submitting for review",
+      "requireResultHint": "Members must describe what they did or paste a link when moving a task to \"Awaiting review\".",
+      "saved": "Task workflow saved."
+    },
+    "archive": {
+      "title": "Archive the group",
+      "description": "An archived group is read-only apart from exporting: no new or edited tasks, deliverables or members.",
+      "archive": "Archive group",
+      "restore": "Restore group",
+      "confirmTitle": "Archive {{name}}?",
+      "confirmDescription": "Everyone will only be able to view the data. The leader can restore the group at any time.",
+      "archived": "Group archived.",
+      "restored": "Group restored."
+    }
   }
 }

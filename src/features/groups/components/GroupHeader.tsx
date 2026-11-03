@@ -1,23 +1,21 @@
 /**
- * @file Header of the group workspace: back link, name and my role, subject / semester / lecturer (UC02), members,
- *   group code, and the concept role switcher.
+ * @file Compact header of the group workspace: breadcrumb, group name and my role, members, group code and the
+ *   concept role switcher. Subject, semester, lecturer and topic live in the overview's group info card.
  * @author MinhTien
- * @version 1.0.0
+ * @version 2.0.0
  * @since 2026-10-16
- * @modified 2026-10-16
+ * @modified 2026-11-03
  */
 
-import { ChevronLeft, Copy, GraduationCap } from 'lucide-react'
+import { Copy } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
 
 import { AvatarStack, GroupRoleBadge } from '@/components/common'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ROUTES } from '@/config/routes'
 import { useCopyToClipboard } from '@/hooks'
 import { type GroupWorkspace, type MockUser, useUserMap } from '@/mocks'
 
+import { GroupBreadcrumb } from './GroupBreadcrumb'
 import { RoleSwitcher } from './RoleSwitcher'
 
 export function GroupHeader({ workspace }: { workspace: GroupWorkspace }) {
@@ -27,33 +25,14 @@ export function GroupHeader({ workspace }: { workspace: GroupWorkspace }) {
   const copy = useCopyToClipboard()
   const { group, role, actualRole, members } = workspace
   const people = members.flatMap((item) => (users[item.userId] ? [users[item.userId] as MockUser] : []))
-  const subject = [group.subjectCode, group.subjectName].filter(Boolean).join(' · ')
 
   return (
-    <header className="flex flex-col gap-3">
-      <Link
-        to={ROUTES.groups}
-        className="inline-flex w-fit items-center gap-1 rounded-sm text-[13px] text-muted-foreground outline-none hover:text-foreground focus-visible:shadow-focus"
-      >
-        <ChevronLeft className="size-4" aria-hidden />
-        {tCommon('nav.groups')}
-      </Link>
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-        <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-            <h1 className="font-heading text-[26px] leading-9 font-semibold tracking-[-0.015em]">{group.name}</h1>
-            <GroupRoleBadge role={role} />
-          </div>
-          <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted-foreground">
-            {subject ? <span className="font-medium text-foreground">{subject}</span> : <Badge variant="outline">{tCommon('domain.unclassified')}</Badge>}
-            {group.semester && <span>· {group.semester}</span>}
-            {group.lecturerName && (
-              <span className="inline-flex items-center gap-1">
-                · <GraduationCap className="size-3.5" aria-hidden /> {group.lecturerName}
-              </span>
-            )}
-          </p>
-          {group.topic && <p className="mt-1 text-sm">{t('header.topic', { topic: group.topic })}</p>}
+    <header className="flex flex-col gap-2.5">
+      <GroupBreadcrumb group={group} />
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5">
+          <h1 className="min-w-0 truncate font-heading text-xl leading-7 font-semibold tracking-[-0.01em]">{group.name}</h1>
+          <GroupRoleBadge role={role} />
         </div>
         <div className="flex flex-wrap items-center gap-2.5">
           <AvatarStack people={people} max={5} label={tCommon('domain.members', { count: people.length })} />

@@ -2,9 +2,9 @@
  * @file Seed data of the concept: five groups seen by the signed-in student, with dates relative to today so that
  *   overdue and due-soon flags always make sense.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-10-16
- * @modified 2026-10-16
+ * @modified 2026-11-03
  */
 
 import { ROUTES } from '@/config/routes'
@@ -404,6 +404,8 @@ interface TaskInput {
   priority?: TaskPriority
   assigneeId?: string | null
   due?: number | null
+  /** Days from now; defaults to six days before the due date */
+  start?: number | null
   estimate?: number | null
   labels?: string[]
   parent?: string
@@ -412,6 +414,13 @@ interface TaskInput {
   description?: string
   createdBy?: string
   blockedBy?: string[]
+}
+
+const DEFAULT_TASK_SPAN_DAYS = 6
+
+function startOf(input: TaskInput): string | null {
+  const start = input.start ?? (input.due == null ? null : input.due - DEFAULT_TASK_SPAN_DAYS)
+  return start === null ? null : daysFromNow(start, 0, 0)
 }
 
 function task(input: TaskInput): Task {
@@ -430,6 +439,7 @@ function task(input: TaskInput): Task {
     priority: input.priority ?? 'medium',
     assigneeId: input.assigneeId === undefined ? ME_ID : input.assigneeId,
     supporterIds: input.supporters ?? [],
+    startAt: startOf(input),
     dueAt: input.due === null || input.due === undefined ? null : daysFromNow(input.due),
     estimateHours: input.estimate ?? null,
     labelIds: input.labels ?? [],

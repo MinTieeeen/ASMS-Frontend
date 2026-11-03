@@ -2,13 +2,15 @@
  * @file One phase in the phases tab: status, dates, goal, related milestone, progress or the numbers saved when it
  *   was closed, and the management menu (UC06, UC07).
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.2.0
  * @since 2026-11-03
  * @modified 2026-11-03
  */
 
 import { ArrowDown, ArrowUp, Ellipsis, Flag, Lock, LockOpen, Pencil, Trash2 } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 
 import { PhaseStatusBadge, ProgressMeter } from '@/components/common'
 import { Button } from '@/components/ui/button'
@@ -20,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ROUTES } from '@/config/routes'
 import { cn } from '@/lib/utils'
 import { type Phase, progressOf, type Task } from '@/mocks'
 import { formatDate } from '@/utils/date'
@@ -44,9 +47,21 @@ interface PhaseCardProps {
   /** Only the leader reopens a closed phase (UC07) */
   canReopen: boolean
   actions: PhaseCardActions
+  /** Drag handle shown before the name when phases can be reordered */
+  dragHandle?: ReactNode
 }
 
-export function PhaseCard({ phase, tasks, milestoneName, isFirst, isLast, canManage, canReopen, actions }: PhaseCardProps) {
+export function PhaseCard({
+  phase,
+  tasks,
+  milestoneName,
+  isFirst,
+  isLast,
+  canManage,
+  canReopen,
+  actions,
+  dragHandle,
+}: PhaseCardProps) {
   const { t } = useTranslation('groups')
   const isClosed = phase.status === 'closed'
   const progress = progressOf(tasks)
@@ -55,6 +70,7 @@ export function PhaseCard({ phase, tasks, milestoneName, isFirst, isLast, canMan
     <Card className={cn(phase.status === 'active' && 'border-primary')}>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center gap-2">
+          {dragHandle}
           {phase.name}
           <PhaseStatusBadge status={phase.status} />
         </CardTitle>
@@ -118,7 +134,16 @@ export function PhaseCard({ phase, tasks, milestoneName, isFirst, isLast, canMan
         {milestoneName && (
           <p className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
             <Flag className="size-3.5" aria-hidden />
-            {t('phases.milestone', { name: milestoneName })}
+            {phase.milestoneId ? (
+              <Link
+                to={ROUTES.groupMilestoneDetail(phase.groupId, phase.milestoneId)}
+                className="rounded-sm outline-none hover:text-foreground hover:underline focus-visible:shadow-focus"
+              >
+                {t('phases.milestone', { name: milestoneName })}
+              </Link>
+            ) : (
+              t('phases.milestone', { name: milestoneName })
+            )}
           </p>
         )}
         {isClosed && phase.snapshot ? (

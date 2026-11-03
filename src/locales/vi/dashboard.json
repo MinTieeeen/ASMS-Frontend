@@ -1,0 +1,66 @@
+{
+  "greeting": {
+    "morning": "Chào buổi sáng, {{name}}",
+    "afternoon": "Chào buổi chiều, {{name}}",
+    "evening": "Chào buổi tối, {{name}}"
+  },
+  "summary": {
+    "busy": "Hôm nay bạn có {{dueToday}} việc đến hạn và {{overdue}} việc quá hạn.",
+    "clear": "Hôm nay không có việc nào đến hạn. Một ngày nhẹ nhàng!"
+  },
+  "actions": {
+    "myTasks": "Công việc của tôi",
+    "groups": "Nhóm của tôi"
+  },
+  "kpi": {
+    "open": "Việc đang mở",
+    "overdue": "Quá hạn",
+    "dueThisWeek": "Đến hạn trong 7 ngày",
+    "doneThisWeek": "Hoàn thành 7 ngày qua",
+    "more": "Nhiều hơn 7 ngày trước {{count}} việc",
+    "less": "Ít hơn 7 ngày trước {{count}} việc",
+    "same": "Bằng 7 ngày trước",
+    "viewOverdue": "Xem việc quá hạn"
+  },
+  "workload": {
+    "title": "Hạn chót 14 ngày tới",
+    "description": "Số việc của bạn đến hạn mỗi ngày. Chọn một cột để xem các việc trong ngày.",
+    "column": "{{date}}: {{count}} việc",
+    "today": "Hôm nay",
+    "peak": "Ngày bận nhất: {{date}} với {{count}} việc.",
+    "empty": "Không có hạn chót nào trong 14 ngày tới.",
+    "table": "Số việc đến hạn theo ngày",
+    "date": "Ngày",
+    "count": "Số việc"
+  },
+  "status": {
+    "title": "Việc đang mở theo trạng thái",
+    "unit": "việc đang mở",
+    "empty": "Bạn không có việc nào đang mở."
+  },
+  "urgent": {
+    "title": "Cần làm ngay",
+    "description": "Quá hạn hoặc đến hạn trong 3 ngày tới",
+    "empty": "Không có việc gấp. Tốt lắm!",
+    "viewAll": "Xem tất cả"
+  },
+  "calendar": {
+    "title": "Lịch hạn chót",
+    "dayTitle": "Hạn ngày {{date}}",
+    "empty": "Không có hạn chót nào trong ngày này.",
+    "hasDeadline": "có hạn chót"
+  },
+  "groups": {
+    "title": "Các nhóm của tôi",
+    "group": "Nhóm",
+    "progress": "Tiến độ nhóm",
+    "myOpen": "Việc của tôi",
+    "nextMilestone": "Mốc nộp kế tiếp",
+    "empty": "Bạn chưa tham gia nhóm nào",
+    "emptyAction": "Tạo hoặc tham gia nhóm"
+  },
+  "milestones": {
+    "title": "Mốc nộp sắp tới",
+    "empty": "Không có mốc nộp nào sắp tới."
+  }
+}

@@ -28,8 +28,8 @@ import { useMockStore } from '@/mocks'
 
 import {
   CREATE_GROUP_INFO_FIELDS,
-  createGroupSchema,
   type CreateGroupFormValues,
+  createGroupSchema,
 } from '../schemas/create-group.schema'
 import { GroupInfoFields } from './GroupInfoFields'
 import { InviteShareBox } from './InviteShareBox'

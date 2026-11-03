@@ -2,9 +2,9 @@
  * @file Mock backend of milestones and deliverables, progress updates, peer reviews, resources, meeting notes, polls
  *   and notifications (M06-M10).
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-10-16
- * @modified 2026-10-16
+ * @modified 2026-11-03
  */
 
 import { PEER_REVIEW_MIN_REVIEWS } from '@/config/constants'
@@ -38,6 +38,8 @@ export interface ReviewRoundInput {
 export interface ResultsSlice {
   createMilestone: (groupId: string, input: MilestoneInput) => void
   updateMilestone: (milestoneId: string, patch: Partial<Milestone>) => void
+  /** Refused once the milestone has a deliverable; phases pointing to it lose the link */
+  deleteMilestone: (milestoneId: string) => void
   toggleMilestoneChecklist: (milestoneId: string, itemId: string) => void
   uploadDeliverable: (milestoneId: string, input: DeliverableInput) => void
   setPrimaryDeliverable: (deliverableId: string) => void
@@ -80,7 +82,23 @@ export const createResultsSlice: Slice<ResultsSlice> = (set, get) => ({
           checklist: [],
         },
       ],
+      activities: [activity(groupId, ME_ID, 'milestoneCreated', { milestone: input.name }), ...state.activities],
     })),
+
+  deleteMilestone: (milestoneId) =>
+    set((state) => {
+      const milestone = state.milestones.find((item) => item.id === milestoneId)
+      const hasDeliverables = state.deliverables.some((item) => item.milestoneId === milestoneId)
+      if (!milestone || hasDeliverables) return {}
+      return {
+        milestones: state.milestones.filter((item) => item.id !== milestoneId),
+        phases: state.phases.map((item) => (item.milestoneId === milestoneId ? { ...item, milestoneId: null } : item)),
+        activities: [
+          activity(milestone.groupId, ME_ID, 'milestoneDeleted', { milestone: milestone.name }),
+          ...state.activities,
+        ],
+      }
+    }),
 
   updateMilestone: (milestoneId, patch) =>
     set((state) => ({
@@ -270,6 +288,7 @@ export const createResultsSlice: Slice<ResultsSlice> = (set, get) => ({
       description: '',
       priority: 'medium',
       assigneeId: actionItem.assigneeId,
+      startAt: null,
       dueAt: null,
       estimateHours: null,
       labelIds: [],

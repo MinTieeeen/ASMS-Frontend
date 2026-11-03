@@ -2,9 +2,9 @@
  * @file Group information fields (UC03 step 2) and the optional subject / semester block (UC02): suggestions come
  *   from the catalogs, any value can still be typed.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-10-16
- * @modified 2026-10-16
+ * @modified 2026-11-03
  */
 
 import { type Control, Controller, type UseFormSetValue } from 'react-hook-form'
@@ -30,14 +30,16 @@ const MEMBER_LIMITS = Array.from({ length: SYSTEM_MAX_MEMBERS }, (_, index) => S
 interface GroupInfoFieldsProps {
   control: Control<CreateGroupFormValues>
   setValue: UseFormSetValue<CreateGroupFormValues>
+  /** BR02: the limit cannot go below the members the group already has */
+  minMaxMembers?: number
 }
 
-export function GroupInfoFields({ control, setValue }: GroupInfoFieldsProps) {
+export function GroupInfoFields({ control, setValue, minMaxMembers = 1 }: GroupInfoFieldsProps) {
   const { t } = useTranslation('groups')
 
   return (
     <div className="flex flex-col gap-4">
-      <FormTextField control={control} name="name" label={t('field.name')} placeholder={t('field.namePlaceholder')} autoFocus />
+      <FormTextField control={control} name="name" label={t('field.name')} placeholder={t('field.namePlaceholder')} />
       <FormTextField control={control} name="topic" label={t('field.topic')} placeholder={t('field.topicPlaceholder')} />
       <FormTextareaField control={control} name="description" label={t('field.description')} rows={3} />
       <Controller
@@ -51,7 +53,7 @@ export function GroupInfoFields({ control, setValue }: GroupInfoFieldsProps) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {MEMBER_LIMITS.map((value) => (
+                {MEMBER_LIMITS.filter((value) => Number(value) >= minMaxMembers).map((value) => (
                   <SelectItem key={value} value={value}>
                     {value}
                   </SelectItem>

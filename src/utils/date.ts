@@ -1,7 +1,7 @@
 /**
  * @file Date helpers for BR13: API uses ISO 8601 UTC, UI shows the user time zone.
  * @author MinhTien
- * @version 1.2.0
+ * @version 1.3.0
  * @since 2026-09-26
  * @modified 2026-11-03
  */
@@ -46,6 +46,16 @@ export function fromDateInputValue(
   timeZone = env.defaultTimezone,
 ): string {
   return fromZonedTime(`${value}T${edge === 'start' ? '00:00:00' : '23:59:00'}`, timeZone).toISOString()
+}
+
+/** Value of an `<input type="time">` (`HH:mm`) for an ISO instant, in the user time zone */
+export function toTimeInputValue(iso: string, timeZone = env.defaultTimezone): string {
+  return formatInTimeZone(iso, timeZone, 'HH:mm')
+}
+
+/** ISO instant of a day and time picked in the user time zone, e.g. a milestone's real due time */
+export function fromDateTimeInputValues(date: string, time: string, timeZone = env.defaultTimezone): string {
+  return fromZonedTime(`${date}T${time}:00`, timeZone).toISOString()
 }
 
 /** Relative time of a past moment; the caller translates it (common `time.*` keys). */

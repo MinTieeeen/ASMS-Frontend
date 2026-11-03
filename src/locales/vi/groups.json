@@ -158,7 +158,6 @@
     "leftToast": "Bạn đã rời {{group}}."
   },
   "header": {
-    "topic": "Đề tài: {{topic}}",
     "copyCode": "Sao chép mã nhóm {{code}}"
   },
   "workspace": {
@@ -168,9 +167,7 @@
     "archivedTitle": "Nhóm đã được lưu trữ",
     "archivedDescription": "Nhóm chỉ còn xem và xuất dữ liệu, không thể chỉnh sửa.",
     "needsAttention": "Cần chú ý",
-    "comingSoonTitle": "Mục này đang được xây dựng",
-    "comingSoonHint": "Trong lúc chờ, bạn có thể xem tổng quan hoặc danh sách nhóm của mình.",
-    "backToOverview": "Về tổng quan"
+    "breadcrumb": "Đường dẫn trong nhóm"
   },
   "tab": {
     "overview": "Tổng quan",
@@ -206,7 +203,19 @@
     "allActivity": "Xem tất cả",
     "charterTitle": "Nội quy nhóm (phiên bản {{version}}) cần bạn xác nhận",
     "charterDescription": "Đọc và xác nhận nội quy để cả nhóm thống nhất cách làm việc.",
-    "charterOpen": "Xem nội quy"
+    "charterOpen": "Xem nội quy",
+    "info": {
+      "title": "Thông tin nhóm",
+      "subject": "Môn học",
+      "semester": "Học kỳ",
+      "lecturer": "Giảng viên hướng dẫn",
+      "topic": "Đề tài",
+      "description": "Mô tả",
+      "members": "Thành viên",
+      "membersValue": "{{count}}/{{max}} người",
+      "createdAt": "Ngày tạo",
+      "notSet": "Chưa có"
+    }
   },
   "activity": {
     "kind": {
@@ -225,7 +234,9 @@
       "milestoneGraded": "{{actor}} đã ghi điểm {{score}} cho {{milestone}}",
       "reviewOpened": "{{actor}} đã mở đợt đánh giá {{round}}",
       "charterConfirmed": "{{actor}} đã xác nhận nội quy nhóm",
-      "groupUpdated": "{{actor}} đã cập nhật thông tin nhóm"
+      "groupUpdated": "{{actor}} đã cập nhật thông tin nhóm",
+      "milestoneCreated": "{{actor}} đã thêm mốc nộp {{milestone}}",
+      "milestoneDeleted": "{{actor}} đã xóa mốc nộp {{milestone}}"
     }
   },
   "phases": {
@@ -287,7 +298,9 @@
       "closed": "Đã kết thúc giai đoạn {{name}}.",
       "reopened": "Đã mở lại giai đoạn {{name}}.",
       "deleted": "Đã xóa giai đoạn {{name}}."
-    }
+    },
+    "dragHandle": "Kéo để sắp xếp giai đoạn {{name}}",
+    "moved": "Đã đổi thứ tự giai đoạn."
   },
   "validation": {
     "phaseNameRequired": "Nhập tên giai đoạn.",
@@ -298,5 +311,53 @@
     "tooLong": "Nội dung quá dài.",
     "emailInvalid": "E-mail không hợp lệ.",
     "codeInvalid": "Mã nhóm gồm 6 chữ cái hoặc chữ số."
+  },
+  "settings": {
+    "readOnlyTitle": "Chỉ trưởng nhóm thay đổi được cài đặt",
+    "readOnlyDescription": "Bạn có thể xem cài đặt hiện tại của nhóm.",
+    "info": {
+      "title": "Thông tin nhóm",
+      "description": "Tên, đề tài, giới hạn thành viên; môn học, học kỳ và giảng viên chỉ dùng để phân loại.",
+      "save": "Lưu thay đổi",
+      "saved": "Đã lưu thông tin nhóm.",
+      "minMembers": "Nhóm đang có {{count}} thành viên nên giới hạn không thể thấp hơn."
+    },
+    "join": {
+      "title": "Tham gia nhóm",
+      "requireApproval": "Cần duyệt khi tham gia",
+      "requireApprovalHint": "Người có mã hoặc link phải chờ trưởng nhóm hoặc phó nhóm duyệt.",
+      "expiry": "Hạn dùng link mời",
+      "expiryHint": "Sau thời điểm này, mã và link mời hiện tại ngừng hoạt động.",
+      "expiresAt": "Hết hạn {{date}}",
+      "noExpiry": "Không hết hạn",
+      "expired": "Đã hết hạn {{date}}",
+      "option": {
+        "1": "Thêm 1 ngày kể từ bây giờ",
+        "7": "Thêm 7 ngày kể từ bây giờ",
+        "30": "Thêm 30 ngày kể từ bây giờ",
+        "none": "Không hết hạn"
+      },
+      "saved": "Đã lưu cài đặt tham gia nhóm.",
+      "change": "Đổi hạn dùng…"
+    },
+    "workflow": {
+      "title": "Quy trình công việc",
+      "reviewEnabled": "Bật bước duyệt công việc",
+      "reviewEnabledHint": "Việc phải qua \"Chờ duyệt\"; chỉ trưởng nhóm hoặc phó nhóm chuyển sang \"Hoàn thành\".",
+      "reviewLocked": "Hãy duyệt hoặc trả lại {{count}} việc đang chờ duyệt trước khi tắt bước duyệt.",
+      "requireResult": "Bắt buộc nộp kết quả khi gửi duyệt",
+      "requireResultHint": "Thành viên phải mô tả việc đã làm hoặc dán link sản phẩm khi chuyển sang \"Chờ duyệt\".",
+      "saved": "Đã lưu quy trình công việc."
+    },
+    "archive": {
+      "title": "Lưu trữ nhóm",
+      "description": "Nhóm lưu trữ chỉ còn xem và xuất dữ liệu: không thêm, sửa công việc, sản phẩm hay thành viên.",
+      "archive": "Lưu trữ nhóm",
+      "restore": "Khôi phục nhóm",
+      "confirmTitle": "Lưu trữ {{name}}?",
+      "confirmDescription": "Cả nhóm sẽ chỉ còn xem được dữ liệu. Trưởng nhóm có thể khôi phục lại bất cứ lúc nào.",
+      "archived": "Đã lưu trữ nhóm.",
+      "restored": "Đã khôi phục nhóm."
+    }
   }
 }

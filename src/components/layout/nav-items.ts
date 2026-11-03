@@ -1,7 +1,7 @@
 /**
  * @file Main navigation, grouped by role (design "LAYOUT · Bố cục chung", table "Điều hướng theo vai trò").
  * @author MinhTien
- * @version 3.0.0
+ * @version 3.1.0
  * @since 2026-09-26
  * @modified 2026-11-03
  */
@@ -30,7 +30,6 @@ export interface NavGroup {
 }
 
 // Reduced MVP scope: calendar, admin overview, audit logs and catalogs (F12.02, F12.07) are moved to GĐ2
-// TODO(F05.08): drop `comingSoon` once the task pages are built
 export const NAV_GROUPS: NavGroup[] = [
   {
     labelKey: 'nav.group.workspace',
@@ -43,7 +42,7 @@ export const NAV_GROUPS: NavGroup[] = [
         end: true,
         activePaths: ['/join/:code'],
       },
-      { labelKey: 'nav.tasks', to: ROUTES.tasks, icon: ListChecks, comingSoon: true },
+      { labelKey: 'nav.tasks', to: ROUTES.tasks, icon: ListChecks },
     ],
   },
   {

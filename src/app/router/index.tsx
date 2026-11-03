@@ -1,7 +1,7 @@
 /**
  * @file Application route tree (React Router data router).
  * @author MinhTien
- * @version 2.3.0
+ * @version 2.7.0
  * @since 2026-09-26
  * @modified 2026-11-03
  */
@@ -76,6 +76,7 @@ export const router = createBrowserRouter([
                 lazy: page(() => import('@/features/dashboard/pages/DashboardPage')),
               },
               { path: ROUTES.groups, lazy: page(() => import('@/features/groups/pages/GroupsPage')) },
+              { path: ROUTES.tasks, lazy: page(() => import('@/features/tasks/pages/MyTasksPage')) },
               { path: ROUTES.joinGroup(':code'), lazy: page(() => import('@/features/groups/pages/JoinGroupPage')) },
               {
                 path: 'groups/:groupId',
@@ -85,18 +86,18 @@ export const router = createBrowserRouter([
                     index: true,
                     lazy: page(() => import('@/features/groups/pages/GroupOverviewPage')),
                   },
-                  { path: 'tasks', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'tasks', lazy: page(() => import('@/features/tasks/pages/GroupTasksPage')) },
                   { path: 'phases', lazy: page(() => import('@/features/groups/pages/GroupPhasesPage')) },
                   {
                     path: 'milestones',
-                    lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')),
+                    lazy: page(() => import('@/features/milestones/pages/GroupMilestonesPage')),
                   },
                   {
                     path: 'milestones/:milestoneId',
-                    lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')),
+                    lazy: page(() => import('@/features/milestones/pages/GroupMilestoneDetailPage')),
                   },
                   { path: 'members', lazy: page(() => import('@/features/groups/pages/GroupMembersPage')) },
-                  { path: 'settings', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
+                  { path: 'settings', lazy: page(() => import('@/features/groups/pages/GroupSettingsPage')) },
                 ],
               },
               {

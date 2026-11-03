@@ -16,7 +16,12 @@ function renderPhases(groupId: string) {
 const phaseNames = () =>
   within(screen.getByRole('list', { name: 'Giai đoạn' }))
     .getAllByRole('listitem')
-    .map((item) => item.querySelector('[data-slot="card-title"]')?.firstChild?.textContent)
+    // The name is the title's text node, between the drag handle and the status badge
+    .map((item) =>
+      Array.from(item.querySelector('[data-slot="card-title"]')?.childNodes ?? [])
+        .find((node) => node.nodeType === Node.TEXT_NODE)
+        ?.textContent,
+    )
 
 const phaseOf = (id: string) => useMockStore.getState().phases.find((item) => item.id === id)
 
@@ -36,6 +41,15 @@ describe('GroupPhasesPage (M04)', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Đưa Lập trình lên trước' }))
 
     expect(phaseNames().slice(1, 3)).toEqual(['Lập trình', 'Thiết kế'])
+  })
+
+  it('gives managers a drag handle on each phase and follows the saved order (UC06 step 3)', () => {
+    const ids = ['g1-p1', 'g1-p3', 'g1-p2', 'g1-p4', 'g1-p5']
+    useMockStore.getState().reorderPhases('g1', ids)
+    renderPhases('g1')
+
+    expect(phaseNames().slice(0, 3)).toEqual(['Phân tích yêu cầu', 'Lập trình', 'Thiết kế'])
+    expect(screen.getByRole('button', { name: 'Kéo để sắp xếp giai đoạn Thiết kế' })).toBeInTheDocument()
   })
 
   it('refuses an end date before the start date (UC06 step 2)', async () => {
@@ -73,5 +87,6 @@ describe('GroupPhasesPage (M04)', () => {
 
     expect(screen.queryByRole('button', { name: 'Thêm giai đoạn' })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /^Thao tác với giai đoạn/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Kéo để sắp xếp/ })).not.toBeInTheDocument()
   })
 })

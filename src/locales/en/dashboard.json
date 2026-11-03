@@ -1,0 +1,66 @@
+{
+  "greeting": {
+    "morning": "Good morning, {{name}}",
+    "afternoon": "Good afternoon, {{name}}",
+    "evening": "Good evening, {{name}}"
+  },
+  "summary": {
+    "busy": "Today you have {{dueToday}} tasks due and {{overdue}} overdue.",
+    "clear": "Nothing is due today. Enjoy a lighter day!"
+  },
+  "actions": {
+    "myTasks": "My tasks",
+    "groups": "My groups"
+  },
+  "kpi": {
+    "open": "Open tasks",
+    "overdue": "Overdue",
+    "dueThisWeek": "Due in 7 days",
+    "doneThisWeek": "Done in the last 7 days",
+    "more": "{{count}} more than the 7 days before",
+    "less": "{{count}} fewer than the 7 days before",
+    "same": "Same as the 7 days before",
+    "viewOverdue": "View overdue tasks"
+  },
+  "workload": {
+    "title": "Deadlines in the next 14 days",
+    "description": "Your tasks due each day. Pick a column to see that day's tasks.",
+    "column": "{{date}}: {{count}} tasks",
+    "today": "Today",
+    "peak": "Busiest day: {{date}} with {{count}} tasks.",
+    "empty": "No deadlines in the next 14 days.",
+    "table": "Tasks due per day",
+    "date": "Date",
+    "count": "Tasks"
+  },
+  "status": {
+    "title": "Open tasks by status",
+    "unit": "open tasks",
+    "empty": "You have no open tasks."
+  },
+  "urgent": {
+    "title": "Needs attention now",
+    "description": "Overdue or due in the next 3 days",
+    "empty": "Nothing urgent. Great work!",
+    "viewAll": "View all"
+  },
+  "calendar": {
+    "title": "Deadline calendar",
+    "dayTitle": "Due on {{date}}",
+    "empty": "No deadlines on this day.",
+    "hasDeadline": "has deadlines"
+  },
+  "groups": {
+    "title": "My groups",
+    "group": "Group",
+    "progress": "Group progress",
+    "myOpen": "My tasks",
+    "nextMilestone": "Next milestone",
+    "empty": "You have not joined a group yet",
+    "emptyAction": "Create or join a group"
+  },
+  "milestones": {
+    "title": "Upcoming milestones",
+    "empty": "No upcoming milestones."
+  }
+}

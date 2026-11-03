@@ -186,5 +186,15 @@
     "reset": "Khôi phục dữ liệu mẫu",
     "resetDone": "Đã khôi phục dữ liệu mẫu.",
     "mockAction": "Concept: thao tác này chỉ mô phỏng, chưa có backend."
+  },
+  "dnd": {
+    "instructions": "Để kéo một mục, nhấn Space hoặc Enter. Khi đang kéo, dùng phím mũi tên để di chuyển, nhấn Space hoặc Enter lần nữa để thả, Esc để hủy.",
+    "pickedUp": "Đã nhấc {{item}}.",
+    "over": "{{item}} đang ở trên {{target}}.",
+    "overNone": "{{item}} không ở trên vùng thả nào.",
+    "dropped": "Đã thả {{item}} vào {{target}}.",
+    "droppedNone": "Đã thả {{item}}.",
+    "cancelled": "Đã hủy kéo {{item}}.",
+    "roleDescription": "mục có thể kéo"
   }
 }

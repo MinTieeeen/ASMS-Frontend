@@ -1,0 +1,148 @@
+{
+  "list": {
+    "count": "{{count}} tasks",
+    "add": "Add task",
+    "empty": "This group has no tasks yet",
+    "emptyHint": "Create the first task to start assigning work.",
+    "noMatch": "No tasks match the filters",
+    "label": "Task list"
+  },
+  "view": {
+    "label": "View",
+    "list": "List",
+    "board": "Board",
+    "calendar": "Calendar",
+    "gantt": "Gantt"
+  },
+  "table": {
+    "code": "ID",
+    "title": "Task",
+    "status": "Status",
+    "priority": "Priority",
+    "assignee": "Assignee",
+    "phase": "Phase",
+    "dueDate": "Due date",
+    "startDate": "Start",
+    "group": "Group"
+  },
+  "calendarView": {
+    "noDueDate": "{{count}} tasks have no due date, so they are not on the calendar."
+  },
+  "gantt": {
+    "label": "Task Gantt chart",
+    "hint": "Each bar runs from the start date to the due date. Tasks without a start date start on the day they were created (or the phase start, if later).",
+    "noDueDate": "{{count}} tasks have no due date, so they are not on the chart.",
+    "empty": "No task has a due date to chart yet.",
+    "task": "Task",
+    "noPhase": "No phase",
+    "today": "Today",
+    "range": "{{start}} – {{end}}"
+  },
+  "filter": {
+    "search": "Search by task title",
+    "status": "Status",
+    "assignee": "Assignee",
+    "phase": "Phase",
+    "all": "All",
+    "open": "Open",
+    "me": "Mine",
+    "unassigned": "Unassigned",
+    "noPhase": "No phase",
+    "overdue": "Overdue only",
+    "group": "Group",
+    "allGroups": "All groups"
+  },
+  "field": {
+    "title": "Title",
+    "titlePlaceholder": "e.g. Design the sign-in screen",
+    "description": "Description",
+    "assignee": "Assignee",
+    "unassigned": "Unassigned",
+    "dueDate": "Due date",
+    "priority": "Priority",
+    "phase": "Phase",
+    "noPhase": "No phase",
+    "createdBy": "Created by",
+    "selfOnly": "You can only take the task yourself or leave it unassigned.",
+    "startDate": "Start date",
+    "schedule": "Schedule"
+  },
+  "form": {
+    "createTitle": "Add task",
+    "editTitle": "Edit task #{{code}}",
+    "dueAfterPhase": "The due date is after phase {{phase}} ends ({{date}}). You can still save.",
+    "create": "Add task",
+    "save": "Save changes"
+  },
+  "status": {
+    "change": "Change the status of #{{code}}",
+    "noPermission": "You don't have permission to change the status of this task.",
+    "changed": "#{{code}} moved to {{status}}."
+  },
+  "submit": {
+    "title": "Submit #{{code}} for review",
+    "description": "This group asks for a result before review: describe what you did or paste a link to the work.",
+    "result": "Result",
+    "confirm": "Submit for review"
+  },
+  "review": {
+    "approve": "Approve",
+    "return": "Return",
+    "returnTitle": "Return #{{code}}",
+    "returnDescription": "The task goes back to In progress. Tell the assignee what to fix.",
+    "reason": "Reason",
+    "approved": "#{{code}} approved.",
+    "returned": "#{{code}} returned.",
+    "waiting": "This task is waiting for the leader or a deputy to review it."
+  },
+  "detail": {
+    "label": "Details of task #{{code}}",
+    "notFound": "This task could not be found. It may have been deleted.",
+    "noDescription": "No description yet.",
+    "edit": "Edit",
+    "delete": "Delete task",
+    "deleteTitle": "Delete task #{{code}}?",
+    "deleteDescription": "The task, its comments and its history will be deleted.",
+    "deleted": "#{{code}} deleted.",
+    "created": "#{{code}} added.",
+    "updated": "#{{code}} saved.",
+    "createdAt": "Created {{date}}",
+    "completedAt": "Completed {{date}}"
+  },
+  "comments": {
+    "title": "Comments",
+    "empty": "No comments yet.",
+    "label": "Write a comment",
+    "placeholder": "Write a comment…",
+    "send": "Send comment"
+  },
+  "history": {
+    "title": "History",
+    "created": "{{actor}} created the task",
+    "assigned": "{{actor}} assigned it to {{assignee}}",
+    "unassigned": "{{actor}} removed the assignee",
+    "statusChanged": "{{actor}} moved it from {{from}} to {{to}}",
+    "approved": "{{actor}} approved it",
+    "returned": "{{actor}} returned it: {{note}}",
+    "cancelled": "{{actor}} cancelled the task"
+  },
+  "validation": {
+    "titleRequired": "Enter a task title.",
+    "tooLong": "The content is too long.",
+    "required": "This field is required.",
+    "dueBeforeStart": "The due date cannot be before the start date."
+  },
+  "board": {
+    "label": "Task board by status",
+    "dragHandle": "Drag #{{code}} to another column",
+    "empty": "No tasks",
+    "hiddenCancelled": "Cancelled tasks are not shown on the board."
+  },
+  "my": {
+    "title": "My tasks",
+    "description": "Tasks assigned to you in every group, by due date.",
+    "empty": "No task is assigned to you yet",
+    "emptyHint": "When a leader assigns you a task, or you take one yourself, it shows up here.",
+    "goToGroups": "View my groups"
+  }
+}

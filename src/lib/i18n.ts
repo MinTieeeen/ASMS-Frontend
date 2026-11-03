@@ -1,9 +1,9 @@
 /**
  * @file i18next setup (NFR14): Vietnamese by default.
  * @author MinhTien
- * @version 1.1.0
+ * @version 1.4.0
  * @since 2026-09-26
- * @modified 2026-09-26
+ * @modified 2026-11-03
  */
 
 import i18n from 'i18next'
@@ -14,21 +14,27 @@ import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/config/constants'
 import enAdmin from '@/locales/en/admin.json'
 import enAuth from '@/locales/en/auth.json'
 import enCommon from '@/locales/en/common.json'
+import enDashboard from '@/locales/en/dashboard.json'
 import enGroups from '@/locales/en/groups.json'
+import enMilestones from '@/locales/en/milestones.json'
 import enProfile from '@/locales/en/profile.json'
+import enTasks from '@/locales/en/tasks.json'
 import viAdmin from '@/locales/vi/admin.json'
 import viAuth from '@/locales/vi/auth.json'
 import viCommon from '@/locales/vi/common.json'
+import viDashboard from '@/locales/vi/dashboard.json'
 import viGroups from '@/locales/vi/groups.json'
+import viMilestones from '@/locales/vi/milestones.json'
 import viProfile from '@/locales/vi/profile.json'
+import viTasks from '@/locales/vi/tasks.json'
 
 /**
  * Each namespace is one JSON file in locales/{lang}/. To add a namespace, create it for both vi and en and
  * register it here.
  */
 export const resources = {
-  vi: { common: viCommon, auth: viAuth, admin: viAdmin, profile: viProfile, groups: viGroups },
-  en: { common: enCommon, auth: enAuth, admin: enAdmin, profile: enProfile, groups: enGroups },
+  vi: { common: viCommon, auth: viAuth, admin: viAdmin, profile: viProfile, groups: viGroups, tasks: viTasks, dashboard: viDashboard, milestones: viMilestones },
+  en: { common: enCommon, auth: enAuth, admin: enAdmin, profile: enProfile, groups: enGroups, tasks: enTasks, dashboard: enDashboard, milestones: enMilestones },
 } as const
 
 void i18n
@@ -39,7 +45,7 @@ void i18n
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: SUPPORTED_LANGUAGES,
     defaultNS: 'common',
-    ns: ['common', 'auth', 'admin', 'profile', 'groups'],
+    ns: ['common', 'auth', 'admin', 'profile', 'groups', 'tasks', 'dashboard', 'milestones'],
     interpolation: { escapeValue: false },
     // Only remember the user's explicit choice; ignore the browser language so Vietnamese stays the default
     detection: {

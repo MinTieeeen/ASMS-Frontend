@@ -1,8 +1,9 @@
 /**
- * @file Group dashboard (F07.01): progress, overdue and waiting-for-review counts, next milestone, phase timeline,
- *   status breakdown, tasks needing attention, member workload and recent activity.
+ * @file Group dashboard (F07.01): group information (subject, semester, lecturer, topic), progress, overdue and
+ *   waiting-for-review counts, next milestone, phase timeline, status breakdown, tasks needing attention, member
+ *   workload and recent activity.
  * @author MinhTien
- * @version 1.2.0
+ * @version 1.4.0
  * @since 2026-10-16
  * @modified 2026-11-03
  */
@@ -30,6 +31,7 @@ import {
 import { formatPercent } from '@/utils/format'
 
 import { ActivityItem } from '../components/ActivityItem'
+import { GroupInfoCard } from '../components/GroupInfoCard'
 import { MemberWorkload } from '../components/MemberWorkload'
 import { PhaseTimeline } from '../components/PhaseTimeline'
 import { StatusBreakdown } from '../components/StatusBreakdown'
@@ -70,11 +72,12 @@ function Overview({ workspace }: { workspace: GroupWorkspace }) {
 
   return (
     <div className="flex flex-col gap-5">
+      <GroupInfoCard group={group} memberCount={members.length} />
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatTile icon={CircleCheckBig} tone="success" value={formatPercent(progress.ratio)} label={t('overview.progress')} hint={<span className="text-muted-foreground">{t('overview.progressDetail', { done: progress.done, total: progress.total })}</span>} />
         <StatTile icon={TriangleAlert} tone={overdue.length ? 'danger' : 'default'} value={overdue.length} label={t('overview.overdue')} />
         <StatTile icon={Hourglass} tone={inReview.length ? 'attention' : 'default'} value={inReview.length} label={t('overview.inReview')} hint={hasTaskTab && inReview.length > 0 && workspace.can('approveTask') ? <Link className="font-medium text-primary hover:underline" to={`${ROUTES.groupTasks(group.id)}?status=in_review`}>{t('overview.reviewNow')}</Link> : undefined} />
-        <StatTile icon={Flag} tone="info" value={nextMilestone ? <span className="text-base">{nextMilestone.name}</span> : '—'} label={t('overview.nextMilestone')} hint={nextMilestone ? <DueDate dueAt={nextMilestone.dueAt} withTime /> : undefined} />
+        <StatTile icon={Flag} tone="info" value={nextMilestone ? <Link to={ROUTES.groupMilestoneDetail(group.id, nextMilestone.id)} className="text-base hover:underline">{nextMilestone.name}</Link> : '—'} label={t('overview.nextMilestone')} hint={nextMilestone ? <DueDate dueAt={nextMilestone.dueAt} withTime /> : undefined} />
       </div>
 
       <Card>

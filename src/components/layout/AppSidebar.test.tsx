@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
 import { AppSidebar } from '@/components/layout/AppSidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
@@ -38,12 +38,11 @@ describe('AppSidebar (LAYOUT)', () => {
     expect(screen.getByRole('link', { name: 'Trang chủ' })).not.toHaveAttribute('aria-current')
   })
 
-  it('shows pages not built yet as "coming soon", not as links', () => {
-    renderSidebar('USER')
+  it('links My tasks and selects it on its page', () => {
+    renderSidebar('USER', '/tasks')
 
-    const tasks = screen.getByText('Công việc của tôi').closest('[aria-disabled="true"]') as HTMLElement
-    expect(within(tasks).getByText('Sắp có')).toBeInTheDocument()
-    expect(screen.queryByRole('link', { name: /Công việc của tôi/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Công việc của tôi' })).toHaveAttribute('aria-current', 'page')
+    expect(screen.queryByText('Sắp có')).not.toBeInTheDocument()
   })
 
   it('links My groups and selects it for invite pages', () => {

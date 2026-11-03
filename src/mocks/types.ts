@@ -2,9 +2,9 @@
  * @file Concept data model of the group workflow (requirement section 7.2-7.3), used by the mock layer until the
  *   backend exposes the group, phase, task, milestone and review APIs.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.2.0
  * @since 2026-10-16
- * @modified 2026-10-16
+ * @modified 2026-11-03
  */
 
 export type GroupRole = 'leader' | 'deputy' | 'member'
@@ -141,6 +141,8 @@ export interface Task {
   priority: TaskPriority
   assigneeId: string | null
   supporterIds: string[]
+  /** Planned start, 00:00 of that day in the user time zone (BR13); optional like the due date */
+  startAt: string | null
   dueAt: string | null
   estimateHours: number | null
   labelIds: string[]
@@ -318,6 +320,8 @@ export type ActivityKind =
   | 'phaseClosed'
   | 'phaseReopened'
   | 'phaseDeleted'
+  | 'milestoneCreated'
+  | 'milestoneDeleted'
   | 'deliverableUploaded'
   | 'milestoneGraded'
   | 'reviewOpened'

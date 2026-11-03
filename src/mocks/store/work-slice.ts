@@ -1,7 +1,7 @@
 /**
  * @file Mock backend of phases, tasks and retrospectives (M04, M05).
  * @author MinhTien
- * @version 1.1.0
+ * @version 1.3.0
  * @since 2026-10-16
  * @modified 2026-11-03
  */
@@ -29,6 +29,7 @@ export interface TaskInput {
   description: string
   priority: Task['priority']
   assigneeId: string | null
+  startAt: string | null
   dueAt: string | null
   estimateHours: number | null
   labelIds: string[]
@@ -39,6 +40,8 @@ export interface WorkSlice {
   createPhase: (groupId: string, input: PhaseInput) => void
   updatePhase: (phaseId: string, input: PhaseInput) => void
   movePhase: (phaseId: string, offset: -1 | 1) => void
+  /** UC06 step 3: the group's phases in their new display order */
+  reorderPhases: (groupId: string, orderedIds: string[]) => void
   deletePhase: (phaseId: string, targetPhaseId: string | null) => void
   closePhase: (phaseId: string, carryOver: CarryOver) => void
   reopenPhase: (phaseId: string) => void
@@ -46,6 +49,7 @@ export interface WorkSlice {
   voteRetroItem: (itemId: string) => void
   createTask: (input: TaskInput) => string
   updateTask: (taskId: string, patch: Partial<Task>) => void
+  deleteTask: (taskId: string) => void
   setTaskStatus: (taskId: string, status: TaskStatus) => void
   approveTask: (taskId: string) => void
   returnTask: (taskId: string, reason: string) => void
@@ -122,6 +126,14 @@ export const createWorkSlice: Slice<WorkSlice> = (set, get) => ({
         }),
       }
     }),
+
+  reorderPhases: (groupId, orderedIds) =>
+    set((state) => ({
+      phases: state.phases.map((item) => {
+        const index = orderedIds.indexOf(item.id)
+        return item.groupId === groupId && index >= 0 ? { ...item, position: index + 1 } : item
+      }),
+    })),
 
   // UC06: a phase that still has tasks needs a phase to receive them (BR08: soft delete)
   deletePhase: (phaseId, targetPhaseId) =>
@@ -228,6 +240,7 @@ export const createWorkSlice: Slice<WorkSlice> = (set, get) => ({
         priority: input.priority,
         assigneeId: input.assigneeId,
         supporterIds: [],
+        startAt: input.startAt,
         dueAt: input.dueAt,
         estimateHours: input.estimateHours,
         labelIds: input.labelIds,
@@ -254,7 +267,42 @@ export const createWorkSlice: Slice<WorkSlice> = (set, get) => ({
     return id
   },
 
-  updateTask: (taskId, patch) => set((state) => ({ tasks: patchTask(state.tasks, taskId, patch) })),
+  // A new assignee is recorded in the task history; `note` holds their name, empty when unassigned
+  updateTask: (taskId, patch) => {
+    const task = get().tasks.find((item) => item.id === taskId)
+    if (!task) return
+    const isReassigned = patch.assigneeId !== undefined && patch.assigneeId !== task.assigneeId
+    const assignee = get().users.find((item) => item.id === patch.assigneeId)
+    set((state) => ({
+      tasks: patchTask(state.tasks, taskId, patch),
+      taskEvents: isReassigned
+        ? [
+            ...state.taskEvents,
+            {
+              id: newId('e'),
+              taskId,
+              actorId: ME_ID,
+              kind: 'assigned',
+              note: assignee?.fullName ?? '',
+              createdAt: nowIso(),
+            },
+          ]
+        : state.taskEvents,
+    }))
+  },
+
+  // BR08 asks for a soft delete on the backend; the mock simply drops the task with its sub-tasks and history
+  deleteTask: (taskId) =>
+    set((state) => {
+      const removed = new Set(
+        state.tasks.filter((item) => item.id === taskId || item.parentTaskId === taskId).map((item) => item.id),
+      )
+      return {
+        tasks: state.tasks.filter((item) => !removed.has(item.id)),
+        comments: state.comments.filter((item) => !removed.has(item.taskId)),
+        taskEvents: state.taskEvents.filter((item) => !removed.has(item.taskId)),
+      }
+    }),
 
   setTaskStatus: (taskId, status) => {
     const task = get().tasks.find((item) => item.id === taskId)

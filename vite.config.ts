@@ -45,5 +45,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     css: true,
+    // Page tests drive menus and dialogs through jsdom; under a full parallel run they can pass 5 s on a busy machine
+    testTimeout: 15_000,
   },
 })

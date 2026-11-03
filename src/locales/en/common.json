@@ -189,5 +189,15 @@
     "reset": "Reset sample data",
     "resetDone": "Sample data restored.",
     "mockAction": "Concept: this action is simulated, there is no backend yet."
+  },
+  "dnd": {
+    "instructions": "To pick up an item, press Space or Enter. While dragging, use the arrow keys to move it, press Space or Enter again to drop it, or Escape to cancel.",
+    "pickedUp": "Picked up {{item}}.",
+    "over": "{{item}} is over {{target}}.",
+    "overNone": "{{item}} is not over a drop area.",
+    "dropped": "Dropped {{item}} on {{target}}.",
+    "droppedNone": "Dropped {{item}}.",
+    "cancelled": "Dragging {{item}} was cancelled.",
+    "roleDescription": "draggable item"
   }
 }

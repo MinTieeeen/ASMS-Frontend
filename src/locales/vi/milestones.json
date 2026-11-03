@@ -1,0 +1,117 @@
+{
+  "list": {
+    "count": "{{count}} mốc nộp",
+    "add": "Thêm mốc nộp",
+    "empty": "Nhóm chưa có mốc nộp nào",
+    "emptyHint": "Nhập các hạn nộp giảng viên giao để cả nhóm cùng theo dõi.",
+    "emptyMember": "Trưởng nhóm hoặc phó nhóm sẽ nhập các mốc nộp.",
+    "label": "Danh sách mốc nộp",
+    "submitted": "Đã nộp",
+    "graded": "Đã có kết quả",
+    "weightedScore": "Điểm tạm tính",
+    "weightedScoreHint": "Theo trọng số của {{weight}}% đã có kết quả"
+  },
+  "card": {
+    "weight": "Trọng số {{weight}}%",
+    "primary": "Bản chính: v{{version}}",
+    "versions": "{{count}} phiên bản",
+    "noDeliverable": "Chưa nộp sản phẩm",
+    "score": "Điểm {{score}}/10",
+    "open": "Mở mốc {{name}}",
+    "actionsFor": "Thao tác với mốc {{name}}"
+  },
+  "field": {
+    "name": "Tên mốc nộp",
+    "namePlaceholder": "VD: Nộp tài liệu thiết kế",
+    "description": "Yêu cầu của giảng viên",
+    "dueDate": "Ngày hạn nộp",
+    "dueTime": "Giờ hạn nộp",
+    "weight": "Trọng số điểm (%)",
+    "weightHint": "Không bắt buộc. Tổng trọng số các mốc khác: {{total}}%.",
+    "weightOver": "Tổng trọng số các mốc sẽ là {{total}}%, vượt 100%. Bạn vẫn có thể lưu."
+  },
+  "form": {
+    "createTitle": "Thêm mốc nộp",
+    "editTitle": "Sửa mốc nộp",
+    "create": "Thêm mốc",
+    "save": "Lưu thay đổi"
+  },
+  "action": {
+    "edit": "Sửa mốc",
+    "delete": "Xóa mốc",
+    "deleteBlocked": "Mốc đã có sản phẩm nên không thể xóa.",
+    "deleteTitle": "Xóa mốc {{name}}?",
+    "deleteDescription": "Mốc nộp sẽ bị xóa khỏi danh sách.",
+    "deleteUnlinks": "Mốc nộp sẽ bị xóa; {{count}} giai đoạn đang liên kết với mốc sẽ bỏ liên kết."
+  },
+  "detail": {
+    "back": "Tất cả mốc nộp",
+    "notFound": "Không tìm thấy mốc nộp",
+    "notFoundHint": "Mốc nộp không tồn tại hoặc đã bị xóa.",
+    "due": "Hạn nộp",
+    "phases": "Giai đoạn liên quan",
+    "requirements": "Yêu cầu của giảng viên",
+    "noRequirements": "Chưa ghi yêu cầu."
+  },
+  "deliverables": {
+    "title": "Sản phẩm đã nộp",
+    "description": "Mỗi lần nộp là một phiên bản mới; phiên bản mới nhất tự thành bản chính.",
+    "submit": "Nộp sản phẩm",
+    "empty": "Chưa có phiên bản nào.",
+    "version": "Phiên bản",
+    "product": "Sản phẩm",
+    "note": "Ghi chú",
+    "by": "Người nộp",
+    "at": "Thời điểm",
+    "primary": "Bản chính",
+    "late": "Sau hạn",
+    "makePrimary": "Đặt làm bản chính",
+    "makePrimaryFor": "Đặt v{{version}} làm bản chính",
+    "primaryChanged": "Đã đặt v{{version}} làm bản chính.",
+    "download": "Tải {{name}}"
+  },
+  "submit": {
+    "title": "Nộp sản phẩm cho {{name}}",
+    "kind": "Loại sản phẩm",
+    "file": "Tải file",
+    "link": "Dán link",
+    "chooseFile": "Chọn file",
+    "fileHint": "Tối đa {{max}} mỗi file. Nhóm đã dùng {{used}} / {{limit}}.",
+    "url": "Đường dẫn",
+    "urlPlaceholder": "https://github.com/…",
+    "urlHint": "GitHub, Google Drive, Figma, link demo…",
+    "note": "Ghi chú phiên bản",
+    "notePlaceholder": "VD: Bản nộp chính thức",
+    "late": "Đã quá hạn nộp. Phiên bản này sẽ được gắn cờ \"Sau hạn\".",
+    "confirm": "Nộp phiên bản v{{version}}",
+    "done": "Đã nộp phiên bản v{{version}}."
+  },
+  "result": {
+    "title": "Kết quả",
+    "none": "Chưa có kết quả.",
+    "record": "Ghi kết quả",
+    "edit": "Sửa kết quả",
+    "dialogTitle": "Kết quả của {{name}}",
+    "score": "Điểm (thang 10)",
+    "feedback": "Nhận xét của giảng viên",
+    "saved": "Đã ghi kết quả cho {{name}}.",
+    "outOf": "/10"
+  },
+  "validation": {
+    "nameRequired": "Nhập tên mốc nộp.",
+    "tooLong": "Nội dung quá dài.",
+    "dateRequired": "Chọn ngày hạn nộp.",
+    "timeRequired": "Chọn giờ hạn nộp.",
+    "weightRange": "Trọng số từ 0 đến 100.",
+    "scoreRange": "Điểm từ 0 đến 10.",
+    "fileRequired": "Chọn một file.",
+    "fileTooLarge": "File vượt quá {{max}}.",
+    "storageFull": "Nhóm sẽ vượt dung lượng {{limit}}. Hãy xóa bớt file cũ hoặc nộp bằng link.",
+    "urlInvalid": "Nhập đường dẫn hợp lệ, bắt đầu bằng http:// hoặc https://."
+  },
+  "toast": {
+    "created": "Đã thêm mốc {{name}}.",
+    "updated": "Đã lưu mốc {{name}}.",
+    "deleted": "Đã xóa mốc {{name}}."
+  }
+}

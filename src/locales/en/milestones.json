@@ -1,0 +1,117 @@
+{
+  "list": {
+    "count": "{{count}} milestones",
+    "add": "Add milestone",
+    "empty": "This group has no milestones yet",
+    "emptyHint": "Enter the deadlines your lecturer set so the whole group can follow them.",
+    "emptyMember": "The leader or a deputy will enter the milestones.",
+    "label": "Milestone list",
+    "submitted": "Submitted",
+    "graded": "Graded",
+    "weightedScore": "Score so far",
+    "weightedScoreHint": "Weighted over the {{weight}}% already graded"
+  },
+  "card": {
+    "weight": "Weight {{weight}}%",
+    "primary": "Primary: v{{version}}",
+    "versions": "{{count}} versions",
+    "noDeliverable": "Nothing submitted yet",
+    "score": "Score {{score}}/10",
+    "open": "Open milestone {{name}}",
+    "actionsFor": "Actions for milestone {{name}}"
+  },
+  "field": {
+    "name": "Milestone name",
+    "namePlaceholder": "e.g. Submit the design document",
+    "description": "Lecturer's requirements",
+    "dueDate": "Due date",
+    "dueTime": "Due time",
+    "weight": "Score weight (%)",
+    "weightHint": "Optional. The other milestones weigh {{total}}% in total.",
+    "weightOver": "The milestones would weigh {{total}}% in total, over 100%. You can still save."
+  },
+  "form": {
+    "createTitle": "Add milestone",
+    "editTitle": "Edit milestone",
+    "create": "Add milestone",
+    "save": "Save changes"
+  },
+  "action": {
+    "edit": "Edit milestone",
+    "delete": "Delete milestone",
+    "deleteBlocked": "This milestone has deliverables, so it cannot be deleted.",
+    "deleteTitle": "Delete milestone {{name}}?",
+    "deleteDescription": "The milestone will be removed from the list.",
+    "deleteUnlinks": "The milestone will be deleted; {{count}} phases linked to it will lose the link."
+  },
+  "detail": {
+    "back": "All milestones",
+    "notFound": "Milestone not found",
+    "notFoundHint": "The milestone does not exist or was deleted.",
+    "due": "Due",
+    "phases": "Related phases",
+    "requirements": "Lecturer's requirements",
+    "noRequirements": "No requirements written yet."
+  },
+  "deliverables": {
+    "title": "Submitted deliverables",
+    "description": "Each submission is a new version; the newest one becomes the primary one.",
+    "submit": "Submit deliverable",
+    "empty": "No version yet.",
+    "version": "Version",
+    "product": "Deliverable",
+    "note": "Note",
+    "by": "Submitted by",
+    "at": "Time",
+    "primary": "Primary",
+    "late": "Late",
+    "makePrimary": "Make primary",
+    "makePrimaryFor": "Make v{{version}} the primary version",
+    "primaryChanged": "v{{version}} is now the primary version.",
+    "download": "Download {{name}}"
+  },
+  "submit": {
+    "title": "Submit a deliverable for {{name}}",
+    "kind": "Deliverable type",
+    "file": "Upload a file",
+    "link": "Paste a link",
+    "chooseFile": "Choose a file",
+    "fileHint": "Up to {{max}} per file. The group has used {{used}} of {{limit}}.",
+    "url": "Link",
+    "urlPlaceholder": "https://github.com/…",
+    "urlHint": "GitHub, Google Drive, Figma, a demo link…",
+    "note": "Version note",
+    "notePlaceholder": "e.g. Final submission",
+    "late": "The due date has passed. This version will be flagged \"Late\".",
+    "confirm": "Submit version v{{version}}",
+    "done": "Version v{{version}} submitted."
+  },
+  "result": {
+    "title": "Result",
+    "none": "No result yet.",
+    "record": "Record result",
+    "edit": "Edit result",
+    "dialogTitle": "Result of {{name}}",
+    "score": "Score (out of 10)",
+    "feedback": "Lecturer's feedback",
+    "saved": "Result recorded for {{name}}.",
+    "outOf": "/10"
+  },
+  "validation": {
+    "nameRequired": "Enter a milestone name.",
+    "tooLong": "The content is too long.",
+    "dateRequired": "Choose the due date.",
+    "timeRequired": "Choose the due time.",
+    "weightRange": "The weight must be between 0 and 100.",
+    "scoreRange": "The score must be between 0 and 10.",
+    "fileRequired": "Choose a file.",
+    "fileTooLarge": "The file is larger than {{max}}.",
+    "storageFull": "The group would exceed its {{limit}} storage. Delete old files or submit a link instead.",
+    "urlInvalid": "Enter a valid link starting with http:// or https://."
+  },
+  "toast": {
+    "created": "Milestone {{name}} added.",
+    "updated": "Milestone {{name}} saved.",
+    "deleted": "Milestone {{name}} deleted."
+  }
+}

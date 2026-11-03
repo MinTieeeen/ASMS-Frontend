@@ -1,9 +1,9 @@
 /**
  * @file Global Vitest setup: jest-dom matchers, i18n, MSW and a fresh auth store per test.
  * @author MinhTien
- * @version 1.1.0
+ * @version 1.2.0
  * @since 2026-09-26
- * @modified 2026-09-29
+ * @modified 2026-11-03
  */
 
 import '@testing-library/jest-dom/vitest'
@@ -27,6 +27,10 @@ globalThis.ResizeObserver ??= class {
 
 // jsdom has no scrollIntoView; cmdk scrolls the active option into view
 Element.prototype.scrollIntoView ??= () => {}
+
+// jsdom has no pointer capture; Radix Select checks it when its trigger is pressed
+Element.prototype.hasPointerCapture ??= () => false
+Element.prototype.releasePointerCapture ??= () => {}
 
 // jsdom has no matchMedia; the toaster and theme code query it
 Object.defineProperty(window, 'matchMedia', {

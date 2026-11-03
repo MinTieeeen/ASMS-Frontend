@@ -1,4 +1,21 @@
-import { formatDateTime, fromDateInputValue, toDateInputValue, toRelativeTime } from './date'
+import {
+  formatDateTime,
+  fromDateInputValue,
+  fromDateTimeInputValues,
+  toDateInputValue,
+  toRelativeTime,
+  toTimeInputValue,
+} from './date'
+
+describe('date and time input helpers (BR13)', () => {
+  it('reads the time of an instant in the user time zone', () => {
+    expect(toTimeInputValue('2026-11-06T16:59:00Z', 'Asia/Ho_Chi_Minh')).toBe('23:59')
+  })
+
+  it('turns a picked day and time into the instant in the user time zone', () => {
+    expect(fromDateTimeInputValues('2026-11-06', '17:00', 'Asia/Ho_Chi_Minh')).toBe('2026-11-06T10:00:00.000Z')
+  })
+})
 
 describe('date input helpers (BR13)', () => {
   it('reads an instant as the day it falls on in the user time zone', () => {

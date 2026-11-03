@@ -1,0 +1,148 @@
+{
+  "list": {
+    "count": "{{count}} công việc",
+    "add": "Thêm công việc",
+    "empty": "Nhóm chưa có công việc nào",
+    "emptyHint": "Tạo công việc đầu tiên để bắt đầu phân công.",
+    "noMatch": "Không có công việc nào khớp bộ lọc",
+    "label": "Danh sách công việc"
+  },
+  "view": {
+    "label": "Chế độ xem",
+    "list": "Danh sách",
+    "board": "Bảng",
+    "calendar": "Lịch",
+    "gantt": "Gantt"
+  },
+  "table": {
+    "code": "Mã",
+    "title": "Công việc",
+    "status": "Trạng thái",
+    "priority": "Ưu tiên",
+    "assignee": "Người phụ trách",
+    "phase": "Giai đoạn",
+    "dueDate": "Hạn chót",
+    "startDate": "Bắt đầu",
+    "group": "Nhóm"
+  },
+  "calendarView": {
+    "noDueDate": "{{count}} công việc không có hạn chót nên không hiện trên lịch."
+  },
+  "gantt": {
+    "label": "Biểu đồ Gantt công việc",
+    "hint": "Mỗi thanh chạy từ ngày bắt đầu đến hạn chót. Việc chưa có ngày bắt đầu được tính từ ngày tạo (hoặc ngày bắt đầu giai đoạn, nếu muộn hơn).",
+    "noDueDate": "{{count}} công việc không có hạn chót nên không hiện trên biểu đồ.",
+    "empty": "Chưa có công việc nào có hạn chót để vẽ biểu đồ.",
+    "task": "Công việc",
+    "noPhase": "Không thuộc giai đoạn",
+    "today": "Hôm nay",
+    "range": "{{start}} – {{end}}"
+  },
+  "filter": {
+    "search": "Tìm theo tên công việc",
+    "status": "Trạng thái",
+    "assignee": "Người phụ trách",
+    "phase": "Giai đoạn",
+    "all": "Tất cả",
+    "open": "Đang mở",
+    "me": "Của tôi",
+    "unassigned": "Chưa giao",
+    "noPhase": "Không thuộc giai đoạn",
+    "overdue": "Chỉ việc quá hạn",
+    "group": "Nhóm",
+    "allGroups": "Tất cả nhóm"
+  },
+  "field": {
+    "title": "Tiêu đề",
+    "titlePlaceholder": "VD: Thiết kế màn hình đăng nhập",
+    "description": "Mô tả",
+    "assignee": "Người phụ trách",
+    "unassigned": "Chưa giao",
+    "dueDate": "Hạn chót",
+    "priority": "Độ ưu tiên",
+    "phase": "Giai đoạn",
+    "noPhase": "Không thuộc giai đoạn",
+    "createdBy": "Người tạo",
+    "selfOnly": "Bạn chỉ có thể tự nhận việc hoặc để trống.",
+    "startDate": "Ngày bắt đầu",
+    "schedule": "Thời gian"
+  },
+  "form": {
+    "createTitle": "Thêm công việc",
+    "editTitle": "Sửa công việc #{{code}}",
+    "dueAfterPhase": "Hạn chót sau ngày kết thúc giai đoạn {{phase}} ({{date}}). Bạn vẫn có thể lưu.",
+    "create": "Thêm công việc",
+    "save": "Lưu thay đổi"
+  },
+  "status": {
+    "change": "Đổi trạng thái của #{{code}}",
+    "noPermission": "Bạn không có quyền đổi trạng thái công việc này.",
+    "changed": "Đã chuyển #{{code}} sang {{status}}."
+  },
+  "submit": {
+    "title": "Gửi duyệt #{{code}}",
+    "description": "Nhóm yêu cầu nộp kết quả trước khi gửi duyệt: mô tả việc đã làm hoặc dán link sản phẩm.",
+    "result": "Kết quả",
+    "confirm": "Gửi duyệt"
+  },
+  "review": {
+    "approve": "Duyệt",
+    "return": "Trả lại",
+    "returnTitle": "Trả lại #{{code}}",
+    "returnDescription": "Công việc sẽ quay về Đang làm. Hãy cho người phụ trách biết cần sửa gì.",
+    "reason": "Lý do",
+    "approved": "Đã duyệt #{{code}}.",
+    "returned": "Đã trả lại #{{code}}.",
+    "waiting": "Công việc đang chờ trưởng nhóm hoặc phó nhóm duyệt."
+  },
+  "detail": {
+    "label": "Chi tiết công việc #{{code}}",
+    "notFound": "Không tìm thấy công việc này. Có thể nó đã bị xóa.",
+    "noDescription": "Chưa có mô tả.",
+    "edit": "Sửa",
+    "delete": "Xóa công việc",
+    "deleteTitle": "Xóa công việc #{{code}}?",
+    "deleteDescription": "Công việc cùng bình luận và lịch sử của nó sẽ bị xóa.",
+    "deleted": "Đã xóa #{{code}}.",
+    "created": "Đã thêm #{{code}}.",
+    "updated": "Đã lưu #{{code}}.",
+    "createdAt": "Tạo {{date}}",
+    "completedAt": "Hoàn thành {{date}}"
+  },
+  "comments": {
+    "title": "Bình luận",
+    "empty": "Chưa có bình luận nào.",
+    "label": "Viết bình luận",
+    "placeholder": "Viết bình luận…",
+    "send": "Gửi bình luận"
+  },
+  "history": {
+    "title": "Lịch sử",
+    "created": "{{actor}} đã tạo công việc",
+    "assigned": "{{actor}} đã giao cho {{assignee}}",
+    "unassigned": "{{actor}} đã bỏ người phụ trách",
+    "statusChanged": "{{actor}} đã chuyển từ {{from}} sang {{to}}",
+    "approved": "{{actor}} đã duyệt",
+    "returned": "{{actor}} đã trả lại: {{note}}",
+    "cancelled": "{{actor}} đã hủy công việc"
+  },
+  "validation": {
+    "titleRequired": "Nhập tiêu đề công việc.",
+    "tooLong": "Nội dung quá dài.",
+    "required": "Không được để trống.",
+    "dueBeforeStart": "Hạn chót không được trước ngày bắt đầu."
+  },
+  "board": {
+    "label": "Bảng công việc theo trạng thái",
+    "dragHandle": "Kéo #{{code}} sang cột khác",
+    "empty": "Không có công việc",
+    "hiddenCancelled": "Công việc đã hủy không hiện trên bảng."
+  },
+  "my": {
+    "title": "Công việc của tôi",
+    "description": "Các việc được giao cho bạn ở mọi nhóm, sắp theo hạn chót.",
+    "empty": "Bạn chưa được giao công việc nào",
+    "emptyHint": "Khi trưởng nhóm giao việc, hoặc bạn tự nhận một việc, nó sẽ hiện ở đây.",
+    "goToGroups": "Xem nhóm của tôi"
+  }
+}
