@@ -1,13 +1,12 @@
 /**
  * @file All global providers (theme, query client, tooltip, toaster).
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.0.1
  * @since 2026-09-26
- * @modified 2026-09-26
+ * @modified 2026-11-03
  */
 
 import { QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ThemeProvider } from 'next-themes'
 import type { ReactNode } from 'react'
 
@@ -24,7 +23,6 @@ export function AppProviders({ children }: { children: ReactNode }) {
           {children}
           <Toaster richColors closeButton position="top-right" />
         </TooltipProvider>
-        <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
       </QueryClientProvider>
     </ThemeProvider>
   )
