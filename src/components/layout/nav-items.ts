@@ -1,40 +1,18 @@
 /**
  * @file Main navigation, grouped by role (design "LAYOUT · Bố cục chung", table "Điều hướng theo vai trò").
  * @author MinhTien
- * @version 2.0.0
+ * @version 3.0.0
  * @since 2026-09-26
- * @modified 2026-10-04
+ * @modified 2026-11-03
  */
 
-import {
-  CalendarDays,
-  CalendarOff,
-  ChartColumn,
-  House,
-  ListChecks,
-  type LucideIcon,
-  School,
-  ScrollText,
-  Settings,
-  UserRound,
-  UsersRound,
-} from 'lucide-react'
+import { House, ListChecks, type LucideIcon, Settings, UserRound, UsersRound } from 'lucide-react'
 
 import { ROUTES } from '@/config/routes'
 
 export interface NavItem {
   /** i18n key in the common namespace */
-  labelKey:
-    | 'nav.home'
-    | 'nav.groups'
-    | 'nav.tasks'
-    | 'nav.calendar'
-    | 'nav.adminOverview'
-    | 'nav.users'
-    | 'nav.auditLogs'
-    | 'nav.schools'
-    | 'nav.holidays'
-    | 'nav.settings'
+  labelKey: 'nav.home' | 'nav.groups' | 'nav.tasks' | 'nav.users' | 'nav.settings'
   to: string
   icon: LucideIcon
   /** The page is not built yet: shown greyed out with a "Coming soon" badge, not a link */
@@ -46,12 +24,13 @@ export interface NavItem {
 }
 
 export interface NavGroup {
-  labelKey: 'nav.group.workspace' | 'nav.group.admin' | 'nav.group.config'
+  labelKey: 'nav.group.workspace' | 'nav.group.admin'
   adminOnly?: boolean
   items: NavItem[]
 }
 
-// TODO(M2, M3, M4): drop `comingSoon` as each page is built
+// Reduced MVP scope: calendar, admin overview, audit logs and catalogs (F12.02, F12.07) are moved to GĐ2
+// TODO(F05.08): drop `comingSoon` once the task pages are built
 export const NAV_GROUPS: NavGroup[] = [
   {
     labelKey: 'nav.group.workspace',
@@ -65,25 +44,12 @@ export const NAV_GROUPS: NavGroup[] = [
         activePaths: ['/join/:code'],
       },
       { labelKey: 'nav.tasks', to: ROUTES.tasks, icon: ListChecks, comingSoon: true },
-      { labelKey: 'nav.calendar', to: ROUTES.calendar, icon: CalendarDays, comingSoon: true },
     ],
   },
   {
     labelKey: 'nav.group.admin',
     adminOnly: true,
-    items: [
-      { labelKey: 'nav.adminOverview', to: ROUTES.admin, icon: ChartColumn, comingSoon: true },
-      { labelKey: 'nav.users', to: ROUTES.adminUsers, icon: UserRound },
-      { labelKey: 'nav.auditLogs', to: ROUTES.adminAuditLogs, icon: ScrollText, comingSoon: true },
-    ],
-  },
-  {
-    labelKey: 'nav.group.config',
-    adminOnly: true,
-    items: [
-      { labelKey: 'nav.schools', to: ROUTES.adminSchools, icon: School, comingSoon: true },
-      { labelKey: 'nav.holidays', to: ROUTES.adminHolidays, icon: CalendarOff, comingSoon: true },
-    ],
+    items: [{ labelKey: 'nav.users', to: ROUTES.adminUsers, icon: UserRound }],
   },
 ]
 

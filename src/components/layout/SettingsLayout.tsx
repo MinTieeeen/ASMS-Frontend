@@ -1,10 +1,10 @@
 /**
  * @file "Settings" page template (design "LAYOUT · Bố cục chung", table "Mẫu trang"): H1 "Settings" and its
- *   description, tabs Profile | Security | Notifications, content at most 760 px wide.
+ *   description, tabs Profile | Security, content at most 760 px wide.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-10-04
- * @modified 2026-10-04
+ * @modified 2026-11-03
  */
 
 import { Suspense } from 'react'
@@ -16,17 +16,16 @@ import { ROUTES } from '@/config/routes'
 import { cn } from '@/lib/utils'
 
 interface SettingsTab {
-  labelKey: 'settings.tab.profile' | 'settings.tab.security' | 'settings.tab.notifications'
+  labelKey: 'settings.tab.profile' | 'settings.tab.security'
   to: string
   /** The page is not built yet: the tab is shown but cannot be opened */
   comingSoon?: boolean
 }
 
-// TODO(GĐ2): open Notifications (F01.06) once its page exists
+// TODO(F01.06): add the Notifications tab back with its page (GĐ2)
 const TABS: SettingsTab[] = [
   { labelKey: 'settings.tab.profile', to: ROUTES.profileSettings },
   { labelKey: 'settings.tab.security', to: ROUTES.securitySettings },
-  { labelKey: 'settings.tab.notifications', to: ROUTES.notificationSettings, comingSoon: true },
 ]
 
 const TAB_CLASS =

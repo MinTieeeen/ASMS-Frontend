@@ -2,9 +2,9 @@
  * @file Header of the app shell (design "LAYOUT · Bố cục chung", markers 2 to 5 and 10): 64 px on desktop with the
  *   logo area as wide as the sidebar, 56 px on mobile with the menu button.
  * @author MinhTien
- * @version 2.0.0
+ * @version 2.1.0
  * @since 2026-09-26
- * @modified 2026-10-04
+ * @modified 2026-11-03
  */
 
 import { Menu } from 'lucide-react'
@@ -17,7 +17,6 @@ import { ROUTES } from '@/config/routes'
 import { useIsMobile } from '@/hooks'
 import { cn } from '@/lib/utils'
 
-import { HeaderNotifications } from './HeaderNotifications'
 import { HeaderSearch } from './HeaderSearch'
 
 interface AppHeaderProps {
@@ -69,7 +68,7 @@ export function AppHeader({ isSidebarWide, onOpenMobileNav, accountMenu }: AppHe
         )}
         <div className="ml-auto flex shrink-0 items-center gap-1">
           {isMobile && <HeaderSearch />}
-          <HeaderNotifications />
+          {/* TODO(F10.01): put HeaderNotifications back when in-app notifications return (moved to GĐ2) */}
           <LanguageToggle />
           <ThemeToggle />
           {accountMenu && (

@@ -1,9 +1,9 @@
 /**
  * @file Application route tree (React Router data router).
  * @author MinhTien
- * @version 2.0.0
+ * @version 2.1.0
  * @since 2026-09-26
- * @modified 2026-09-29
+ * @modified 2026-11-03
  */
 
 import type { ComponentType } from 'react'
@@ -96,10 +96,6 @@ export const router = createBrowserRouter([
                     lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')),
                   },
                   { path: 'members', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
-                  { path: 'progress', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
-                  { path: 'reviews', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
-                  { path: 'resources', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
-                  { path: 'activity', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
                   { path: 'settings', lazy: page(() => import('@/features/groups/pages/GroupTabPlaceholderPage')) },
                 ],
               },

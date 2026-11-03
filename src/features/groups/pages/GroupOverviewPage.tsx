@@ -1,19 +1,18 @@
 /**
  * @file Group dashboard (F07.01): progress, overdue and waiting-for-review counts, next milestone, phase timeline,
- *   status breakdown, tasks needing attention, member workload, recent activity and the charter reminder (F03.08).
+ *   status breakdown, tasks needing attention, member workload and recent activity.
  * @author MinhTien
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2026-10-16
- * @modified 2026-10-16
+ * @modified 2026-11-03
  */
 
-import { CircleCheckBig, Flag, Hourglass, ScrollText, TriangleAlert } from 'lucide-react'
+import { CircleCheckBig, Flag, Hourglass, TriangleAlert } from 'lucide-react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
 import { DueDate, StatTile, TaskListItem } from '@/components/common'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ROUTES } from '@/config/routes'
@@ -22,7 +21,6 @@ import {
   type GroupWorkspace,
   isTaskClosed,
   isTaskOverdue,
-  ME_ID,
   progressOf,
   useGroupWorkspace,
   useMockStore,
@@ -51,7 +49,6 @@ function Overview({ workspace }: { workspace: GroupWorkspace }) {
   const phases = useMockStore((state) => state.phases)
   const milestones = useMockStore((state) => state.milestones)
   const activities = useMockStore((state) => state.activities)
-  const charter = useMockStore((state) => state.charters.find((item) => item.groupId === group.id))
 
   const tasks = useMemo(() => allTasks.filter((item) => item.groupId === group.id), [allTasks, group.id])
   const progress = progressOf(tasks)
@@ -68,23 +65,9 @@ function Overview({ workspace }: { workspace: GroupWorkspace }) {
     .slice(0, ATTENTION_LIMIT)
   const recent = activities.filter((item) => item.groupId === group.id).slice(0, 6)
   const formerIds = new Set(workspace.formerMembers.map((item) => item.userId))
-  const needsCharter = charter && charter.content.length > 0 && !charter.confirmedBy.includes(ME_ID)
 
   return (
     <div className="flex flex-col gap-5">
-      {needsCharter && (
-        <Alert className="border-highlight bg-highlight-soft text-highlight-text">
-          <ScrollText aria-hidden />
-          <AlertTitle>{t('overview.charterTitle', { version: charter.version })}</AlertTitle>
-          <AlertDescription className="flex flex-wrap items-center justify-between gap-2 text-highlight-text">
-            {t('overview.charterDescription')}
-            <Button asChild size="sm" variant="outline">
-              <Link to={`${ROUTES.groupSettings(group.id)}#charter`}>{t('overview.charterOpen')}</Link>
-            </Button>
-          </AlertDescription>
-        </Alert>
-      )}
-
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatTile icon={CircleCheckBig} tone="success" value={formatPercent(progress.ratio)} label={t('overview.progress')} hint={<span className="text-muted-foreground">{t('overview.progressDetail', { done: progress.done, total: progress.total })}</span>} />
         <StatTile icon={TriangleAlert} tone={overdue.length ? 'danger' : 'default'} value={overdue.length} label={t('overview.overdue')} />
@@ -152,11 +135,6 @@ function Overview({ workspace }: { workspace: GroupWorkspace }) {
           <Card>
             <CardHeader>
               <CardTitle>{t('overview.recentActivity')}</CardTitle>
-              <CardAction>
-                <Button asChild variant="link" size="sm">
-                  <Link to={ROUTES.groupActivity(group.id)}>{t('overview.allActivity')}</Link>
-                </Button>
-              </CardAction>
             </CardHeader>
             <CardContent>
               <ul className="-my-2.5 divide-y">

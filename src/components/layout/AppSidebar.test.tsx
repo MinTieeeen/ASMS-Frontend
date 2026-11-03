@@ -21,12 +21,14 @@ describe('AppSidebar (LAYOUT)', () => {
     expect(screen.queryByText('Cấu hình')).not.toBeInTheDocument()
   })
 
-  it('adds the admin and configuration groups for an Admin', () => {
+  it('adds the admin group with user management only for an Admin', () => {
     renderSidebar('ADMIN')
 
     expect(screen.getByText('Quản trị')).toBeInTheDocument()
-    expect(screen.getByText('Cấu hình')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Người dùng' })).toHaveAttribute('href', '/admin/users')
+    // Out of the reduced MVP scope
+    expect(screen.queryByText('Cấu hình')).not.toBeInTheDocument()
+    expect(screen.queryByText('Lịch')).not.toBeInTheDocument()
   })
 
   it('marks one current item and keeps "Settings" selected on settings pages', () => {
@@ -39,9 +41,9 @@ describe('AppSidebar (LAYOUT)', () => {
   it('shows pages not built yet as "coming soon", not as links', () => {
     renderSidebar('USER')
 
-    const calendar = screen.getByText('Lịch').closest('[aria-disabled="true"]') as HTMLElement
-    expect(within(calendar).getByText('Sắp có')).toBeInTheDocument()
-    expect(screen.queryByRole('link', { name: /Lịch/ })).not.toBeInTheDocument()
+    const tasks = screen.getByText('Công việc của tôi').closest('[aria-disabled="true"]') as HTMLElement
+    expect(within(tasks).getByText('Sắp có')).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /Công việc của tôi/ })).not.toBeInTheDocument()
   })
 
   it('links My groups and selects it for invite pages', () => {

@@ -13,11 +13,9 @@ describe('AppHeader (LAYOUT)', () => {
     await waitFor(() => expect(screen.getByRole('searchbox', { name: 'Tìm kiếm' })).toHaveFocus())
   })
 
-  it('opens an empty notification panel without an unread dot', async () => {
+  it('has no notification button while in-app notifications are out of scope (F10.01)', () => {
     renderWithProviders(<AppHeader isSidebarWide onOpenMobileNav={() => {}} />)
 
-    await userEvent.click(screen.getByRole('button', { name: 'Thông báo' }))
-
-    expect(await screen.findByText('Bạn chưa có thông báo nào.')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Thông báo' })).not.toBeInTheDocument()
   })
 })
